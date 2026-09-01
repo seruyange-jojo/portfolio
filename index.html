@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="signal">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seruyange Joseph — Full-stack & Mobile Engineer</title>
+<meta name="description" content="Full-stack & mobile engineer in Kampala, Uganda, building offline-first systems, distributed systems, and infrastructure for the network you actually have. Available now for remote roles.">
+<meta property="og:title" content="Seruyange Joseph — Full-stack & Mobile Engineer">
+<meta property="og:description" content="Offline-first apps, distributed systems, and infrastructure that works under real constraints. Flutter · Go · Spring Boot · PostgreSQL · React.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    theme: { extend: { fontFamily: {
+      mono: ['IBM Plex Mono','ui-monospace','monospace'],
+      sans: ['Inter','system-ui','sans-serif']
+    }}}
+  }
+</script>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@4/dist/full.min.css" rel="stylesheet" type="text/css">
+
+<style>
+  [data-theme="signal"]{
+    --p:#e8a13d; --pc:#1a1206;
+    --s:#4db8a8; --sc:#0c1a18;
+    --a:#4db8a8; --ac:#0c1a18;
+    --n:#171c25; --nc:#eef0ea;
+    --b1:#0b0e13; --b2:#11151c; --b3:#171c25;
+    --bc:#eef0ea;
+  }
+  body{
+    background-image:radial-gradient(circle, #232a37 1px, transparent 1px);
+    background-size:26px 26px;
+  }
+  .proj-card{ transition:filter .25s ease; }
+  body.offline .proj-card{ filter:saturate(.35) brightness(.85); }
+  .proj-badge{ opacity:0; transition:opacity .2s ease; }
+  body.offline .proj-badge{ opacity:1; }
+  ::selection{ background:#e8a13d; color:#0e0900; }
+
+  /* ---- polish pass: force sharp radius (daisyUI defaults are too round for this design) ---- */
+  [data-theme="signal"]{
+    --rounded-box: 0.125rem; --rounded-btn: 0.125rem; --rounded-badge: 0.125rem;
+    --tab-radius: 0.125rem;
+  }
+  /* ---- two-tier border system: soft for chrome (nav/footer), full for content ---- */
+  .border-soft{ border-color:#1c222c !important; }
+
+  /* ---- signature corner registration marks ---- */
+  .corner-box{ position:relative; }
+  .corner-box::before, .corner-box::after{
+    content:""; position:absolute; width:9px; height:9px; pointer-events:none;
+  }
+  .corner-box::before{ top:8px; left:8px; border-top:1px solid #525a6b; border-left:1px solid #525a6b; }
+  .corner-box::after{ bottom:8px; right:8px; border-bottom:1px solid #525a6b; border-right:1px solid #525a6b; }
+</style>
+</head>
+<body class="font-sans bg-[#0b0e13] text-[#eef0ea]">
+
+<div class="navbar bg-[#0b0e13]/85 backdrop-blur-md border-b border-soft sticky top-0 z-50 px-4 md:px-8 max-w-6xl mx-auto">
+  <div class="flex-1 flex items-center gap-3 font-mono font-semibold text-[14px]">
+    <span class="relative w-[22px] h-[22px] rounded-full border border-[#262d3a] flex-shrink-0">
+      <span class="absolute inset-[5px] rounded-full bg-[#4db8a8] animate-pulse"></span>
+    </span>
+    <a href="index.html">SERUYANGE JOSEPH</a>
+  </div>
+  <div class="hidden md:flex gap-9 font-mono text-[12.5px] text-[#eef0ea]/60">
+    <a href="index.html#work" class="text-[#e8a13d]">Work</a>
+    <a href="blog.html" class="hover:text-[#eef0ea] transition-colors">Signal Log</a>
+    <a href="about.html" class="hover:text-[#eef0ea] transition-colors">About</a>
+    <a href="about.html#contact" class="hover:text-[#eef0ea] transition-colors">Contact</a>
+  </div>
+  <div class="flex items-center gap-2.5">
+    <span class="hidden sm:inline-flex items-center gap-1.5 font-mono text-[10.5px] tracking-wide text-[#e8a13d] border border-[#e8a13d]/40 rounded-full px-2.5 py-1">OPEN TO REMOTE ROLES</span>
+    <button id="netToggle" class="btn btn-xs rounded-full border-[#4db8a8] text-[#4db8a8] bg-transparent font-mono gap-2 normal-case">
+      <span class="w-[10px] h-[10px] rounded-full bg-[#4db8a8] relative" id="netSwitch">
+        <span class="absolute w-[7px] h-[7px] bg-[#0b0e13] rounded-full top-[1.5px] right-[1.5px]" id="netKnob"></span>
+      </span>
+      <span id="netToggleLabel">ONLINE</span>
+    </button>
+  </div>
+</div>
+
+<main class="max-w-6xl mx-auto px-4 md:px-8">
+
+  <section class="pt-20">
+    <div class="font-mono text-[12px] tracking-[0.14em] text-[#e8a13d] mb-7 flex items-center gap-2.5">
+      <span class="w-[26px] h-px bg-[#e8a13d]"></span>FULL-STACK &amp; MOBILE ENGINEER — KAMPALA, UG
+    </div>
+    <h1 class="font-extrabold text-[38px] md:text-[58px] leading-[1.08] tracking-[-0.02em] max-w-4xl mb-7">
+      I build for the network you <span class="line-through decoration-2 text-[#eef0ea]/35">assume</span> <span class="text-[#e8a13d]">actually have.</span>
+    </h1>
+    <p class="text-[#eef0ea]/60 text-lg max-w-xl mb-11 leading-relaxed">
+      Offline-first apps, distributed systems, and infrastructure that keeps working when connectivity, power, or the device can't be trusted.
+      Available now for remote roles. Flutter · Go · Spring Boot · PostgreSQL · React.
+    </p>
+    <div class="flex gap-4 flex-wrap mb-16">
+      <a href="#work" class="btn bg-[#e8a13d] text-[#1a1206] border-none hover:bg-[#f2ae4d] font-mono text-xs normal-case">View case studies →</a>
+      <a href="blog.html" class="btn btn-outline border-[#262d3a] text-[#eef0ea] hover:border-[#4db8a8] hover:text-[#4db8a8] font-mono text-xs normal-case">Read the signal log</a>
+    </div>
+
+    <!-- SIGNATURE: live network console -->
+    <div class="corner-box rounded-lg border border-[#262d3a] bg-[#11151c] shadow-2xl overflow-hidden mb-24" id="console">
+      <div class="flex items-center justify-between px-5 py-3 border-b border-[#262d3a] bg-black/15">
+        <div class="flex gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-[#262d3a]"></span>
+          <span class="w-2 h-2 rounded-full bg-[#262d3a]"></span>
+          <span class="w-2 h-2 rounded-full bg-[#262d3a]"></span>
+        </div>
+        <span class="font-mono text-[11px] text-[#eef0ea]/40 hidden sm:block">// LIVE — this page runs the same sync model as the projects below</span>
+        <span class="font-mono text-[11px] flex items-center gap-2 text-[#4db8a8]" id="consoleStatusWrap">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#4db8a8] animate-pulse" id="consoleDot"></span>
+          <span id="consoleStatusText">CONNECTED</span>
+        </span>
+      </div>
+      <div class="grid md:grid-cols-[1.3fr_1fr] gap-8 p-7 md:p-9">
+        <div>
+          <p class="text-[14.5px] text-[#eef0ea]/60 max-w-sm mb-4 leading-relaxed">
+            <strong class="text-[#eef0ea]">Try it:</strong> flip the network switch top-right. This page will drop connectivity, queue changes locally, and reconcile the moment it's back — the exact pattern behind the ledger project below.
+          </p>
+          <div class="font-mono text-[11.5px] text-[#eef0ea]/40 flex items-center gap-2">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+            no backend here — this is a client-side simulation of the real thing
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3.5 content-start">
+          <div class="border border-[#262d3a] rounded p-3.5 bg-black/10">
+            <div class="font-mono text-[10px] uppercase tracking-widest text-[#eef0ea]/40 mb-2">Latency</div>
+            <div class="font-mono text-[19px] font-semibold text-[#4db8a8]" id="mLatency">42ms</div>
+          </div>
+          <div class="border border-[#262d3a] rounded p-3.5 bg-black/10">
+            <div class="font-mono text-[10px] uppercase tracking-widest text-[#eef0ea]/40 mb-2">Signal</div>
+            <div class="font-mono text-[19px] font-semibold text-[#4db8a8]" id="mSignal">▂▄▆█</div>
+          </div>
+          <div class="border border-[#262d3a] rounded p-3.5 bg-black/10">
+            <div class="font-mono text-[10px] uppercase tracking-widest text-[#eef0ea]/40 mb-2">Queue depth</div>
+            <div class="font-mono text-[19px] font-semibold text-[#e8a13d]" id="mQueue">0</div>
+          </div>
+          <div class="border border-[#262d3a] rounded p-3.5 bg-black/10">
+            <div class="font-mono text-[10px] uppercase tracking-widest text-[#eef0ea]/40 mb-2">Last sync</div>
+            <div class="font-mono text-[13.5px] font-semibold text-[#4db8a8]" id="mSync">just now</div>
+          </div>
+
+          <div class="col-span-2 border-t border-[#262d3a] pt-5 mt-1">
+            <div class="flex justify-between items-center mb-3.5">
+              <span class="font-mono text-[10px] uppercase tracking-widest text-[#eef0ea]/40">Local write queue</span>
+              <span class="font-mono text-[11.5px] text-[#e8a13d] font-semibold" id="queueCount">0 pending</span>
+            </div>
+            <div class="flex flex-col gap-2" id="queueItems">
+              <div class="flex items-center gap-3 font-mono text-xs text-[#eef0ea]/50 px-3 py-2.5 border border-[#262d3a] rounded bg-black/10 opacity-50">
+                <span class="badge border border-[#4db8a8] text-[#4db8a8] bg-transparent badge-xs font-mono">SYNCED</span>
+                <span class="flex-1">portfolio.session.start</span>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="text-[#4db8a8]"><path d="M20 6L9 17l-5-5"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="work" class="pb-16">
+    <div class="flex items-baseline justify-between mb-9 flex-wrap gap-3">
+      <h2 class="text-[26px] font-extrabold tracking-tight">Selected work</h2>
+      <span class="font-mono text-[11.5px] text-[#eef0ea]/40">// shipped work + what's being built next</span>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-4.5 mb-4">
+
+      <div class="proj-card corner-box card bg-[#11151c] border border-[#262d3a] hover:border-[#e8a13d] transition-colors hover:-translate-y-0.5 relative">
+        <span class="proj-badge absolute top-3.5 right-3.5 badge border border-[#e8a13d] text-[#e8a13d] bg-transparent badge-xs font-mono">queued</span>
+        <div class="card-body p-6 gap-3.5">
+          <div class="flex justify-between items-start gap-2">
+            <span class="font-mono text-[10px] uppercase tracking-widest text-[#4db8a8]">Offline-first · Sync engine</span>
+            <span class="badge border border-[#e8a13d] text-[#e8a13d] bg-transparent badge-xs font-mono whitespace-nowrap">● Building</span>
+          </div>
+          <h3 class="font-bold text-[17.5px] leading-snug tracking-tight">Mobile Money Ledger for Offline Vendors</h3>
+          <p class="text-[13.5px] text-[#eef0ea]/60 leading-relaxed">A sync engine for small vendors that works fully offline and reconciles automatically once connectivity returns — no assumption of constant internet.</p>
+          <div class="flex flex-wrap gap-1.5">
+            <span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-sm font-mono">Flutter</span>
+            <span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-sm font-mono">Go</span>
+            <span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-sm font-mono">PostgreSQL</span>
+          </div>
+          <a href="case-study.html" class="font-mono text-xs text-[#e8a13d] hover:gap-2.5 flex items-center gap-1.5 transition-all mt-1">Follow the build →</a>
+        </div>
+      </div>
+
+      <div class="proj-card corner-box card bg-[#11151c] border border-[#262d3a] hover:border-[#e8a13d] transition-colors hover:-translate-y-0.5 relative">
+        <span class="proj-badge absolute top-3.5 right-3.5 badge border border-[#e8a13d] text-[#e8a13d] bg-transparent badge-xs font-mono">queued</span>
+        <div class="card-body p-6 gap-3.5">
+          <div class="flex justify-between items-start gap-2">
+            <span class="font-mono text-[10px] uppercase tracking-widest text-[#4db8a8]">B2B logistics · Technical lead</span>
+            <span class="badge border border-[#e8a13d] text-[#e8a13d] bg-transparent badge-xs font-mono whitespace-nowrap">● Building</span>
+          </div>
+          <h3 class="font-bold text-[17.5px] leading-snug tracking-tight">Chukuz Rides — Last-Mile Delivery Platform</h3>
+          <p class="text-[13.5px] text-[#eef0ea]/60 leading-relaxed">Defining product and architecture for a B2B platform letting Kampala shops outsource deliveries to on-demand riders. Technical lead on product and system design.</p>
+          <div class="flex flex-wrap gap-1.5">
+            <span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-sm font-mono">Product design</span>
+            <span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-sm font-mono">System architecture</span>
+          </div>
+          <span class="font-mono text-xs text-[#eef0ea]/35 mt-1">Case study coming soon</span>
+        </div>
+      </div>
+
+      <div class="proj-card corner-box card bg-[#11151c] border border-[#262d3a] hover:border-[#e8a13d] transition-colors hover:-translate-y-0.5 relative">
+        <span class="proj-badge absolute top-3.5 right-3.5 badge border border-[#e8a13d] text-[#e8a13d] bg-transparent badge-xs font-mono">queued</span>
+        <div class="card-body p-6 gap-3.5">
+          <div class="flex justify-between items-start gap-2">
+            <span class="font-mono text-[10px] uppercase tracking-widest text-[#4db8a8]">Full-stack · HR platform</span>
+            <span class="badge border border-[#4db8a8] text-[#4db8a8] bg-transparent badge-xs font-mono whitespace-nowrap">● Operational</span>
+          </div>
+          <h3 class="font-bold text-[17.5px] leading-snug tracking-tight">HRMS — HR Management System</h3>
+          <p class="text-[13.5px] text-[#eef0ea]/60 leading-relaxed">Independent full-stack HR system with role-based access, leave workflows, JWT auth, and analytics dashboards — containerised with Docker Compose.</p>
+          <div class="flex flex-wrap gap-1.5">
+            <span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-sm font-mono">React</span>
+            <span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-sm font-mono">Go</span>
+            <span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-sm font-mono">Gin</span>
+            <span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-sm font-mono">GORM</span>
+            <span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-sm font-mono">PostgreSQL</span>
+          </div>
+          <a href="https://github.com/seruyange-jojo" class="font-mono text-xs text-[#e8a13d] hover:gap-2.5 flex items-center gap-1.5 transition-all mt-1">View on GitHub →</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="grid md:grid-cols-3 sm:grid-cols-2 gap-3.5 mt-4">
+
+      <div class="card bg-[#11151c] border border-[#262d3a] p-4.5">
+        <div class="flex justify-between items-start mb-2 gap-2">
+          <h4 class="font-bold text-[14.5px] tracking-tight">Raft-Lite</h4>
+          <span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-xs font-mono whitespace-nowrap">○ Planned</span>
+        </div>
+        <p class="text-[12.5px] text-[#eef0ea]/55 leading-relaxed mb-2">A simplified 3-node distributed key-value store — leader election and replicated writes, built from the actual Raft paper.</p>
+        <div class="flex gap-1.5 flex-wrap"><span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-xs font-mono">Go</span><span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-xs font-mono">gRPC</span></div>
+      </div>
+
+      <div class="card bg-[#11151c] border border-[#262d3a] p-4.5">
+        <div class="flex justify-between items-start mb-2 gap-2">
+          <h4 class="font-bold text-[14.5px] tracking-tight">Real-Time Collaborative Editor</h4>
+          <span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-xs font-mono whitespace-nowrap">○ Planned</span>
+        </div>
+        <p class="text-[12.5px] text-[#eef0ea]/55 leading-relaxed mb-2">A mini Google Docs — CRDT-based concurrent editing, WebSocket presence, and reconnection handling.</p>
+        <div class="flex gap-1.5 flex-wrap"><span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-xs font-mono">React</span><span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-xs font-mono">Go</span><span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-xs font-mono">Yjs</span></div>
+      </div>
+
+      <div class="card bg-[#11151c] border border-[#262d3a] p-4.5">
+        <div class="flex justify-between items-start mb-2 gap-2">
+          <h4 class="font-bold text-[14.5px] tracking-tight">Flutter Package</h4>
+          <span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-xs font-mono whitespace-nowrap">○ Planned</span>
+        </div>
+        <p class="text-[12.5px] text-[#eef0ea]/55 leading-relaxed mb-2">A published pub.dev package solving a real gap hit while building the offline-first ledger — full test coverage, real README.</p>
+        <div class="flex gap-1.5 flex-wrap"><span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-xs font-mono">Dart</span><span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-xs font-mono">Flutter</span></div>
+      </div>
+
+      <div class="card bg-[#11151c] border border-[#262d3a] p-4.5">
+        <div class="flex justify-between items-start mb-2 gap-2">
+          <h4 class="font-bold text-[14.5px] tracking-tight">USSD/SMS Service</h4>
+          <span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-xs font-mono whitespace-nowrap">○ Planned</span>
+        </div>
+        <p class="text-[12.5px] text-[#eef0ea]/55 leading-relaxed mb-2">A USSD flow for users with no smartphone or data plan — session-based state design, telecom-adjacent APIs.</p>
+        <div class="flex gap-1.5 flex-wrap"><span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-xs font-mono">Go</span><span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-xs font-mono">Africa's Talking API</span></div>
+      </div>
+
+      <div class="card bg-[#11151c] border border-[#262d3a] p-4.5">
+        <div class="flex justify-between items-start mb-2 gap-2">
+          <h4 class="font-bold text-[14.5px] tracking-tight">URL Shortener Service</h4>
+          <span class="badge border border-[#4db8a8] text-[#4db8a8] bg-transparent badge-xs font-mono whitespace-nowrap">● Operational</span>
+        </div>
+        <p class="text-[12.5px] text-[#eef0ea]/55 leading-relaxed mb-2">RESTful URL-shortening service with JPA-backed persistence, unique short-code generation, and relational schema constraints.</p>
+        <div class="flex gap-1.5 flex-wrap"><span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-xs font-mono">Java</span><span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-xs font-mono">Spring Boot</span><span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-xs font-mono">PostgreSQL</span></div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="pb-24">
+    <div class="card bg-[#11151c] border border-[#262d3a] flex-row flex-wrap items-center justify-between gap-4 p-7">
+      <p class="text-[14.5px] text-[#eef0ea]/60 max-w-md leading-relaxed">Finishing a BSc in Information Systems, available now for remote roles — and building five more projects in public, one signal log entry at a time.</p>
+      <div class="flex gap-5 font-mono text-[12.5px]">
+        <a href="mailto:seruyangejoseph9@gmail.com" class="link link-hover text-[#e8a13d]">seruyangejoseph9@gmail.com</a>
+        <a href="https://www.linkedin.com/in/seruyange-joseph/" class="link link-hover text-[#e8a13d]">LinkedIn</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="border-t border-soft py-8">
+  <div class="max-w-6xl mx-auto px-4 md:px-8 flex flex-wrap justify-between items-center gap-3">
+    <p class="font-mono text-[11.5px] text-[#eef0ea]/40">© 2026 SERUYANGE JOSEPH — BUILT WITH TAILWIND + DAISYUI</p>
+    <div class="flex gap-5 font-mono text-[11.5px] text-[#eef0ea]/60">
+      <a href="index.html" class="hover:text-[#4db8a8] transition-colors">Work</a>
+      <a href="blog.html" class="hover:text-[#4db8a8] transition-colors">Signal Log</a>
+      <a href="about.html" class="hover:text-[#4db8a8] transition-colors">About</a>
+      <a href="https://github.com/seruyange-jojo" class="hover:text-[#4db8a8] transition-colors">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+<div id="toastWrap" class="toast toast-bottom toast-center z-[100]"></div>
+
+<script>
+  const body = document.body;
+  const netToggle = document.getElementById('netToggle');
+  const netLabel = document.getElementById('netToggleLabel');
+  const netSwitch = document.getElementById('netSwitch');
+  const netKnob = document.getElementById('netKnob');
+  const consoleDot = document.getElementById('consoleDot');
+  const consoleStatusWrap = document.getElementById('consoleStatusWrap');
+  const consoleStatusText = document.getElementById('consoleStatusText');
+  const mLatency = document.getElementById('mLatency');
+  const mSignal = document.getElementById('mSignal');
+  const mQueue = document.getElementById('mQueue');
+  const mSync = document.getElementById('mSync');
+  const queueItems = document.getElementById('queueItems');
+  const queueCount = document.getElementById('queueCount');
+  const toastWrap = document.getElementById('toastWrap');
+
+  let online = true;
+  let pendingWrites = [];
+  const writeNames = ['ledger.entry.write','ui.theme.set','case_study.view','contact.draft.save','project.card.hover'];
+  let liveTimer = null;
+
+  function showToast(msg, isOffline){
+    const el = document.createElement('div');
+    el.className = 'alert font-mono text-xs ' + (isOffline ? 'bg-[#d9694f]/15 border border-[#d9694f] text-[#eef0ea]' : 'bg-[#4db8a8]/15 border border-[#4db8a8] text-[#eef0ea]');
+    el.textContent = msg;
+    toastWrap.appendChild(el);
+    setTimeout(()=> el.remove(), 2600);
+  }
+
+  function setSwitchColor(cls){
+    netToggle.classList.remove('btn-outline-secondary');
+    netSwitch.className = 'w-[10px] h-[10px] rounded-full relative ' + cls;
+  }
+
+  function jitterLatency(){ mLatency.textContent = online ? (30 + Math.floor(Math.random()*40)) + 'ms' : '—'; }
+  function jitterSignal(){
+    if(!online){ mSignal.textContent = '▁▁▁▁'; return; }
+    const bars = ['▂▄▆█','▃▅▇█','▁▃▅▇','▂▅▆█'];
+    mSignal.textContent = bars[Math.floor(Math.random()*bars.length)];
+  }
+
+  function addQueueItem(){
+    const name = writeNames[Math.floor(Math.random()*writeNames.length)];
+    pendingWrites.push(name);
+    const el = document.createElement('div');
+    el.className = 'flex items-center gap-3 font-mono text-xs text-[#eef0ea]/70 px-3 py-2.5 border border-[#262d3a] rounded bg-black/10';
+    el.setAttribute('data-status', 'pending');
+    el.innerHTML = `<span class="badge border border-[#e8a13d] text-[#e8a13d] bg-transparent badge-xs font-mono">QUEUED</span><span class="flex-1">${name}</span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="opacity-0"><path d="M20 6L9 17l-5-5"/></svg>`;
+    queueItems.prepend(el);
+    updateQueueUI();
+  }
+
+  function updateQueueUI(){
+    mQueue.textContent = pendingWrites.length;
+    queueCount.textContent = pendingWrites.length + ' pending';
+  }
+
+  function syncAll(){
+    const items = Array.from(queueItems.children).filter(el => el.getAttribute('data-status') === 'pending');
+    items.forEach((el, idx) => {
+      setTimeout(()=>{
+        el.classList.add('opacity-50');
+        el.setAttribute('data-status', 'synced');
+        el.querySelector('.badge').className = 'badge border border-[#4db8a8] text-[#4db8a8] bg-transparent badge-xs font-mono';
+        el.querySelector('.badge').textContent = 'SYNCED';
+        el.querySelector('svg').classList.remove('opacity-0');
+        el.querySelector('svg').classList.add('text-[#4db8a8]');
+      }, idx * 220);
+    });
+    const n = pendingWrites.length;
+    pendingWrites = [];
+    setTimeout(()=>{
+      updateQueueUI();
+      mSync.textContent = 'just now';
+      if(n > 0) showToast(`✓ ${n} change${n>1?'s':''} synced to server`, false);
+    }, items.length * 220 + 200);
+  }
+
+  function goOffline(){
+    online = false;
+    body.classList.add('offline');
+    netLabel.textContent = 'OFFLINE';
+    netToggle.className = 'btn btn-xs rounded-full border-[#d9694f] text-[#d9694f] bg-transparent font-mono gap-2 ml-4 normal-case';
+    setSwitchColor('bg-[#d9694f]');
+    netKnob.style.left = '1.5px'; netKnob.style.right = 'auto';
+    consoleDot.className = 'w-1.5 h-1.5 rounded-full bg-[#d9694f]';
+    consoleStatusWrap.className = 'font-mono text-[11px] flex items-center gap-2 text-[#d9694f]';
+    consoleStatusText.textContent = 'OFFLINE — QUEUING LOCALLY';
+    jitterLatency(); jitterSignal();
+    showToast('⚠ Connection lost — writes now queue locally', true);
+    liveTimer = setInterval(addQueueItem, 1400);
+  }
+
+  function goOnline(){
+    online = true;
+    body.classList.remove('offline');
+    netLabel.textContent = 'ONLINE';
+    netToggle.className = 'btn btn-xs rounded-full border-[#4db8a8] text-[#4db8a8] bg-transparent font-mono gap-2 ml-4 normal-case';
+    setSwitchColor('bg-[#4db8a8]');
+    netKnob.style.right = '1.5px'; netKnob.style.left = 'auto';
+    consoleDot.className = 'w-1.5 h-1.5 rounded-full bg-[#4db8a8] animate-pulse';
+    consoleStatusWrap.className = 'font-mono text-[11px] flex items-center gap-2 text-[#4db8a8]';
+    consoleStatusText.textContent = 'CONNECTED';
+    clearInterval(liveTimer);
+    jitterLatency(); jitterSignal();
+    syncAll();
+  }
+
+  netToggle.addEventListener('click', () => online ? goOffline() : goOnline());
+  setInterval(()=>{ if(online){ jitterLatency(); jitterSignal(); } }, 2400);
+</script>
+</body>
+</html>

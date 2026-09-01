@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="signal">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Seruyange Joseph</title>
+<meta name="description" content="Seruyange Joseph — full-stack & mobile engineer in Kampala, Uganda, finishing a BSc in Information Systems at Kyambogo University. Available now for remote software engineering roles.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = { theme: { extend: { fontFamily: {
+    mono: ['IBM Plex Mono','ui-monospace','monospace'],
+    sans: ['Inter','system-ui','sans-serif']
+  }}}}
+</script>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@4/dist/full.min.css" rel="stylesheet" type="text/css">
+
+<style>
+  [data-theme="signal"]{
+    --p:#e8a13d; --pc:#1a1206; --s:#4db8a8; --sc:#0c1a18; --a:#4db8a8; --ac:#0c1a18;
+    --n:#171c25; --nc:#eef0ea; --b1:#0b0e13; --b2:#11151c; --b3:#171c25; --bc:#eef0ea;
+  }
+  body{ background-image:radial-gradient(circle, #232a37 1px, transparent 1px); background-size:26px 26px; }
+  ::selection{ background:#e8a13d; color:#0e0900; }
+  .timeline-box{ background:#171c25 !important; border:1px solid #262d3a !important; }
+
+  /* ---- polish pass: force sharp radius (daisyUI defaults are too round for this design) ---- */
+  [data-theme="signal"]{
+    --rounded-box: 0.125rem; --rounded-btn: 0.125rem; --rounded-badge: 0.125rem;
+    --tab-radius: 0.125rem;
+  }
+  /* ---- two-tier border system: soft for chrome (nav/footer), full for content ---- */
+  .border-soft{ border-color:#1c222c !important; }
+
+  /* ---- signature corner registration marks ---- */
+  .corner-box{ position:relative; }
+  .corner-box::before, .corner-box::after{
+    content:""; position:absolute; width:9px; height:9px; pointer-events:none;
+  }
+  .corner-box::before{ top:8px; left:8px; border-top:1px solid #525a6b; border-left:1px solid #525a6b; }
+  .corner-box::after{ bottom:8px; right:8px; border-bottom:1px solid #525a6b; border-right:1px solid #525a6b; }
+</style>
+</head>
+<body class="font-sans bg-[#0b0e13] text-[#eef0ea]">
+
+<div class="navbar bg-[#0b0e13]/85 backdrop-blur-md border-b border-soft sticky top-0 z-50 px-4 md:px-8 max-w-3xl mx-auto">
+  <div class="flex-1 flex items-center gap-3 font-mono font-semibold text-[14px]">
+    <span class="relative w-[22px] h-[22px] rounded-full border border-[#262d3a] flex-shrink-0">
+      <span class="absolute inset-[5px] rounded-full bg-[#4db8a8] animate-pulse"></span>
+    </span>
+    <a href="index.html">SERUYANGE JOSEPH</a>
+  </div>
+  <div class="hidden md:flex gap-9 font-mono text-[12.5px] text-[#eef0ea]/60">
+    <a href="index.html#work" class="hover:text-[#eef0ea] transition-colors">Work</a>
+    <a href="blog.html" class="hover:text-[#eef0ea] transition-colors">Signal Log</a>
+    <a href="about.html" class="text-[#e8a13d]">About</a>
+    <a href="about.html#contact" class="hover:text-[#eef0ea] transition-colors">Contact</a>
+  </div>
+  <div class="flex items-center gap-2.5">
+    <span class="hidden sm:inline-flex items-center gap-1.5 font-mono text-[10.5px] tracking-wide text-[#e8a13d] border border-[#e8a13d]/40 rounded-full px-2.5 py-1">OPEN TO REMOTE ROLES</span>
+    <div class="badge border border-[#4db8a8] text-[#4db8a8] bg-transparent gap-2 font-mono text-[11px]">
+      <span class="w-1.5 h-1.5 rounded-full bg-[#4db8a8] animate-pulse"></span>ONLINE
+    </div>
+  </div>
+</div>
+
+<main class="max-w-3xl mx-auto px-4 md:px-8">
+
+  <div class="grid md:grid-cols-[220px_1fr] gap-11 items-start pt-16 pb-5">
+    <div class="corner-box aspect-[1/1.15] border border-[#262d3a] bg-[#11151c] rounded flex items-center justify-center p-5">
+      <span class="font-mono text-[11px] text-[#eef0ea]/40 text-center leading-relaxed">[ PORTRAIT PLACEHOLDER — replace with a real photo ]</span>
+    </div>
+    <div>
+      <div class="font-mono text-[12px] tracking-widest text-[#e8a13d] mb-4">[ ABOUT ]</div>
+      <h1 class="font-extrabold text-[32px] tracking-tight mb-5">Seruyange Joseph</h1>
+      <div class="flex flex-col gap-4 text-[15px] text-[#eef0ea]/70 leading-relaxed max-w-lg">
+        <p>I'm a full-stack and mobile engineer based in Kampala, with three years of production experience across Go, Spring Boot, Flutter, React, and PostgreSQL. I'm particularly interested in systems that have to work under real constraints — unreliable connectivity, low-end devices, infrastructure that isn't always there — because that's the environment most of the world's users actually live in, even if most software is built assuming otherwise.</p>
+        <p>I recently served as CTO &amp; Head of Software Engineering at Zaantu Technologies, where I set engineering strategy, KPIs, and process for a small team while still writing code week to week. I'm now finishing a BSc in Information Systems at Kyambogo University and available for new opportunities. I've also worked directly with international clients, including a Japan-based QA engagement and a cross-border job-portal partnership.</p>
+        <p class="text-[#eef0ea]/40 font-mono text-[13px]">[ Add one genuine, specific personal detail here — a real interest outside engineering ]</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats stats-vertical sm:stats-horizontal bg-[#11151c] border border-[#262d3a] w-full my-11">
+    <div class="stat py-4 px-5">
+      <div class="stat-title font-mono text-[10px] uppercase tracking-widest text-[#eef0ea]/40">Location</div>
+      <div class="stat-value text-[14px] font-sans font-semibold">Kampala, UG · remote</div>
+    </div>
+    <div class="stat py-4 px-5">
+      <div class="stat-title font-mono text-[10px] uppercase tracking-widest text-[#eef0ea]/40">Focus</div>
+      <div class="stat-value text-[14px] font-sans font-semibold">Offline-first · Leadership</div>
+    </div>
+    <div class="stat py-4 px-5">
+      <div class="stat-title font-mono text-[10px] uppercase tracking-widest text-[#eef0ea]/40">Stack</div>
+      <div class="stat-value text-[14px] font-sans font-semibold">Go · Flutter · React · Spring</div>
+    </div>
+    <div class="stat py-4 px-5">
+      <div class="stat-title font-mono text-[10px] uppercase tracking-widest text-[#eef0ea]/40">Currently</div>
+      <div class="stat-value text-[14px] font-sans font-semibold text-[#4db8a8]">Available now</div>
+    </div>
+  </div>
+
+  <section class="pt-2 pb-2">
+    <div class="flex items-center gap-3 mb-8">
+      <span class="font-mono text-[11px] uppercase tracking-widest text-[#e8a13d]">Experience</span>
+      <div class="flex-1 h-px bg-[#262d3a]"></div>
+    </div>
+
+    <ul class="timeline timeline-vertical timeline-compact">
+      <li>
+        <div class="timeline-middle">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#4db8a8] block border-2 border-[#0b0e13]"></span>
+        </div>
+        <div class="timeline-end timeline-box mb-6 !py-4 !px-5">
+          <div class="font-bold text-[15.5px]">CTO &amp; Head of Software Engineering</div>
+          <div class="font-mono text-[11.5px] text-[#4db8a8] my-1.5">Zaantu Technologies · Nov 2025 — 2026</div>
+          <p class="text-[13.5px] text-[#eef0ea]/60 leading-relaxed">Set technical direction for a small team, wrote and shipped code week to week, and ran a technology/process audit for a partner company producing 90-day and 12-month action plans.</p>
+        </div>
+        <hr class="bg-[#262d3a]"/>
+      </li>
+      <li>
+        <hr class="bg-[#262d3a]"/>
+        <div class="timeline-middle">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#4db8a8] block border-2 border-[#0b0e13]"></span>
+        </div>
+        <div class="timeline-end timeline-box mb-6 !py-4 !px-5">
+          <div class="font-bold text-[15.5px]">Full-Stack Developer &amp; Software Development Intern</div>
+          <div class="font-mono text-[11.5px] text-[#4db8a8] my-1.5">Zaantu Technologies · Aug 2024 — Nov 2025</div>
+          <p class="text-[13.5px] text-[#eef0ea]/60 leading-relaxed">Built a core inventory system from an early stage — database schema, Go backend APIs, React frontend, and an offline-first Flutter mobile app. Contributed to a job portal delivered with a Japan-based partner.</p>
+        </div>
+        <hr class="bg-[#262d3a]"/>
+      </li>
+      <li>
+        <hr class="bg-[#262d3a]"/>
+        <div class="timeline-middle">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#4db8a8] block border-2 border-[#0b0e13]"></span>
+        </div>
+        <div class="timeline-end timeline-box !py-4 !px-5">
+          <div class="font-bold text-[15.5px]">QA Engineer (Contract)</div>
+          <div class="font-mono text-[11.5px] text-[#4db8a8] my-1.5">Zaantu Technologies · Jun 2025 — Nov 2025</div>
+          <p class="text-[13.5px] text-[#eef0ea]/60 leading-relaxed">Wrote and executed QA test plans and tracked bugs with reproduction steps for a Japan-based client project, working directly with the client to validate requirements.</p>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <section id="contact" class="py-14">
+    <div class="corner-box card bg-[#11151c] border border-[#262d3a] flex-row flex-wrap items-center justify-between gap-5 p-8">
+      <div>
+        <h2 class="font-bold text-[20px] mb-1.5">Let's talk</h2>
+        <p class="text-[#eef0ea]/60 text-[14px]">Seeking remote software engineering roles — full-stack, mobile, or technical leadership.</p>
+      </div>
+      <div class="flex gap-3 flex-wrap">
+        <a href="Seruyange-Joseph-CV.pdf" class="btn bg-[#e8a13d] text-[#1a1206] border-none hover:bg-[#f2ae4d] btn-sm font-mono normal-case">Resume ↗</a>
+        <a href="mailto:seruyangejoseph9@gmail.com" class="btn btn-outline btn-sm border-[#262d3a] text-[#eef0ea] hover:border-[#4db8a8] hover:text-[#4db8a8] font-mono normal-case">Email</a>
+        <a href="https://github.com/seruyange-jojo" class="btn btn-outline btn-sm border-[#262d3a] text-[#eef0ea] hover:border-[#4db8a8] hover:text-[#4db8a8] font-mono normal-case">GitHub</a>
+        <a href="https://www.linkedin.com/in/seruyange-joseph/" class="btn btn-outline btn-sm border-[#262d3a] text-[#eef0ea] hover:border-[#4db8a8] hover:text-[#4db8a8] font-mono normal-case">LinkedIn</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="border-t border-soft py-8">
+  <div class="max-w-3xl mx-auto px-4 md:px-8 flex flex-wrap justify-between items-center gap-3">
+    <p class="font-mono text-[11.5px] text-[#eef0ea]/40">© 2026 SERUYANGE JOSEPH</p>
+    <div class="flex gap-5 font-mono text-[11.5px] text-[#eef0ea]/60">
+      <a href="index.html" class="hover:text-[#4db8a8] transition-colors">Work</a>
+      <a href="blog.html" class="hover:text-[#4db8a8] transition-colors">Signal Log</a>
+      <a href="about.html" class="hover:text-[#4db8a8] transition-colors">About</a>
+      <a href="https://github.com/seruyange-jojo" class="hover:text-[#4db8a8] transition-colors">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

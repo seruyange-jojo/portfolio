@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="signal">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signal Log — Seruyange Joseph</title>
+<meta name="description" content="Field notes and build logs from Seruyange Joseph — offline-first systems, distributed systems, and lessons from technical leadership.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = { theme: { extend: { fontFamily: {
+    mono: ['IBM Plex Mono','ui-monospace','monospace'],
+    sans: ['Inter','system-ui','sans-serif']
+  }}}}
+</script>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@4/dist/full.min.css" rel="stylesheet" type="text/css">
+
+<style>
+  [data-theme="signal"]{
+    --p:#e8a13d; --pc:#1a1206; --s:#4db8a8; --sc:#0c1a18; --a:#4db8a8; --ac:#0c1a18;
+    --n:#171c25; --nc:#eef0ea; --b1:#0b0e13; --b2:#11151c; --b3:#171c25; --bc:#eef0ea;
+  }
+  body{ background-image:radial-gradient(circle, #232a37 1px, transparent 1px); background-size:26px 26px; }
+  ::selection{ background:#e8a13d; color:#0e0900; }
+  #composer{ max-height:0; opacity:0; overflow:hidden; transition:max-height .35s ease, opacity .3s ease, margin .35s ease; }
+  #composer.open{ max-height:700px; opacity:1; margin:28px 0; }
+  #loginPanel{ max-height:0; opacity:0; overflow:hidden; transition:max-height .35s ease, opacity .3s ease, margin .35s ease; }
+  #loginPanel.open{ max-height:500px; opacity:1; margin:28px 0; }
+  .post-new{ animation:flash 1.6s ease; }
+  @keyframes flash{ 0%{ background:rgba(77,184,168,.14); } 100%{ background:transparent; } }
+
+  /* ---- polish pass: force sharp radius (daisyUI defaults are too round for this design) ---- */
+  [data-theme="signal"]{
+    --rounded-box: 0.125rem; --rounded-btn: 0.125rem; --rounded-badge: 0.125rem;
+    --tab-radius: 0.125rem;
+  }
+  /* ---- two-tier border system: soft for chrome (nav/footer), full for content ---- */
+  .border-soft{ border-color:#1c222c !important; }
+
+  /* ---- signature corner registration marks ---- */
+  .corner-box{ position:relative; }
+  .corner-box::before, .corner-box::after{
+    content:""; position:absolute; width:9px; height:9px; pointer-events:none;
+  }
+  .corner-box::before{ top:8px; left:8px; border-top:1px solid #525a6b; border-left:1px solid #525a6b; }
+  .corner-box::after{ bottom:8px; right:8px; border-bottom:1px solid #525a6b; border-right:1px solid #525a6b; }
+</style>
+</head>
+<body class="font-sans bg-[#0b0e13] text-[#eef0ea]">
+
+<div class="navbar bg-[#0b0e13]/85 backdrop-blur-md border-b border-soft sticky top-0 z-50 px-4 md:px-8 max-w-3xl mx-auto">
+  <div class="flex-1 flex items-center gap-3 font-mono font-semibold text-[14px]">
+    <span class="relative w-[22px] h-[22px] rounded-full border border-[#262d3a] flex-shrink-0">
+      <span class="absolute inset-[5px] rounded-full bg-[#4db8a8] animate-pulse"></span>
+    </span>
+    <a href="index.html">SERUYANGE JOSEPH</a>
+  </div>
+  <div class="hidden md:flex gap-9 font-mono text-[12.5px] text-[#eef0ea]/60">
+    <a href="index.html#work" class="hover:text-[#eef0ea] transition-colors">Work</a>
+    <a href="blog.html" class="text-[#e8a13d]">Signal Log</a>
+    <a href="about.html" class="hover:text-[#eef0ea] transition-colors">About</a>
+    <a href="about.html#contact" class="hover:text-[#eef0ea] transition-colors">Contact</a>
+  </div>
+  <div class="flex items-center gap-2.5">
+    <span class="hidden sm:inline-flex items-center gap-1.5 font-mono text-[10.5px] tracking-wide text-[#e8a13d] border border-[#e8a13d]/40 rounded-full px-2.5 py-1">OPEN TO REMOTE ROLES</span>
+    <div class="badge border border-[#4db8a8] text-[#4db8a8] bg-transparent gap-2 font-mono text-[11px]">
+      <span class="w-1.5 h-1.5 rounded-full bg-[#4db8a8] animate-pulse"></span>ONLINE
+    </div>
+  </div>
+</div>
+
+<main class="max-w-3xl mx-auto px-4 md:px-8">
+
+  <div class="flex justify-between items-end gap-5 flex-wrap pt-14 pb-9 border-b border-[#262d3a]">
+    <div>
+      <div class="font-mono text-[12px] tracking-widest text-[#e8a13d] mb-4">[ SIGNAL LOG ]</div>
+      <h1 class="font-extrabold text-[32px] tracking-tight mb-2.5">Field notes from the build.</h1>
+      <p class="text-[#eef0ea]/60 text-[15px] max-w-sm">Long-form posts on the tradeoffs behind each project — written as they happen, not cleaned up after.</p>
+    </div>
+    <div class="flex items-center gap-3">
+      <button id="loginToggle" class="btn btn-outline border-[#262d3a] text-[#eef0ea] hover:border-[#4db8a8] hover:text-[#4db8a8] btn-sm font-mono normal-case">Log in</button>
+      <button id="composeToggle" class="hidden btn bg-[#e8a13d] text-[#1a1206] border-none hover:bg-[#f2ae4d] btn-sm font-mono normal-case">+ Write a post</button>
+      <button id="logoutBtn" class="hidden btn btn-outline border-[#262d3a] text-[#eef0ea]/60 hover:border-[#d9694f] hover:text-[#d9694f] btn-sm font-mono normal-case">Log out</button>
+    </div>
+  </div>
+
+  <div id="loginPanel" class="corner-box border border-[#262d3a] rounded bg-[#11151c] p-7">
+    <div class="flex justify-between items-center mb-5">
+      <span class="font-mono text-[11px] text-[#4db8a8] tracking-widest">SIGN IN — ADMIN ONLY</span>
+      <button id="loginClose" class="font-mono text-xs text-[#eef0ea]/40 hover:text-[#eef0ea]">esc to cancel</button>
+    </div>
+    <div class="form-control mb-4">
+      <label class="label py-0 mb-2"><span class="label-text font-mono text-[11px] uppercase tracking-wide text-[#eef0ea]/40">Email</span></label>
+      <input type="email" id="loginEmail" placeholder="your@email.com" class="input input-bordered bg-[#0b0e13] font-sans text-[14.5px]">
+    </div>
+    <div class="form-control mb-2">
+      <label class="label py-0 mb-2"><span class="label-text font-mono text-[11px] uppercase tracking-wide text-[#eef0ea]/40">Password</span></label>
+      <input type="password" id="loginPassword" placeholder="••••••••" class="input input-bordered bg-[#0b0e13] font-sans text-[14.5px]">
+    </div>
+    <div id="loginError" class="hidden font-mono text-[12px] text-[#d9694f] mt-2"></div>
+    <div class="flex justify-end gap-3 mt-5">
+      <button id="loginCancel" class="btn btn-ghost btn-sm font-mono normal-case">Cancel</button>
+      <button id="loginSubmit" class="btn bg-[#4db8a8] text-[#0c1a18] border-none hover:bg-[#5fc9b9] btn-sm font-mono normal-case">Sign in</button>
+    </div>
+  </div>
+
+  <div id="composer" class="corner-box border border-[#e8a13d] rounded bg-[#11151c] p-7">
+    <div class="flex justify-between items-center mb-5">
+      <span class="font-mono text-[11px] text-[#e8a13d] tracking-widest">NEW POST — DRAFT</span>
+      <button id="composeClose" class="font-mono text-xs text-[#eef0ea]/40 hover:text-[#eef0ea]">esc to cancel</button>
+    </div>
+    <div class="form-control mb-4">
+      <label class="label py-0 mb-2"><span class="label-text font-mono text-[11px] uppercase tracking-wide text-[#eef0ea]/40">Title</span></label>
+      <input type="text" id="postTitle" placeholder="Why offline-first is harder than it sounds" class="input input-bordered bg-[#0b0e13] font-sans text-[14.5px]">
+    </div>
+    <div class="form-control mb-4">
+      <label class="label py-0 mb-2"><span class="label-text font-mono text-[11px] uppercase tracking-wide text-[#eef0ea]/40">Tag</span></label>
+      <select id="postTag" class="select select-bordered bg-[#0b0e13] font-sans text-[14.5px]">
+        <option>Offline-first</option>
+        <option>Distributed systems</option>
+        <option>Leadership</option>
+        <option>Infrastructure</option>
+      </select>
+    </div>
+    <div class="form-control mb-5">
+      <label class="label py-0 mb-2"><span class="label-text font-mono text-[11px] uppercase tracking-wide text-[#eef0ea]/40">Excerpt</span></label>
+      <textarea id="postBody" placeholder="A short summary — 2 to 3 sentences readers will see before they click in." class="textarea textarea-bordered bg-[#0b0e13] font-sans text-[14.5px] min-h-[100px]"></textarea>
+    </div>
+    <div class="flex justify-end gap-3">
+      <button id="composeCancel" class="btn btn-ghost btn-sm font-mono normal-case">Discard</button>
+      <button id="composePublish" class="btn bg-[#4db8a8] text-[#0c1a18] border-none hover:bg-[#5fc9b9] btn-sm font-mono normal-case">Publish post</button>
+    </div>
+  </div>
+
+  <div id="postList" class="py-9 flex flex-col gap-3.5">
+
+    <div class="flex gap-6 items-start border border-[#262d3a] bg-[#11151c] rounded p-6 hover:border-[#e8a13d] transition-colors">
+      <div class="font-mono text-[11.5px] text-[#eef0ea]/40 min-w-[74px] pt-0.5">MAR 2026</div>
+      <div class="flex-1">
+        <span class="font-mono text-[10px] uppercase tracking-widest text-[#4db8a8] mb-2 block">Offline-first</span>
+        <h3 class="font-bold text-[18.5px] mb-2 leading-snug">Why offline-first is harder than it sounds: conflict resolution for a mobile money ledger</h3>
+        <p class="text-[14px] text-[#eef0ea]/60 mb-2.5 leading-relaxed">Walking through the last-write-wins decision from the ledger build in more depth — and the specific scenario where it breaks.</p>
+        <div class="font-mono text-[11.5px] text-[#eef0ea]/40">6 min read</div>
+      </div>
+    </div>
+
+    <div class="flex gap-6 items-start border border-[#262d3a] bg-[#11151c] rounded p-6 hover:border-[#e8a13d] transition-colors">
+      <div class="font-mono text-[11.5px] text-[#eef0ea]/40 min-w-[74px] pt-0.5">FEB 2026</div>
+      <div class="flex-1">
+        <span class="font-mono text-[10px] uppercase tracking-widest text-[#4db8a8] mb-2 block">Leadership</span>
+        <h3 class="font-bold text-[18.5px] mb-2 leading-snug">Six months as a first-time CTO: what actually changed day to day</h3>
+        <p class="text-[14px] text-[#eef0ea]/60 mb-2.5 leading-relaxed">Setting KPIs and SOPs across four product lines while still shipping code — what I got right, what I'd do earlier.</p>
+        <div class="font-mono text-[11.5px] text-[#eef0ea]/40">8 min read</div>
+      </div>
+    </div>
+
+    <div class="flex gap-6 items-start border border-[#262d3a] bg-[#11151c] rounded p-6 hover:border-[#e8a13d] transition-colors">
+      <div class="font-mono text-[11.5px] text-[#eef0ea]/40 min-w-[74px] pt-0.5">JAN 2026</div>
+      <div class="flex-1">
+        <span class="font-mono text-[10px] uppercase tracking-widest text-[#4db8a8] mb-2 block">Distributed systems</span>
+        <h3 class="font-bold text-[18.5px] mb-2 leading-snug">What I'm learning building Raft-lite in Go</h3>
+        <p class="text-[14px] text-[#eef0ea]/60 mb-2.5 leading-relaxed">Notes from turning the actual Raft paper into working code, before it's finished — the parts that don't make sense until you implement them.</p>
+        <div class="font-mono text-[11.5px] text-[#eef0ea]/40">7 min read</div>
+      </div>
+    </div>
+
+    <div class="flex gap-6 items-start border border-[#262d3a] bg-[#11151c] rounded p-6 hover:border-[#e8a13d] transition-colors">
+      <div class="font-mono text-[11.5px] text-[#eef0ea]/40 min-w-[74px] pt-0.5">DEC 2025</div>
+      <div class="flex-1">
+        <span class="font-mono text-[10px] uppercase tracking-widest text-[#4db8a8] mb-2 block">Infrastructure</span>
+        <h3 class="font-bold text-[18.5px] mb-2 leading-snug">Designing for no smartphone and no data plan</h3>
+        <p class="text-[14px] text-[#eef0ea]/60 mb-2.5 leading-relaxed">Early thinking on the USSD service — a session that times out in seconds, and why that constraint should come first.</p>
+        <div class="font-mono text-[11.5px] text-[#eef0ea]/40">5 min read</div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<div id="toastWrap" class="toast toast-bottom toast-center z-[100]"></div>
+
+<footer class="border-t border-soft py-8">
+  <div class="max-w-3xl mx-auto px-4 md:px-8 flex flex-wrap justify-between items-center gap-3">
+    <p class="font-mono text-[11.5px] text-[#eef0ea]/40">© 2026 SERUYANGE JOSEPH</p>
+    <div class="flex gap-5 font-mono text-[11.5px] text-[#eef0ea]/60">
+      <a href="index.html" class="hover:text-[#4db8a8] transition-colors">Work</a>
+      <a href="blog.html" class="hover:text-[#4db8a8] transition-colors">Signal Log</a>
+      <a href="about.html" class="hover:text-[#4db8a8] transition-colors">About</a>
+      <a href="https://github.com/seruyange-jojo" class="hover:text-[#4db8a8] transition-colors">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ---- CONFIGURE THIS ----
+  // Once the backend (see /backend in this project) is deployed, set this to
+  // its real URL, e.g. 'https://signal-log-api.onrender.com'. Until then, the
+  // page falls back to local-only demo behavior automatically.
+  const API_BASE_URL = '';
+  // -------------------------
+
+  const composer = document.getElementById('composer');
+  const composeToggle = document.getElementById('composeToggle');
+  const closeBtn = document.getElementById('composeClose');
+  const cancelBtn = document.getElementById('composeCancel');
+  const publishBtn = document.getElementById('composePublish');
+  const postList = document.getElementById('postList');
+  const toastWrap = document.getElementById('toastWrap');
+
+  const loginPanel = document.getElementById('loginPanel');
+  const loginToggle = document.getElementById('loginToggle');
+  const loginClose = document.getElementById('loginClose');
+  const loginCancel = document.getElementById('loginCancel');
+  const loginSubmit = document.getElementById('loginSubmit');
+  const loginError = document.getElementById('loginError');
+  const logoutBtn = document.getElementById('logoutBtn');
+
+  const TOKEN_KEY = 'signal_log_token';
+
+  function getToken(){ return localStorage.getItem(TOKEN_KEY); }
+  function setToken(t){ localStorage.setItem(TOKEN_KEY, t); }
+  function clearToken(){ localStorage.removeItem(TOKEN_KEY); }
+
+  function refreshAuthUI(){
+    const authed = !!getToken();
+    loginToggle.classList.toggle('hidden', authed);
+    composeToggle.classList.toggle('hidden', !authed);
+    logoutBtn.classList.toggle('hidden', !authed);
+  }
+  refreshAuthUI();
+
+  function showToast(msg, isError){
+    const el = document.createElement('div');
+    el.className = isError
+      ? 'alert bg-[#d9694f]/15 border border-[#d9694f] text-[#eef0ea] font-mono text-xs'
+      : 'alert bg-[#4db8a8]/15 border border-[#4db8a8] text-[#eef0ea] font-mono text-xs';
+    el.textContent = msg;
+    toastWrap.appendChild(el);
+    setTimeout(()=> el.remove(), 2600);
+  }
+
+  // ---- login panel ----
+  function openLogin(){ loginPanel.classList.add('open'); loginError.classList.add('hidden'); document.getElementById('loginEmail').focus(); }
+  function closeLogin(){ loginPanel.classList.remove('open'); }
+
+  loginToggle.addEventListener('click', () => loginPanel.classList.contains('open') ? closeLogin() : openLogin());
+  loginClose.addEventListener('click', closeLogin);
+  loginCancel.addEventListener('click', closeLogin);
+
+  logoutBtn.addEventListener('click', () => {
+    clearToken();
+    refreshAuthUI();
+    showToast('Signed out');
+  });
+
+  loginSubmit.addEventListener('click', async () => {
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    if(!email || !password){
+      loginError.textContent = 'Enter both email and password.';
+      loginError.classList.remove('hidden');
+      return;
+    }
+    if(!API_BASE_URL){
+      loginError.textContent = 'API_BASE_URL is not configured yet — deploy the backend in /backend first.';
+      loginError.classList.remove('hidden');
+      return;
+    }
+    try{
+      const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      if(!res.ok){
+        const data = await res.json().catch(()=>({}));
+        loginError.textContent = data.error || 'Invalid credentials.';
+        loginError.classList.remove('hidden');
+        return;
+      }
+      const data = await res.json();
+      setToken(data.token);
+      refreshAuthUI();
+      closeLogin();
+      showToast('✓ Signed in');
+    }catch(err){
+      loginError.textContent = 'Could not reach the API. Check API_BASE_URL and that the backend is running.';
+      loginError.classList.remove('hidden');
+    }
+  });
+
+  // ---- compose panel ----
+  function openComposer(){ composer.classList.add('open'); document.getElementById('postTitle').focus(); }
+  function closeComposer(){ composer.classList.remove('open'); }
+
+  composeToggle.addEventListener('click', ()=> composer.classList.contains('open') ? closeComposer() : openComposer());
+  closeBtn.addEventListener('click', closeComposer);
+  cancelBtn.addEventListener('click', closeComposer);
+  document.addEventListener('keydown', e => { if(e.key === 'Escape'){ closeComposer(); closeLogin(); } });
+
+  function renderPost(post, opts={}){
+    const created = post.created_at ? new Date(post.created_at) : new Date();
+    const month = created.toLocaleString('en-US', {month:'short'}).toUpperCase();
+    const el = document.createElement('div');
+    el.className = (opts.isNew ? 'post-new ' : '') + 'flex gap-6 items-start border border-[#262d3a] bg-[#11151c] rounded p-6 hover:border-[#e8a13d] transition-colors';
+    el.innerHTML = `
+      <div class="font-mono text-[11.5px] text-[#eef0ea]/40 min-w-[74px] pt-0.5">${month} ${created.getFullYear()}</div>
+      <div class="flex-1">
+        <span class="font-mono text-[10px] uppercase tracking-widest text-[#4db8a8] mb-2 block">${post.tag || 'Update'}</span>
+        <h3 class="font-bold text-[18.5px] mb-2 leading-snug">${post.title}</h3>
+        <p class="text-[14px] text-[#eef0ea]/60 mb-2.5 leading-relaxed">${post.excerpt || 'No excerpt yet — add one before sharing.'}</p>
+        <div class="font-mono text-[11.5px] text-[#eef0ea]/40">${opts.isNew ? 'Just now' : ''}</div>
+      </div>`;
+    return el;
+  }
+
+  // Load real posts from the API on page load, if configured.
+  // If the API isn't reachable (or not configured yet), the static demo
+  // posts already in the HTML stay exactly as they are — nothing breaks.
+  async function loadPosts(){
+    if(!API_BASE_URL) return;
+    try{
+      const res = await fetch(`${API_BASE_URL}/api/posts`);
+      if(!res.ok) return;
+      const posts = await res.json();
+      if(!Array.isArray(posts) || posts.length === 0) return;
+      posts.forEach(p => postList.prepend(renderPost(p)));
+    }catch(err){
+      // API not reachable yet — fall back to the static demo posts silently
+    }
+  }
+  loadPosts();
+
+  publishBtn.addEventListener('click', async () => {
+    const title = document.getElementById('postTitle').value.trim();
+    const tag = document.getElementById('postTag').value;
+    const excerpt = document.getElementById('postBody').value.trim();
+    if(!title){ document.getElementById('postTitle').focus(); return; }
+
+    const token = getToken();
+    if(!token){
+      showToast('You need to be signed in to publish.', true);
+      closeComposer();
+      openLogin();
+      return;
+    }
+
+    if(!API_BASE_URL){
+      // Demo fallback: no backend configured yet, just show it locally
+      postList.prepend(renderPost({ title, tag, excerpt }, { isNew: true }));
+      document.getElementById('postTitle').value = '';
+      document.getElementById('postBody').value = '';
+      closeComposer();
+      showToast('✓ Post published (local demo — deploy /backend to make this real)');
+      return;
+    }
+
+    try{
+      const res = await fetch(`${API_BASE_URL}/api/posts`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ title, tag, excerpt })
+      });
+      if(res.status === 401){
+        showToast('Session expired — please sign in again.', true);
+        clearToken();
+        refreshAuthUI();
+        closeComposer();
+        return;
+      }
+      if(!res.ok){
+        showToast('Could not publish — check the API logs.', true);
+        return;
+      }
+      const post = await res.json();
+      postList.prepend(renderPost(post, { isNew: true }));
+      document.getElementById('postTitle').value = '';
+      document.getElementById('postBody').value = '';
+      closeComposer();
+      showToast('✓ Post published');
+    }catch(err){
+      showToast('Could not reach the API.', true);
+    }
+  });
+</script>
+</body>
+</html>
