@@ -1,417 +1,1320 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="signal">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Seruyange Joseph — Full-stack & Mobile Engineer</title>
-<meta name="description" content="Full-stack & mobile engineer in Kampala, Uganda, building offline-first systems, distributed systems, and infrastructure for the network you actually have. Available now for remote roles.">
-<meta property="og:title" content="Seruyange Joseph — Full-stack & Mobile Engineer">
-<meta property="og:description" content="Offline-first apps, distributed systems, and infrastructure that works under real constraints. Flutter · Go · Spring Boot · PostgreSQL · React.">
-<meta property="og:type" content="website">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script>
-  tailwind.config = {
-    theme: { extend: { fontFamily: {
-      mono: ['IBM Plex Mono','ui-monospace','monospace'],
-      sans: ['Inter','system-ui','sans-serif']
-    }}}
-  }
-</script>
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://cdn.jsdelivr.net/npm/daisyui@4/dist/full.min.css" rel="stylesheet" type="text/css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a0d12">
+  <meta name="color-scheme" content="dark">
 
-<style>
-  [data-theme="signal"]{
-    --p:#e8a13d; --pc:#1a1206;
-    --s:#4db8a8; --sc:#0c1a18;
-    --a:#4db8a8; --ac:#0c1a18;
-    --n:#171c25; --nc:#eef0ea;
-    --b1:#0b0e13; --b2:#11151c; --b3:#171c25;
-    --bc:#eef0ea;
-  }
-  body{
-    background-image:radial-gradient(circle, #232a37 1px, transparent 1px);
-    background-size:26px 26px;
-  }
-  .proj-card{ transition:filter .25s ease; }
-  body.offline .proj-card{ filter:saturate(.35) brightness(.85); }
-  .proj-badge{ opacity:0; transition:opacity .2s ease; }
-  body.offline .proj-badge{ opacity:1; }
-  ::selection{ background:#e8a13d; color:#0e0900; }
+  <title>Seruyange Joseph | Full-stack & Mobile Engineer</title>
+  <meta name="description" content="Seruyange Joseph is a full-stack and mobile engineer in Kampala, Uganda, building offline-first systems, distributed systems, and resilient software for real-world constraints.">
 
-  /* ---- polish pass: force sharp radius (daisyUI defaults are too round for this design) ---- */
-  [data-theme="signal"]{
-    --rounded-box: 0.125rem; --rounded-btn: 0.125rem; --rounded-badge: 0.125rem;
-    --tab-radius: 0.125rem;
-  }
-  /* ---- two-tier border system: soft for chrome (nav/footer), full for content ---- */
-  .border-soft{ border-color:#1c222c !important; }
+  <meta property="og:title" content="Seruyange Joseph | Full-stack & Mobile Engineer">
+  <meta property="og:description" content="Offline-first apps, distributed systems, and resilient infrastructure built for the network you actually have.">
+  <meta property="og:type" content="website">
 
-  /* ---- signature corner registration marks ---- */
-  .corner-box{ position:relative; }
-  .corner-box::before, .corner-box::after{
-    content:""; position:absolute; width:9px; height:9px; pointer-events:none;
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --ink: #0a0d12;
+      --ink-2: #0f131a;
+      --surface: #131821;
+      --surface-2: #171d27;
+      --line: #262e3a;
+      --line-soft: #1b222d;
+      --text: #eef1eb;
+      --muted: #9aa3b2;
+      --faint: #697384;
+      --amber: #e8a13d;
+      --amber-soft: rgba(232, 161, 61, .12);
+      --sync: #4db8a8;
+      --sync-soft: rgba(77, 184, 168, .12);
+      --danger: #d9694f;
+      --danger-soft: rgba(217, 105, 79, .12);
+      --content: 1180px;
+      --radius: 4px;
+      --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background: var(--ink);
+      font-family: var(--sans);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px),
+        radial-gradient(circle at 72% 0%, rgba(77,184,168,.055), transparent 28rem),
+        radial-gradient(circle at 18% 26%, rgba(232,161,61,.045), transparent 24rem);
+      background-size: 32px 32px, 32px 32px, auto, auto;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: .16;
+      background-image: radial-gradient(rgba(255,255,255,.22) .55px, transparent .55px);
+      background-size: 5px 5px;
+      mix-blend-mode: soft-light;
+    }
+
+    ::selection { background: var(--amber); color: #150e03; }
+    a { color: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    button { font: inherit; }
+
+    :focus-visible {
+      outline: 2px solid var(--amber);
+      outline-offset: 4px;
+      border-radius: 2px;
+    }
+
+    .skip-link {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 200;
+      transform: translateY(-160%);
+      padding: 10px 14px;
+      color: var(--ink);
+      background: var(--amber);
+      font: 600 12px var(--mono);
+      text-decoration: none;
+    }
+    .skip-link:focus { transform: translateY(0); }
+
+    .shell {
+      width: min(calc(100% - 40px), var(--content));
+      margin-inline: auto;
+    }
+
+    .mono { font-family: var(--mono); }
+    .muted { color: var(--muted); }
+    .faint { color: var(--faint); }
+    .amber { color: var(--amber); }
+    .sync { color: var(--sync); }
+
+    .topbar-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10,13,18,.82);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .topbar {
+      min-height: 70px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      width: fit-content;
+      text-decoration: none;
+      font: 600 12px var(--mono);
+      letter-spacing: .045em;
+    }
+
+    .brand-mark {
+      position: relative;
+      width: 20px;
+      height: 20px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      flex: 0 0 auto;
+    }
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      inset: 5px;
+      border-radius: 999px;
+      background: var(--sync);
+      box-shadow: 0 0 0 4px rgba(77,184,168,.06);
+      animation: pulse 2.2s ease-in-out infinite;
+    }
+
+    .desktop-nav {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      font: 500 11px var(--mono);
+      color: var(--muted);
+    }
+    .desktop-nav a {
+      text-decoration: none;
+      padding: 8px 0;
+      transition: color .2s ease;
+    }
+    .desktop-nav a:hover,
+    .desktop-nav a[aria-current="page"] { color: var(--amber); }
+
+    .top-actions {
+      justify-self: end;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .availability {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 30px;
+      padding: 0 10px;
+      border: 1px solid rgba(232,161,61,.34);
+      color: var(--amber);
+      font: 500 9px var(--mono);
+      letter-spacing: .07em;
+      white-space: nowrap;
+    }
+    .availability::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .net-toggle,
+    .menu-toggle {
+      min-height: 36px;
+      border: 1px solid rgba(77,184,168,.45);
+      background: transparent;
+      color: var(--sync);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 11px;
+      font: 600 10px var(--mono);
+      letter-spacing: .04em;
+      transition: background .2s ease, border-color .2s ease, color .2s ease;
+    }
+    .net-toggle:hover { background: var(--sync-soft); border-color: var(--sync); }
+    .net-toggle.offline { color: var(--danger); border-color: rgba(217,105,79,.58); }
+    .net-toggle.offline:hover { background: var(--danger-soft); border-color: var(--danger); }
+
+    .switch-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: currentColor;
+      position: relative;
+      flex: 0 0 auto;
+    }
+    .switch-dot::after {
+      content: "";
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      top: 2.5px;
+      right: 1px;
+      border-radius: 50%;
+      background: var(--ink);
+      transition: transform .2s ease;
+    }
+    .net-toggle.offline .switch-dot::after { transform: translateX(-3px); }
+
+    .menu-toggle { display: none; color: var(--text); border-color: var(--line); width: 40px; padding: 0; }
+
+    .mobile-panel {
+      display: none;
+      border-top: 1px solid var(--line-soft);
+      background: rgba(10,13,18,.98);
+    }
+    .mobile-panel.open { display: block; }
+    .mobile-panel-inner { padding: 20px 0 24px; }
+    .mobile-links { display: grid; }
+    .mobile-links a {
+      display: grid;
+      grid-template-columns: 40px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      min-height: 58px;
+      text-decoration: none;
+      border-bottom: 1px solid var(--line-soft);
+      font-weight: 600;
+    }
+    .mobile-links a span:first-child,
+    .mobile-links a span:last-child { font: 500 10px var(--mono); color: var(--faint); }
+    .mobile-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      margin-top: 20px;
+      color: var(--muted);
+      font: 500 10px var(--mono);
+    }
+
+    .hero {
+      padding: 110px 0 78px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 280px;
+      gap: 72px;
+      align-items: end;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+      color: var(--amber);
+      font: 500 11px var(--mono);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before { content: ""; width: 28px; height: 1px; background: currentColor; }
+
+    h1, h2, h3, p { margin-top: 0; }
+
+    .hero h1 {
+      margin-bottom: 27px;
+      max-width: 850px;
+      font-size: clamp(44px, 7.1vw, 84px);
+      line-height: .98;
+      letter-spacing: -.052em;
+      font-weight: 800;
+    }
+    .hero h1 .strike {
+      color: rgba(238,241,235,.26);
+      text-decoration: line-through;
+      text-decoration-thickness: 2px;
+    }
+    .hero h1 .accent { color: var(--amber); }
+
+    .hero-copy {
+      max-width: 680px;
+      color: var(--muted);
+      font-size: clamp(16px, 2vw, 19px);
+      line-height: 1.7;
+    }
+
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+    .btn {
+      min-height: 44px;
+      padding: 0 17px;
+      border: 1px solid var(--line);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+      font: 600 11px var(--mono);
+      transition: transform .2s ease, border-color .2s ease, background .2s ease, color .2s ease;
+    }
+    .btn:hover { transform: translateY(-1px); border-color: var(--faint); }
+    .btn-primary { background: var(--amber); color: #1a1206; border-color: var(--amber); }
+    .btn-primary:hover { background: #f0ad50; border-color: #f0ad50; }
+    .btn-quiet:hover { color: var(--sync); border-color: var(--sync); background: var(--sync-soft); }
+
+    .hero-aside {
+      border-left: 1px solid var(--line);
+      padding-left: 24px;
+      display: grid;
+      gap: 24px;
+    }
+    .hero-fact { display: grid; gap: 7px; }
+    .hero-fact dt {
+      color: var(--faint);
+      font: 500 9px var(--mono);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .hero-fact dd { margin: 0; color: var(--text); font-size: 13px; line-height: 1.45; }
+    .hero-fact dd.sync { color: var(--sync); }
+
+    .section-rule {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding-bottom: 18px;
+      margin-bottom: 30px;
+      border-bottom: 1px solid var(--line);
+    }
+    .section-rule h2 {
+      margin: 0;
+      font-size: clamp(26px, 3vw, 36px);
+      letter-spacing: -.035em;
+    }
+    .section-kicker { color: var(--faint); font: 500 10px var(--mono); letter-spacing: .08em; }
+
+    .corner-box { position: relative; }
+    .corner-box::before,
+    .corner-box::after {
+      content: "";
+      position: absolute;
+      width: 9px;
+      height: 9px;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .corner-box::before { top: 8px; left: 8px; border-top: 1px solid #596273; border-left: 1px solid #596273; }
+    .corner-box::after { right: 8px; bottom: 8px; border-right: 1px solid #596273; border-bottom: 1px solid #596273; }
+
+    .telemetry {
+      margin-bottom: 116px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(19,24,33,.98), rgba(14,18,25,.98));
+      box-shadow: 0 24px 70px rgba(0,0,0,.24);
+      overflow: hidden;
+    }
+    .telemetry-head {
+      min-height: 46px;
+      padding: 0 18px;
+      border-bottom: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 12px;
+      background: rgba(0,0,0,.14);
+    }
+    .window-dots { display: flex; gap: 6px; }
+    .window-dots i { width: 7px; height: 7px; border-radius: 50%; background: #303845; }
+    .telemetry-title { color: var(--faint); font: 500 9px var(--mono); letter-spacing: .1em; text-align: center; }
+    .console-status { justify-self: end; display: flex; align-items: center; gap: 8px; color: var(--sync); font: 600 10px var(--mono); }
+    .console-status .pulse-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; animation: pulse 2.2s ease-in-out infinite; }
+
+    .telemetry-body {
+      display: grid;
+      grid-template-columns: minmax(0, .92fr) minmax(420px, 1.08fr);
+      gap: 48px;
+      padding: 38px;
+    }
+    .telemetry-intro h2 {
+      max-width: 500px;
+      margin-bottom: 14px;
+      font-size: clamp(24px, 3vw, 34px);
+      line-height: 1.12;
+      letter-spacing: -.035em;
+    }
+    .telemetry-intro p { max-width: 520px; color: var(--muted); line-height: 1.7; font-size: 14px; }
+    .console-note {
+      margin-top: 26px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line-soft);
+      color: var(--faint);
+      font: 500 10px/1.7 var(--mono);
+    }
+    .console-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+    .console-btn {
+      min-height: 38px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      background: rgba(0,0,0,.12);
+      color: var(--text);
+      font: 600 10px var(--mono);
+      cursor: pointer;
+    }
+    .console-btn:hover { border-color: var(--amber); color: var(--amber); }
+
+    .metrics { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .metric {
+      min-height: 92px;
+      padding: 15px;
+      border: 1px solid var(--line);
+      background: rgba(0,0,0,.12);
+    }
+    .metric-label { color: var(--faint); font: 500 9px var(--mono); letter-spacing: .11em; text-transform: uppercase; }
+    .metric-value { margin-top: 12px; color: var(--sync); font: 600 19px var(--mono); }
+    .metric-value.amber { color: var(--amber); }
+
+    .queue-wrap { grid-column: 1 / -1; margin-top: 7px; padding-top: 18px; border-top: 1px solid var(--line); }
+    .queue-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; gap: 12px; }
+    .queue-head span:first-child { color: var(--faint); font: 500 9px var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+    .queue-head span:last-child { color: var(--amber); font: 600 10px var(--mono); }
+    .queue-list { display: grid; gap: 8px; max-height: 162px; overflow: auto; scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
+    .queue-item {
+      min-height: 38px;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 10px;
+      background: rgba(0,0,0,.12);
+      color: var(--muted);
+      font: 500 10px var(--mono);
+    }
+    .queue-badge {
+      padding: 3px 5px;
+      border: 1px solid var(--sync);
+      color: var(--sync);
+      font-size: 8px;
+      letter-spacing: .08em;
+    }
+    .queue-item.pending .queue-badge { border-color: var(--amber); color: var(--amber); }
+    .queue-item.synced { opacity: .56; }
+
+    .selected-work { padding-bottom: 110px; }
+    .featured-project {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(380px, .95fr);
+      min-height: 500px;
+      overflow: hidden;
+    }
+    .featured-copy { padding: clamp(28px, 4vw, 52px); display: flex; flex-direction: column; }
+    .project-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; margin-bottom: 30px; }
+    .tag {
+      padding: 5px 7px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font: 500 9px var(--mono);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+    .tag.live { color: var(--sync); border-color: rgba(77,184,168,.45); }
+    .tag.build { color: var(--amber); border-color: rgba(232,161,61,.45); }
+    .tag.cache { color: var(--amber); border-color: rgba(232,161,61,.45); opacity: 0; transition: opacity .2s ease; }
+    body.offline .tag.cache { opacity: 1; }
+
+    .project-number { margin-left: auto; color: var(--faint); font: 500 10px var(--mono); }
+    .featured-copy h3 {
+      max-width: 620px;
+      margin-bottom: 18px;
+      font-size: clamp(31px, 4.8vw, 52px);
+      line-height: 1.03;
+      letter-spacing: -.048em;
+    }
+    .featured-copy > p { max-width: 590px; color: var(--muted); line-height: 1.7; font-size: 15px; }
+    .project-specs {
+      margin-top: auto;
+      padding-top: 32px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      border-top: 1px solid var(--line);
+    }
+    .project-specs dt { color: var(--faint); font: 500 9px var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+    .project-specs dd { margin: 7px 0 0; color: var(--text); font-size: 12px; line-height: 1.5; }
+    .project-link {
+      margin-top: 30px;
+      width: fit-content;
+      color: var(--amber);
+      text-decoration: none;
+      font: 600 11px var(--mono);
+    }
+    .project-link span { display: inline-block; transition: transform .2s ease; }
+    .project-link:hover span { transform: translateX(4px); }
+
+    .project-visual {
+      position: relative;
+      min-height: 420px;
+      padding: 34px;
+      border-left: 1px solid var(--line);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background:
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px),
+        #0f141b;
+      background-size: 24px 24px;
+    }
+    .project-visual::before {
+      content: "SYSTEM TOPOLOGY / 01";
+      position: absolute;
+      top: 17px;
+      left: 18px;
+      color: var(--faint);
+      font: 500 8px var(--mono);
+      letter-spacing: .1em;
+    }
+    .topology {
+      width: min(100%, 420px);
+      display: grid;
+      grid-template-columns: 1fr 40px 1fr;
+      gap: 10px;
+      align-items: center;
+    }
+    .node {
+      padding: 18px 14px;
+      border: 1px solid var(--line);
+      background: rgba(19,24,33,.88);
+    }
+    .node.primary { border-color: rgba(232,161,61,.68); }
+    .node.sync-node { border-color: rgba(77,184,168,.68); }
+    .node strong { display: block; margin-bottom: 6px; font-size: 12px; }
+    .node span { color: var(--faint); font: 500 9px/1.6 var(--mono); }
+    .route { height: 1px; background: var(--faint); position: relative; }
+    .route::after { content: ""; position: absolute; right: -1px; top: -3px; border-left: 5px solid var(--faint); border-top: 3px solid transparent; border-bottom: 3px solid transparent; }
+    .route.offline-route { background: repeating-linear-gradient(90deg, var(--amber) 0 4px, transparent 4px 8px); }
+    .route.offline-route::after { border-left-color: var(--amber); }
+    .topology-stack { display: grid; gap: 10px; }
+    .topology-caption { grid-column: 1 / -1; margin-top: 12px; text-align: center; color: var(--faint); font: 500 9px var(--mono); }
+
+    .supporting-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 14px; }
+    .work-card {
+      min-height: 320px;
+      padding: 28px;
+      border: 1px solid var(--line);
+      background: rgba(19,24,33,.92);
+      display: flex;
+      flex-direction: column;
+      transition: transform .2s ease, border-color .2s ease, filter .2s ease;
+    }
+    .work-card:hover { transform: translateY(-2px); border-color: #3d4655; }
+    body.offline .network-reactive { filter: saturate(.5) brightness(.86); }
+    .work-card h3 { margin: 24px 0 12px; font-size: clamp(22px, 2.5vw, 30px); line-height: 1.08; letter-spacing: -.035em; }
+    .work-card p { color: var(--muted); font-size: 13px; line-height: 1.7; }
+    .work-card footer { margin-top: auto; padding-top: 26px; display: flex; justify-content: space-between; align-items: end; gap: 16px; }
+    .stack { color: var(--faint); font: 500 9px/1.65 var(--mono); }
+    .status { color: var(--sync); font: 600 9px var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+
+    .lab { padding: 0 0 110px; }
+    .lab-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+    .lab-item {
+      min-height: 190px;
+      padding: 24px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: rgba(10,13,18,.55);
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 16px;
+      transition: background .2s ease;
+    }
+    .lab-item:hover { background: rgba(19,24,33,.82); }
+    .lab-index { color: var(--faint); font: 500 9px var(--mono); }
+    .lab-item h3 { margin-bottom: 10px; font-size: 17px; letter-spacing: -.02em; }
+    .lab-item p { margin-bottom: 18px; color: var(--muted); font-size: 12px; line-height: 1.65; }
+    .lab-item .mono { color: var(--faint); font-size: 9px; line-height: 1.6; }
+
+    .credibility {
+      margin-bottom: 110px;
+      padding: 28px 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .credibility div { min-height: 90px; padding: 0 22px; border-right: 1px solid var(--line); display: flex; flex-direction: column; justify-content: space-between; }
+    .credibility div:first-child { padding-left: 0; }
+    .credibility div:last-child { border-right: 0; }
+    .credibility small { color: var(--faint); font: 500 9px var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+    .credibility strong { font-size: 14px; line-height: 1.45; font-weight: 600; }
+
+    .signal-log { padding-bottom: 110px; }
+    .log-list { border-top: 1px solid var(--line); }
+    .log-row {
+      min-height: 126px;
+      display: grid;
+      grid-template-columns: 110px minmax(0, 1fr) 130px;
+      gap: 28px;
+      align-items: center;
+      border-bottom: 1px solid var(--line);
+      text-decoration: none;
+      transition: background .2s ease, padding .2s ease;
+    }
+    .log-row:hover { background: rgba(19,24,33,.5); padding-inline: 12px; }
+    .log-date { color: var(--faint); font: 500 9px var(--mono); letter-spacing: .08em; }
+    .log-title { font-size: clamp(17px, 2.2vw, 22px); font-weight: 650; letter-spacing: -.025em; }
+    .log-meta { justify-self: end; color: var(--sync); font: 500 9px var(--mono); text-align: right; line-height: 1.6; }
+
+    .contact-band {
+      margin-bottom: 90px;
+      border: 1px solid var(--line);
+      background: linear-gradient(135deg, rgba(232,161,61,.07), rgba(77,184,168,.045) 58%, rgba(19,24,33,.92));
+      padding: clamp(28px, 5vw, 54px);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 36px;
+      align-items: end;
+    }
+    .contact-band h2 { max-width: 720px; margin-bottom: 14px; font-size: clamp(30px, 5vw, 52px); line-height: 1.04; letter-spacing: -.045em; }
+    .contact-band p { max-width: 640px; color: var(--muted); font-size: 14px; line-height: 1.7; margin-bottom: 0; }
+    .contact-actions { display: grid; gap: 10px; min-width: 190px; }
+
+    .footer { border-top: 1px solid var(--line-soft); padding: 32px 0 40px; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; color: var(--faint); font: 500 9px var(--mono); }
+    .footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+    .footer a { text-decoration: none; }
+    .footer a:hover { color: var(--sync); }
+
+    .toast-wrap {
+      position: fixed;
+      z-index: 150;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%);
+      display: grid;
+      gap: 8px;
+      width: min(92vw, 430px);
+      pointer-events: none;
+    }
+    .toast {
+      border: 1px solid var(--sync);
+      background: rgba(13,18,24,.96);
+      padding: 12px 14px;
+      box-shadow: 0 14px 40px rgba(0,0,0,.35);
+      color: var(--text);
+      font: 500 10px var(--mono);
+      animation: toast-in .22s ease both;
+    }
+    .toast.error { border-color: var(--danger); }
+
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .4; } }
+    @keyframes toast-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 980px) {
+      .availability { display: none; }
+      .hero { grid-template-columns: 1fr; gap: 48px; padding-top: 86px; }
+      .hero-aside { grid-template-columns: repeat(3, minmax(0,1fr)); border-left: 0; border-top: 1px solid var(--line); padding: 22px 0 0; gap: 18px; }
+      .telemetry-body { grid-template-columns: 1fr; }
+      .featured-project { grid-template-columns: 1fr; }
+      .project-visual { border-left: 0; border-top: 1px solid var(--line); min-height: 360px; }
+      .credibility { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .credibility div:nth-child(2) { border-right: 0; }
+      .credibility div:nth-child(-n+2) { padding-bottom: 24px; margin-bottom: 24px; border-bottom: 1px solid var(--line); }
+      .credibility div:nth-child(3) { padding-left: 0; }
+    }
+
+    @media (max-width: 760px) {
+      .shell { width: min(calc(100% - 28px), var(--content)); }
+      .topbar { grid-template-columns: 1fr auto; min-height: 64px; }
+      .desktop-nav { display: none; }
+      .top-actions { gap: 7px; }
+      .menu-toggle { display: inline-flex; }
+      .net-toggle { min-width: 38px; padding-inline: 10px; }
+      .net-toggle .toggle-label { display: none; }
+      .hero { padding: 70px 0 56px; }
+      .hero h1 { font-size: clamp(42px, 13vw, 66px); }
+      .hero-aside { grid-template-columns: 1fr; }
+      .hero-fact { grid-template-columns: 90px 1fr; align-items: start; }
+      .section-rule { align-items: end; }
+      .telemetry { margin-bottom: 86px; }
+      .telemetry-head { grid-template-columns: auto 1fr; }
+      .telemetry-title { display: none; }
+      .telemetry-body { padding: 24px; gap: 30px; }
+      .metrics { grid-template-columns: 1fr 1fr; }
+      .featured-copy { padding: 28px 22px; }
+      .project-specs { grid-template-columns: 1fr; }
+      .project-visual { padding: 26px 18px; }
+      .topology { grid-template-columns: 1fr; width: min(100%, 330px); }
+      .route { width: 1px; height: 25px; justify-self: center; background: var(--faint); }
+      .route::after { right: -3px; top: auto; bottom: -1px; border-left: 3px solid transparent; border-right: 3px solid transparent; border-top: 5px solid var(--faint); border-bottom: 0; }
+      .route.offline-route { background: repeating-linear-gradient(180deg, var(--amber) 0 4px, transparent 4px 8px); }
+      .route.offline-route::after { border-top-color: var(--amber); border-left-color: transparent; }
+      .supporting-grid, .lab-grid { grid-template-columns: 1fr; }
+      .lab-item { min-height: 0; }
+      .selected-work, .lab, .signal-log { padding-bottom: 86px; }
+      .credibility { margin-bottom: 86px; }
+      .log-row { grid-template-columns: 78px 1fr; gap: 14px; padding: 22px 0; }
+      .log-meta { grid-column: 2; justify-self: start; text-align: left; }
+      .contact-band { grid-template-columns: 1fr; }
+      .contact-actions { min-width: 0; grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 500px) {
+      .brand { font-size: 10px; }
+      .hero-actions .btn { flex: 1 1 100%; }
+      .metrics { grid-template-columns: 1fr; }
+      .metric { min-height: 78px; }
+      .project-meta { align-items: flex-start; }
+      .project-number { width: 100%; margin-left: 0; }
+      .credibility { grid-template-columns: 1fr; }
+      .credibility div,
+      .credibility div:nth-child(3) { padding: 18px 0; margin: 0; border-right: 0; border-bottom: 1px solid var(--line); }
+      .credibility div:first-child { padding-top: 0; }
+      .credibility div:last-child { border-bottom: 0; padding-bottom: 0; }
+      .contact-actions { grid-template-columns: 1fr; }
+      .mobile-meta { flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .001ms !important;
+      }
+    }
+  </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Seruyange Joseph",
+    "jobTitle": "Full-stack and Mobile Engineer",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Kampala",
+      "addressCountry": "UG"
+    },
+    "sameAs": [
+      "https://github.com/seruyange-jojo",
+      "https://www.linkedin.com/in/seruyange-joseph/"
+    ]
   }
-  .corner-box::before{ top:8px; left:8px; border-top:1px solid #525a6b; border-left:1px solid #525a6b; }
-  .corner-box::after{ bottom:8px; right:8px; border-bottom:1px solid #525a6b; border-right:1px solid #525a6b; }
-</style>
+  </script>
 </head>
-<body class="font-sans bg-[#0b0e13] text-[#eef0ea]">
 
-<div class="navbar bg-[#0b0e13]/85 backdrop-blur-md border-b border-soft sticky top-0 z-50 px-4 md:px-8 max-w-6xl mx-auto">
-  <div class="flex-1 flex items-center gap-3 font-mono font-semibold text-[14px]">
-    <span class="relative w-[22px] h-[22px] rounded-full border border-[#262d3a] flex-shrink-0">
-      <span class="absolute inset-[5px] rounded-full bg-[#4db8a8] animate-pulse"></span>
-    </span>
-    <a href="index.html">SERUYANGE JOSEPH</a>
-  </div>
-  <div class="hidden md:flex gap-9 font-mono text-[12.5px] text-[#eef0ea]/60">
-    <a href="index.html#work" class="text-[#e8a13d]">Work</a>
-    <a href="blog.html" class="hover:text-[#eef0ea] transition-colors">Signal Log</a>
-    <a href="about.html" class="hover:text-[#eef0ea] transition-colors">About</a>
-    <a href="about.html#contact" class="hover:text-[#eef0ea] transition-colors">Contact</a>
-  </div>
-  <div class="flex items-center gap-2.5">
-    <span class="hidden sm:inline-flex items-center gap-1.5 font-mono text-[10.5px] tracking-wide text-[#e8a13d] border border-[#e8a13d]/40 rounded-full px-2.5 py-1">OPEN TO REMOTE ROLES</span>
-    <button id="netToggle" class="btn btn-xs rounded-full border-[#4db8a8] text-[#4db8a8] bg-transparent font-mono gap-2 normal-case">
-      <span class="w-[10px] h-[10px] rounded-full bg-[#4db8a8] relative" id="netSwitch">
-        <span class="absolute w-[7px] h-[7px] bg-[#0b0e13] rounded-full top-[1.5px] right-[1.5px]" id="netKnob"></span>
-      </span>
-      <span id="netToggleLabel">ONLINE</span>
-    </button>
-  </div>
-</div>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
 
-<main class="max-w-6xl mx-auto px-4 md:px-8">
+  <header class="topbar-wrap">
+    <div class="shell topbar">
+      <a class="brand" href="index.html" aria-label="Seruyange Joseph home">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>SERUYANGE / JOSEPH</span>
+      </a>
 
-  <section class="pt-20">
-    <div class="font-mono text-[12px] tracking-[0.14em] text-[#e8a13d] mb-7 flex items-center gap-2.5">
-      <span class="w-[26px] h-px bg-[#e8a13d]"></span>FULL-STACK &amp; MOBILE ENGINEER — KAMPALA, UG
-    </div>
-    <h1 class="font-extrabold text-[38px] md:text-[58px] leading-[1.08] tracking-[-0.02em] max-w-4xl mb-7">
-      I build for the network you <span class="line-through decoration-2 text-[#eef0ea]/35">assume</span> <span class="text-[#e8a13d]">actually have.</span>
-    </h1>
-    <p class="text-[#eef0ea]/60 text-lg max-w-xl mb-11 leading-relaxed">
-      Offline-first apps, distributed systems, and infrastructure that keeps working when connectivity, power, or the device can't be trusted.
-      Available now for remote roles. Flutter · Go · Spring Boot · PostgreSQL · React.
-    </p>
-    <div class="flex gap-4 flex-wrap mb-16">
-      <a href="#work" class="btn bg-[#e8a13d] text-[#1a1206] border-none hover:bg-[#f2ae4d] font-mono text-xs normal-case">View case studies →</a>
-      <a href="blog.html" class="btn btn-outline border-[#262d3a] text-[#eef0ea] hover:border-[#4db8a8] hover:text-[#4db8a8] font-mono text-xs normal-case">Read the signal log</a>
-    </div>
+      <nav class="desktop-nav" aria-label="Primary navigation">
+        <a href="#work" aria-current="page">Work</a>
+        <a href="blog.html">Signal Log</a>
+        <a href="about.html">About</a>
+        <a href="about.html#contact">Contact</a>
+      </nav>
 
-    <!-- SIGNATURE: live network console -->
-    <div class="corner-box rounded-lg border border-[#262d3a] bg-[#11151c] shadow-2xl overflow-hidden mb-24" id="console">
-      <div class="flex items-center justify-between px-5 py-3 border-b border-[#262d3a] bg-black/15">
-        <div class="flex gap-1.5">
-          <span class="w-2 h-2 rounded-full bg-[#262d3a]"></span>
-          <span class="w-2 h-2 rounded-full bg-[#262d3a]"></span>
-          <span class="w-2 h-2 rounded-full bg-[#262d3a]"></span>
-        </div>
-        <span class="font-mono text-[11px] text-[#eef0ea]/40 hidden sm:block">// LIVE — this page runs the same sync model as the projects below</span>
-        <span class="font-mono text-[11px] flex items-center gap-2 text-[#4db8a8]" id="consoleStatusWrap">
-          <span class="w-1.5 h-1.5 rounded-full bg-[#4db8a8] animate-pulse" id="consoleDot"></span>
-          <span id="consoleStatusText">CONNECTED</span>
-        </span>
+      <div class="top-actions">
+        <span class="availability">OPEN TO REMOTE ROLES</span>
+        <button class="net-toggle" id="netToggle" type="button" aria-pressed="false" aria-label="Toggle simulated network state">
+          <span class="switch-dot" aria-hidden="true"></span>
+          <span class="toggle-label" id="netToggleLabel">ONLINE</span>
+        </button>
+        <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="mobilePanel" aria-label="Open menu">☰</button>
       </div>
-      <div class="grid md:grid-cols-[1.3fr_1fr] gap-8 p-7 md:p-9">
-        <div>
-          <p class="text-[14.5px] text-[#eef0ea]/60 max-w-sm mb-4 leading-relaxed">
-            <strong class="text-[#eef0ea]">Try it:</strong> flip the network switch top-right. This page will drop connectivity, queue changes locally, and reconcile the moment it's back — the exact pattern behind the ledger project below.
+    </div>
+
+    <div class="mobile-panel" id="mobilePanel">
+      <div class="shell mobile-panel-inner">
+        <nav class="mobile-links" aria-label="Mobile navigation">
+          <a href="#work"><span>01</span><span>Work</span><span>↘</span></a>
+          <a href="blog.html"><span>02</span><span>Signal Log</span><span>↗</span></a>
+          <a href="about.html"><span>03</span><span>About</span><span>↗</span></a>
+          <a href="about.html#contact"><span>04</span><span>Contact</span><span>↗</span></a>
+        </nav>
+        <div class="mobile-meta">
+          <span>STATUS / AVAILABLE</span>
+          <span>BASE / KAMPALA, UG</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="shell hero" aria-labelledby="hero-title">
+      <div>
+        <div class="eyebrow">Full-stack + mobile engineer / Kampala, UG</div>
+        <h1 id="hero-title">
+          I build for the network you <span class="strike">assume</span> <span class="accent">actually have.</span>
+        </h1>
+        <p class="hero-copy">
+          Offline-first apps, distributed systems and resilient infrastructure for environments where connectivity, power and devices cannot be treated as guaranteed.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#work">Explore selected work <span aria-hidden="true">↘</span></a>
+          <a class="btn btn-quiet" href="case-study.html">Read flagship case study <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+
+      <dl class="hero-aside" aria-label="Professional summary">
+        <div class="hero-fact">
+          <dt>Focus</dt>
+          <dd>Offline-first systems<br>backend + mobile</dd>
+        </div>
+        <div class="hero-fact">
+          <dt>Experience</dt>
+          <dd>3 years production<br>engineering + leadership</dd>
+        </div>
+        <div class="hero-fact">
+          <dt>Availability</dt>
+          <dd class="sync">Open to remote roles</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="shell telemetry corner-box" aria-labelledby="telemetry-title">
+      <div class="telemetry-head">
+        <div class="window-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="telemetry-title">FIELD CONSOLE / NETWORK SIMULATION</div>
+        <div class="console-status" id="consoleStatusWrap">
+          <span class="pulse-dot" id="consoleDot" aria-hidden="true"></span>
+          <span id="consoleStatusText">CONNECTED</span>
+        </div>
+      </div>
+
+      <div class="telemetry-body">
+        <div class="telemetry-intro">
+          <div class="eyebrow">Interactive system demo</div>
+          <h2 id="telemetry-title">The portfolio behaves like the systems I build.</h2>
+          <p>
+            Switch the network offline. Portfolio events begin queuing locally instead of failing. Bring the connection back and the queue reconciles automatically. It is a small browser simulation of the local-first pattern behind the flagship project below.
           </p>
-          <div class="font-mono text-[11.5px] text-[#eef0ea]/40 flex items-center gap-2">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
-            no backend here — this is a client-side simulation of the real thing
+          <div class="console-actions">
+            <button class="console-btn" type="button" id="writeBtn">QUEUE A TEST WRITE</button>
+            <button class="console-btn" type="button" id="toggleMirror">TOGGLE NETWORK</button>
+          </div>
+          <div class="console-note">
+            // Client-side simulation only. No fake backend calls and no data leaves this page.<br>
+            // The interaction exists to demonstrate the engineering model, not to imitate production telemetry.
           </div>
         </div>
-        <div class="grid grid-cols-2 gap-3.5 content-start">
-          <div class="border border-[#262d3a] rounded p-3.5 bg-black/10">
-            <div class="font-mono text-[10px] uppercase tracking-widest text-[#eef0ea]/40 mb-2">Latency</div>
-            <div class="font-mono text-[19px] font-semibold text-[#4db8a8]" id="mLatency">42ms</div>
+
+        <div class="metrics" aria-live="polite">
+          <div class="metric">
+            <div class="metric-label">Latency</div>
+            <div class="metric-value" id="mLatency">42ms</div>
           </div>
-          <div class="border border-[#262d3a] rounded p-3.5 bg-black/10">
-            <div class="font-mono text-[10px] uppercase tracking-widest text-[#eef0ea]/40 mb-2">Signal</div>
-            <div class="font-mono text-[19px] font-semibold text-[#4db8a8]" id="mSignal">▂▄▆█</div>
+          <div class="metric">
+            <div class="metric-label">Signal</div>
+            <div class="metric-value" id="mSignal">▂▄▆█</div>
           </div>
-          <div class="border border-[#262d3a] rounded p-3.5 bg-black/10">
-            <div class="font-mono text-[10px] uppercase tracking-widest text-[#eef0ea]/40 mb-2">Queue depth</div>
-            <div class="font-mono text-[19px] font-semibold text-[#e8a13d]" id="mQueue">0</div>
+          <div class="metric">
+            <div class="metric-label">Queue depth</div>
+            <div class="metric-value amber" id="mQueue">0</div>
           </div>
-          <div class="border border-[#262d3a] rounded p-3.5 bg-black/10">
-            <div class="font-mono text-[10px] uppercase tracking-widest text-[#eef0ea]/40 mb-2">Last sync</div>
-            <div class="font-mono text-[13.5px] font-semibold text-[#4db8a8]" id="mSync">just now</div>
+          <div class="metric">
+            <div class="metric-label">Last sync</div>
+            <div class="metric-value" id="mSync">just now</div>
           </div>
 
-          <div class="col-span-2 border-t border-[#262d3a] pt-5 mt-1">
-            <div class="flex justify-between items-center mb-3.5">
-              <span class="font-mono text-[10px] uppercase tracking-widest text-[#eef0ea]/40">Local write queue</span>
-              <span class="font-mono text-[11.5px] text-[#e8a13d] font-semibold" id="queueCount">0 pending</span>
+          <div class="queue-wrap">
+            <div class="queue-head">
+              <span>Local write queue</span>
+              <span id="queueCount">0 pending</span>
             </div>
-            <div class="flex flex-col gap-2" id="queueItems">
-              <div class="flex items-center gap-3 font-mono text-xs text-[#eef0ea]/50 px-3 py-2.5 border border-[#262d3a] rounded bg-black/10 opacity-50">
-                <span class="badge border border-[#4db8a8] text-[#4db8a8] bg-transparent badge-xs font-mono">SYNCED</span>
-                <span class="flex-1">portfolio.session.start</span>
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="text-[#4db8a8]"><path d="M20 6L9 17l-5-5"/></svg>
+            <div class="queue-list" id="queueItems">
+              <div class="queue-item synced" data-status="synced">
+                <span class="queue-badge">SYNCED</span>
+                <span>portfolio.session.start</span>
+                <span aria-hidden="true">✓</span>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="work" class="pb-16">
-    <div class="flex items-baseline justify-between mb-9 flex-wrap gap-3">
-      <h2 class="text-[26px] font-extrabold tracking-tight">Selected work</h2>
-      <span class="font-mono text-[11.5px] text-[#eef0ea]/40">// shipped work + what's being built next</span>
-    </div>
+    <section class="shell selected-work" id="work" aria-labelledby="work-title">
+      <div class="section-rule">
+        <div>
+          <div class="section-kicker">01 / SELECTED WORK</div>
+          <h2 id="work-title">Evidence before ambition.</h2>
+        </div>
+        <div class="section-kicker">SHIPPED + ACTIVE BUILDS</div>
+      </div>
 
-    <div class="grid md:grid-cols-3 gap-4.5 mb-4">
-
-      <div class="proj-card corner-box card bg-[#11151c] border border-[#262d3a] hover:border-[#e8a13d] transition-colors hover:-translate-y-0.5 relative">
-        <span class="proj-badge absolute top-3.5 right-3.5 badge border border-[#e8a13d] text-[#e8a13d] bg-transparent badge-xs font-mono">queued</span>
-        <div class="card-body p-6 gap-3.5">
-          <div class="flex justify-between items-start gap-2">
-            <span class="font-mono text-[10px] uppercase tracking-widest text-[#4db8a8]">Offline-first · Sync engine</span>
-            <span class="badge border border-[#e8a13d] text-[#e8a13d] bg-transparent badge-xs font-mono whitespace-nowrap">● Building</span>
+      <article class="featured-project corner-box network-reactive">
+        <div class="featured-copy">
+          <div class="project-meta">
+            <span class="tag build">Building</span>
+            <span class="tag">Offline-first</span>
+            <span class="tag">Sync engine</span>
+            <span class="tag cache">Cached locally</span>
+            <span class="project-number">PROJECT / 01</span>
           </div>
-          <h3 class="font-bold text-[17.5px] leading-snug tracking-tight">Mobile Money Ledger for Offline Vendors</h3>
-          <p class="text-[13.5px] text-[#eef0ea]/60 leading-relaxed">A sync engine for small vendors that works fully offline and reconciles automatically once connectivity returns — no assumption of constant internet.</p>
-          <div class="flex flex-wrap gap-1.5">
-            <span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-sm font-mono">Flutter</span>
-            <span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-sm font-mono">Go</span>
-            <span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-sm font-mono">PostgreSQL</span>
-          </div>
-          <a href="case-study.html" class="font-mono text-xs text-[#e8a13d] hover:gap-2.5 flex items-center gap-1.5 transition-all mt-1">Follow the build →</a>
+
+          <h3>Mobile Money Ledger for Offline Vendors</h3>
+          <p>
+            A local-first Flutter app and Go synchronization service for small vendors who need to record sales, update stock and reconcile transactions even when connectivity disappears for an entire market day.
+          </p>
+
+          <dl class="project-specs">
+            <div><dt>Constraint</dt><dd>Intermittent or zero connectivity</dd></div>
+            <div><dt>Architecture</dt><dd>Flutter + Drift + Go + PostgreSQL</dd></div>
+            <div><dt>Decision</dt><dd>Local writes first, opportunistic sync</dd></div>
+          </dl>
+
+          <a class="project-link" href="case-study.html">Read the engineering case study <span aria-hidden="true">→</span></a>
         </div>
+
+        <div class="project-visual" aria-label="Simplified offline-first architecture diagram">
+          <div class="topology">
+            <div class="node primary">
+              <strong>Flutter client</strong>
+              <span>Drift / SQLite<br>local writes</span>
+            </div>
+            <div class="route offline-route" aria-hidden="true"></div>
+            <div class="topology-stack">
+              <div class="node">
+                <strong>Sync queue</strong>
+                <span>retry + backoff<br>on device</span>
+              </div>
+              <div class="node sync-node">
+                <strong>Go sync API</strong>
+                <span>conflict check<br>reconciliation</span>
+              </div>
+              <div class="node">
+                <strong>PostgreSQL</strong>
+                <span>server source<br>of truth</span>
+              </div>
+            </div>
+            <div class="topology-caption">WRITE LOCALLY → SYNC WHEN POSSIBLE → RECONCILE</div>
+          </div>
+        </div>
+      </article>
+
+      <div class="supporting-grid">
+        <article class="work-card corner-box">
+          <div class="project-meta">
+            <span class="tag live">Production work</span>
+            <span class="project-number">02</span>
+          </div>
+          <h3>Inventory Platform</h3>
+          <p>
+            Worked from the early stages of a multi-warehouse inventory system across database design, Go APIs, React web interfaces and an offline-first Flutter mobile client.
+          </p>
+          <footer>
+            <div class="stack">GO / REACT / FLUTTER<br>POSTGRESQL</div>
+            <div class="status">Full-stack</div>
+          </footer>
+        </article>
+
+        <article class="work-card corner-box">
+          <div class="project-meta">
+            <span class="tag live">Operational</span>
+            <span class="project-number">03</span>
+          </div>
+          <h3>HR Management System</h3>
+          <p>
+            An independent full-stack HR platform with role-based access, leave workflows, JWT authentication, analytics dashboards and containerised local infrastructure.
+          </p>
+          <footer>
+            <div class="stack">REACT / GO / GIN / GORM<br>POSTGRESQL / DOCKER</div>
+            <a class="project-link" href="https://github.com/seruyange-jojo">GitHub <span aria-hidden="true">↗</span></a>
+          </footer>
+        </article>
+      </div>
+    </section>
+
+    <section class="shell lab" id="lab" aria-labelledby="lab-title">
+      <div class="section-rule">
+        <div>
+          <div class="section-kicker">02 / ENGINEERING LAB</div>
+          <h2 id="lab-title">Experiments have a different job.</h2>
+        </div>
+        <div class="section-kicker">LEARNING IN PUBLIC</div>
       </div>
 
-      <div class="proj-card corner-box card bg-[#11151c] border border-[#262d3a] hover:border-[#e8a13d] transition-colors hover:-translate-y-0.5 relative">
-        <span class="proj-badge absolute top-3.5 right-3.5 badge border border-[#e8a13d] text-[#e8a13d] bg-transparent badge-xs font-mono">queued</span>
-        <div class="card-body p-6 gap-3.5">
-          <div class="flex justify-between items-start gap-2">
-            <span class="font-mono text-[10px] uppercase tracking-widest text-[#4db8a8]">B2B logistics · Technical lead</span>
-            <span class="badge border border-[#e8a13d] text-[#e8a13d] bg-transparent badge-xs font-mono whitespace-nowrap">● Building</span>
+      <div class="lab-grid">
+        <article class="lab-item">
+          <div class="lab-index">L/01</div>
+          <div>
+            <h3>Raft-Lite</h3>
+            <p>A simplified distributed key-value store for working through leader election, replicated writes and the Raft paper in code.</p>
+            <div class="mono">GO / GRPC / CONSENSUS</div>
           </div>
-          <h3 class="font-bold text-[17.5px] leading-snug tracking-tight">Chukuz Rides — Last-Mile Delivery Platform</h3>
-          <p class="text-[13.5px] text-[#eef0ea]/60 leading-relaxed">Defining product and architecture for a B2B platform letting Kampala shops outsource deliveries to on-demand riders. Technical lead on product and system design.</p>
-          <div class="flex flex-wrap gap-1.5">
-            <span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-sm font-mono">Product design</span>
-            <span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-sm font-mono">System architecture</span>
+        </article>
+        <article class="lab-item">
+          <div class="lab-index">L/02</div>
+          <div>
+            <h3>Collaborative Editor</h3>
+            <p>A CRDT-based editing experiment focused on concurrent changes, WebSocket presence and reconnect behaviour.</p>
+            <div class="mono">REACT / GO / YJS / WEBSOCKETS</div>
           </div>
-          <span class="font-mono text-xs text-[#eef0ea]/35 mt-1">Case study coming soon</span>
+        </article>
+        <article class="lab-item">
+          <div class="lab-index">L/03</div>
+          <div>
+            <h3>USSD / SMS Service</h3>
+            <p>A constrained interface experiment for users without smartphones or reliable data plans, with session-based state and telecom APIs.</p>
+            <div class="mono">GO / USSD / AFRICA'S TALKING</div>
+          </div>
+        </article>
+        <article class="lab-item">
+          <div class="lab-index">L/04</div>
+          <div>
+            <h3>Flutter Package</h3>
+            <p>A planned extraction of a reusable offline-first building block from the ledger project, with tests and a production-grade README.</p>
+            <div class="mono">DART / FLUTTER / PACKAGE DESIGN</div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="shell credibility" aria-label="Professional credibility">
+      <div>
+        <small>Current profile</small>
+        <strong>Full-stack + mobile engineer</strong>
+      </div>
+      <div>
+        <small>Leadership</small>
+        <strong>Former CTO & Head of Software Engineering</strong>
+      </div>
+      <div>
+        <small>International work</small>
+        <strong>Client-facing QA + cross-border delivery</strong>
+      </div>
+      <div>
+        <small>Base</small>
+        <strong>Kampala, Uganda<br><span class="sync">Open to remote roles</span></strong>
+      </div>
+    </section>
+
+    <section class="shell signal-log" aria-labelledby="log-title">
+      <div class="section-rule">
+        <div>
+          <div class="section-kicker">03 / SIGNAL LOG</div>
+          <h2 id="log-title">Notes from the build.</h2>
         </div>
+        <a class="project-link" href="blog.html">View all entries <span aria-hidden="true">→</span></a>
       </div>
 
-      <div class="proj-card corner-box card bg-[#11151c] border border-[#262d3a] hover:border-[#e8a13d] transition-colors hover:-translate-y-0.5 relative">
-        <span class="proj-badge absolute top-3.5 right-3.5 badge border border-[#e8a13d] text-[#e8a13d] bg-transparent badge-xs font-mono">queued</span>
-        <div class="card-body p-6 gap-3.5">
-          <div class="flex justify-between items-start gap-2">
-            <span class="font-mono text-[10px] uppercase tracking-widest text-[#4db8a8]">Full-stack · HR platform</span>
-            <span class="badge border border-[#4db8a8] text-[#4db8a8] bg-transparent badge-xs font-mono whitespace-nowrap">● Operational</span>
-          </div>
-          <h3 class="font-bold text-[17.5px] leading-snug tracking-tight">HRMS — HR Management System</h3>
-          <p class="text-[13.5px] text-[#eef0ea]/60 leading-relaxed">Independent full-stack HR system with role-based access, leave workflows, JWT auth, and analytics dashboards — containerised with Docker Compose.</p>
-          <div class="flex flex-wrap gap-1.5">
-            <span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-sm font-mono">React</span>
-            <span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-sm font-mono">Go</span>
-            <span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-sm font-mono">Gin</span>
-            <span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-sm font-mono">GORM</span>
-            <span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-sm font-mono">PostgreSQL</span>
-          </div>
-          <a href="https://github.com/seruyange-jojo" class="font-mono text-xs text-[#e8a13d] hover:gap-2.5 flex items-center gap-1.5 transition-all mt-1">View on GitHub →</a>
-        </div>
+      <div class="log-list">
+        <a class="log-row" href="blog.html">
+          <div class="log-date">MAR / 2026</div>
+          <div class="log-title">Why offline-first is harder than it sounds: conflict resolution for a mobile money ledger</div>
+          <div class="log-meta">OFFLINE-FIRST<br>6 MIN READ</div>
+        </a>
+        <a class="log-row" href="blog.html">
+          <div class="log-date">FEB / 2026</div>
+          <div class="log-title">Six months as a first-time CTO: what actually changed day to day</div>
+          <div class="log-meta">LEADERSHIP<br>8 MIN READ</div>
+        </a>
+        <a class="log-row" href="blog.html">
+          <div class="log-date">JAN / 2026</div>
+          <div class="log-title">What I'm learning building Raft-lite in Go</div>
+          <div class="log-meta">DISTRIBUTED SYSTEMS<br>7 MIN READ</div>
+        </a>
       </div>
+    </section>
 
+    <section class="shell contact-band corner-box" aria-labelledby="contact-title">
+      <div>
+        <div class="eyebrow">Available for the next serious build</div>
+        <h2 id="contact-title">Need an engineer who thinks about the failure case before the happy path?</h2>
+        <p>
+          I am currently open to remote full-stack, backend, mobile and technical leadership opportunities. If the problem involves unreliable networks, constrained devices or systems that need to keep working when assumptions break, I would especially like to hear about it.
+        </p>
+      </div>
+      <div class="contact-actions">
+        <a class="btn btn-primary" href="mailto:seruyangejoseph9@gmail.com">Start a conversation</a>
+        <a class="btn btn-quiet" href="about.html">More about me</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="shell footer-inner">
+      <div>© 2026 SERUYANGE JOSEPH / KAMPALA, UG</div>
+      <div class="footer-links">
+        <a href="https://github.com/seruyange-jojo">GitHub</a>
+        <a href="https://www.linkedin.com/in/seruyange-joseph/">LinkedIn</a>
+        <a href="blog.html">Signal Log</a>
+        <a href="about.html">About</a>
+      </div>
     </div>
+  </footer>
 
-    <div class="grid md:grid-cols-3 sm:grid-cols-2 gap-3.5 mt-4">
+  <div class="toast-wrap" id="toastWrap" aria-live="polite" aria-atomic="true"></div>
 
-      <div class="card bg-[#11151c] border border-[#262d3a] p-4.5">
-        <div class="flex justify-between items-start mb-2 gap-2">
-          <h4 class="font-bold text-[14.5px] tracking-tight">Raft-Lite</h4>
-          <span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-xs font-mono whitespace-nowrap">○ Planned</span>
-        </div>
-        <p class="text-[12.5px] text-[#eef0ea]/55 leading-relaxed mb-2">A simplified 3-node distributed key-value store — leader election and replicated writes, built from the actual Raft paper.</p>
-        <div class="flex gap-1.5 flex-wrap"><span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-xs font-mono">Go</span><span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-xs font-mono">gRPC</span></div>
-      </div>
+  <script>
+    const body = document.body;
+    const netToggle = document.getElementById('netToggle');
+    const netLabel = document.getElementById('netToggleLabel');
+    const toggleMirror = document.getElementById('toggleMirror');
+    const writeBtn = document.getElementById('writeBtn');
+    const consoleStatusWrap = document.getElementById('consoleStatusWrap');
+    const consoleDot = document.getElementById('consoleDot');
+    const consoleStatusText = document.getElementById('consoleStatusText');
+    const mLatency = document.getElementById('mLatency');
+    const mSignal = document.getElementById('mSignal');
+    const mQueue = document.getElementById('mQueue');
+    const mSync = document.getElementById('mSync');
+    const queueItems = document.getElementById('queueItems');
+    const queueCount = document.getElementById('queueCount');
+    const toastWrap = document.getElementById('toastWrap');
+    const menuToggle = document.getElementById('menuToggle');
+    const mobilePanel = document.getElementById('mobilePanel');
 
-      <div class="card bg-[#11151c] border border-[#262d3a] p-4.5">
-        <div class="flex justify-between items-start mb-2 gap-2">
-          <h4 class="font-bold text-[14.5px] tracking-tight">Real-Time Collaborative Editor</h4>
-          <span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-xs font-mono whitespace-nowrap">○ Planned</span>
-        </div>
-        <p class="text-[12.5px] text-[#eef0ea]/55 leading-relaxed mb-2">A mini Google Docs — CRDT-based concurrent editing, WebSocket presence, and reconnection handling.</p>
-        <div class="flex gap-1.5 flex-wrap"><span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-xs font-mono">React</span><span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-xs font-mono">Go</span><span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-xs font-mono">Yjs</span></div>
-      </div>
+    let online = true;
+    let pendingWrites = [];
+    let writeSequence = 0;
+    let liveTimer = null;
 
-      <div class="card bg-[#11151c] border border-[#262d3a] p-4.5">
-        <div class="flex justify-between items-start mb-2 gap-2">
-          <h4 class="font-bold text-[14.5px] tracking-tight">Flutter Package</h4>
-          <span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-xs font-mono whitespace-nowrap">○ Planned</span>
-        </div>
-        <p class="text-[12.5px] text-[#eef0ea]/55 leading-relaxed mb-2">A published pub.dev package solving a real gap hit while building the offline-first ledger — full test coverage, real README.</p>
-        <div class="flex gap-1.5 flex-wrap"><span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-xs font-mono">Dart</span><span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-xs font-mono">Flutter</span></div>
-      </div>
+    const writeNames = [
+      'ledger.entry.write',
+      'case_study.view',
+      'portfolio.signal.ping',
+      'project.card.inspect',
+      'contact.intent.save'
+    ];
 
-      <div class="card bg-[#11151c] border border-[#262d3a] p-4.5">
-        <div class="flex justify-between items-start mb-2 gap-2">
-          <h4 class="font-bold text-[14.5px] tracking-tight">USSD/SMS Service</h4>
-          <span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-xs font-mono whitespace-nowrap">○ Planned</span>
-        </div>
-        <p class="text-[12.5px] text-[#eef0ea]/55 leading-relaxed mb-2">A USSD flow for users with no smartphone or data plan — session-based state design, telecom-adjacent APIs.</p>
-        <div class="flex gap-1.5 flex-wrap"><span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-xs font-mono">Go</span><span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-xs font-mono">Africa's Talking API</span></div>
-      </div>
+    function showToast(message, isError = false) {
+      const toast = document.createElement('div');
+      toast.className = 'toast' + (isError ? ' error' : '');
+      toast.textContent = message;
+      toastWrap.appendChild(toast);
+      window.setTimeout(() => toast.remove(), 2800);
+    }
 
-      <div class="card bg-[#11151c] border border-[#262d3a] p-4.5">
-        <div class="flex justify-between items-start mb-2 gap-2">
-          <h4 class="font-bold text-[14.5px] tracking-tight">URL Shortener Service</h4>
-          <span class="badge border border-[#4db8a8] text-[#4db8a8] bg-transparent badge-xs font-mono whitespace-nowrap">● Operational</span>
-        </div>
-        <p class="text-[12.5px] text-[#eef0ea]/55 leading-relaxed mb-2">RESTful URL-shortening service with JPA-backed persistence, unique short-code generation, and relational schema constraints.</p>
-        <div class="flex gap-1.5 flex-wrap"><span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-xs font-mono">Java</span><span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-xs font-mono">Spring Boot</span><span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent badge-xs font-mono">PostgreSQL</span></div>
-      </div>
+    function jitterLatency() {
+      mLatency.textContent = online ? `${30 + Math.floor(Math.random() * 42)}ms` : '—';
+    }
 
-    </div>
-  </section>
+    function jitterSignal() {
+      if (!online) {
+        mSignal.textContent = '▁▁▁▁';
+        return;
+      }
+      const bars = ['▂▄▆█', '▃▅▇█', '▁▃▅▇', '▂▅▆█'];
+      mSignal.textContent = bars[Math.floor(Math.random() * bars.length)];
+    }
 
-  <section class="pb-24">
-    <div class="card bg-[#11151c] border border-[#262d3a] flex-row flex-wrap items-center justify-between gap-4 p-7">
-      <p class="text-[14.5px] text-[#eef0ea]/60 max-w-md leading-relaxed">Finishing a BSc in Information Systems, available now for remote roles — and building five more projects in public, one signal log entry at a time.</p>
-      <div class="flex gap-5 font-mono text-[12.5px]">
-        <a href="mailto:seruyangejoseph9@gmail.com" class="link link-hover text-[#e8a13d]">seruyangejoseph9@gmail.com</a>
-        <a href="https://www.linkedin.com/in/seruyange-joseph/" class="link link-hover text-[#e8a13d]">LinkedIn</a>
-      </div>
-    </div>
-  </section>
-</main>
+    function updateQueueUI() {
+      mQueue.textContent = pendingWrites.length;
+      queueCount.textContent = `${pendingWrites.length} pending`;
+    }
 
-<footer class="border-t border-soft py-8">
-  <div class="max-w-6xl mx-auto px-4 md:px-8 flex flex-wrap justify-between items-center gap-3">
-    <p class="font-mono text-[11.5px] text-[#eef0ea]/40">© 2026 SERUYANGE JOSEPH — BUILT WITH TAILWIND + DAISYUI</p>
-    <div class="flex gap-5 font-mono text-[11.5px] text-[#eef0ea]/60">
-      <a href="index.html" class="hover:text-[#4db8a8] transition-colors">Work</a>
-      <a href="blog.html" class="hover:text-[#4db8a8] transition-colors">Signal Log</a>
-      <a href="about.html" class="hover:text-[#4db8a8] transition-colors">About</a>
-      <a href="https://github.com/seruyange-jojo" class="hover:text-[#4db8a8] transition-colors">GitHub</a>
-    </div>
-  </div>
-</footer>
+    function renderPendingWrite(name) {
+      const item = document.createElement('div');
+      item.className = 'queue-item pending';
+      item.dataset.status = 'pending';
+      item.dataset.event = name;
+      item.innerHTML = `
+        <span class="queue-badge">QUEUED</span>
+        <span>${name}</span>
+        <span aria-hidden="true">…</span>`;
+      queueItems.prepend(item);
+      return item;
+    }
 
-<div id="toastWrap" class="toast toast-bottom toast-center z-[100]"></div>
+    function queueWrite(explicitName) {
+      const baseName = explicitName || writeNames[Math.floor(Math.random() * writeNames.length)];
+      writeSequence += 1;
+      const name = `${baseName}.${String(writeSequence).padStart(2, '0')}`;
 
-<script>
-  const body = document.body;
-  const netToggle = document.getElementById('netToggle');
-  const netLabel = document.getElementById('netToggleLabel');
-  const netSwitch = document.getElementById('netSwitch');
-  const netKnob = document.getElementById('netKnob');
-  const consoleDot = document.getElementById('consoleDot');
-  const consoleStatusWrap = document.getElementById('consoleStatusWrap');
-  const consoleStatusText = document.getElementById('consoleStatusText');
-  const mLatency = document.getElementById('mLatency');
-  const mSignal = document.getElementById('mSignal');
-  const mQueue = document.getElementById('mQueue');
-  const mSync = document.getElementById('mSync');
-  const queueItems = document.getElementById('queueItems');
-  const queueCount = document.getElementById('queueCount');
-  const toastWrap = document.getElementById('toastWrap');
+      if (online) {
+        const item = renderPendingWrite(name);
+        item.classList.remove('pending');
+        item.classList.add('synced');
+        item.dataset.status = 'synced';
+        item.querySelector('.queue-badge').textContent = 'SYNCED';
+        item.querySelector('.queue-badge').style.borderColor = 'var(--sync)';
+        item.querySelector('.queue-badge').style.color = 'var(--sync)';
+        item.lastElementChild.textContent = '✓';
+        mSync.textContent = 'just now';
+        showToast('Write reached the server immediately');
+        return;
+      }
 
-  let online = true;
-  let pendingWrites = [];
-  const writeNames = ['ledger.entry.write','ui.theme.set','case_study.view','contact.draft.save','project.card.hover'];
-  let liveTimer = null;
-
-  function showToast(msg, isOffline){
-    const el = document.createElement('div');
-    el.className = 'alert font-mono text-xs ' + (isOffline ? 'bg-[#d9694f]/15 border border-[#d9694f] text-[#eef0ea]' : 'bg-[#4db8a8]/15 border border-[#4db8a8] text-[#eef0ea]');
-    el.textContent = msg;
-    toastWrap.appendChild(el);
-    setTimeout(()=> el.remove(), 2600);
-  }
-
-  function setSwitchColor(cls){
-    netToggle.classList.remove('btn-outline-secondary');
-    netSwitch.className = 'w-[10px] h-[10px] rounded-full relative ' + cls;
-  }
-
-  function jitterLatency(){ mLatency.textContent = online ? (30 + Math.floor(Math.random()*40)) + 'ms' : '—'; }
-  function jitterSignal(){
-    if(!online){ mSignal.textContent = '▁▁▁▁'; return; }
-    const bars = ['▂▄▆█','▃▅▇█','▁▃▅▇','▂▅▆█'];
-    mSignal.textContent = bars[Math.floor(Math.random()*bars.length)];
-  }
-
-  function addQueueItem(){
-    const name = writeNames[Math.floor(Math.random()*writeNames.length)];
-    pendingWrites.push(name);
-    const el = document.createElement('div');
-    el.className = 'flex items-center gap-3 font-mono text-xs text-[#eef0ea]/70 px-3 py-2.5 border border-[#262d3a] rounded bg-black/10';
-    el.setAttribute('data-status', 'pending');
-    el.innerHTML = `<span class="badge border border-[#e8a13d] text-[#e8a13d] bg-transparent badge-xs font-mono">QUEUED</span><span class="flex-1">${name}</span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="opacity-0"><path d="M20 6L9 17l-5-5"/></svg>`;
-    queueItems.prepend(el);
-    updateQueueUI();
-  }
-
-  function updateQueueUI(){
-    mQueue.textContent = pendingWrites.length;
-    queueCount.textContent = pendingWrites.length + ' pending';
-  }
-
-  function syncAll(){
-    const items = Array.from(queueItems.children).filter(el => el.getAttribute('data-status') === 'pending');
-    items.forEach((el, idx) => {
-      setTimeout(()=>{
-        el.classList.add('opacity-50');
-        el.setAttribute('data-status', 'synced');
-        el.querySelector('.badge').className = 'badge border border-[#4db8a8] text-[#4db8a8] bg-transparent badge-xs font-mono';
-        el.querySelector('.badge').textContent = 'SYNCED';
-        el.querySelector('svg').classList.remove('opacity-0');
-        el.querySelector('svg').classList.add('text-[#4db8a8]');
-      }, idx * 220);
-    });
-    const n = pendingWrites.length;
-    pendingWrites = [];
-    setTimeout(()=>{
+      pendingWrites.push(name);
+      renderPendingWrite(name);
       updateQueueUI();
-      mSync.textContent = 'just now';
-      if(n > 0) showToast(`✓ ${n} change${n>1?'s':''} synced to server`, false);
-    }, items.length * 220 + 200);
-  }
+    }
 
-  function goOffline(){
-    online = false;
-    body.classList.add('offline');
-    netLabel.textContent = 'OFFLINE';
-    netToggle.className = 'btn btn-xs rounded-full border-[#d9694f] text-[#d9694f] bg-transparent font-mono gap-2 ml-4 normal-case';
-    setSwitchColor('bg-[#d9694f]');
-    netKnob.style.left = '1.5px'; netKnob.style.right = 'auto';
-    consoleDot.className = 'w-1.5 h-1.5 rounded-full bg-[#d9694f]';
-    consoleStatusWrap.className = 'font-mono text-[11px] flex items-center gap-2 text-[#d9694f]';
-    consoleStatusText.textContent = 'OFFLINE — QUEUING LOCALLY';
-    jitterLatency(); jitterSignal();
-    showToast('⚠ Connection lost — writes now queue locally', true);
-    liveTimer = setInterval(addQueueItem, 1400);
-  }
+    function syncAll() {
+      const pendingElements = Array.from(queueItems.querySelectorAll('[data-status="pending"]'));
+      const total = pendingWrites.length;
 
-  function goOnline(){
-    online = true;
-    body.classList.remove('offline');
-    netLabel.textContent = 'ONLINE';
-    netToggle.className = 'btn btn-xs rounded-full border-[#4db8a8] text-[#4db8a8] bg-transparent font-mono gap-2 ml-4 normal-case';
-    setSwitchColor('bg-[#4db8a8]');
-    netKnob.style.right = '1.5px'; netKnob.style.left = 'auto';
-    consoleDot.className = 'w-1.5 h-1.5 rounded-full bg-[#4db8a8] animate-pulse';
-    consoleStatusWrap.className = 'font-mono text-[11px] flex items-center gap-2 text-[#4db8a8]';
-    consoleStatusText.textContent = 'CONNECTED';
-    clearInterval(liveTimer);
-    jitterLatency(); jitterSignal();
-    syncAll();
-  }
+      pendingElements.forEach((item, index) => {
+        window.setTimeout(() => {
+          item.classList.remove('pending');
+          item.classList.add('synced');
+          item.dataset.status = 'synced';
+          const badge = item.querySelector('.queue-badge');
+          badge.textContent = 'SYNCED';
+          badge.style.borderColor = 'var(--sync)';
+          badge.style.color = 'var(--sync)';
+          item.lastElementChild.textContent = '✓';
+        }, index * 170);
+      });
 
-  netToggle.addEventListener('click', () => online ? goOffline() : goOnline());
-  setInterval(()=>{ if(online){ jitterLatency(); jitterSignal(); } }, 2400);
-</script>
+      pendingWrites = [];
+      window.setTimeout(() => {
+        updateQueueUI();
+        mSync.textContent = 'just now';
+        if (total > 0) showToast(`Synced ${total} queued write${total === 1 ? '' : 's'}`);
+      }, pendingElements.length * 170 + 120);
+    }
+
+    function goOffline() {
+      if (!online) return;
+      online = false;
+      body.classList.add('offline');
+      netToggle.classList.add('offline');
+      netToggle.setAttribute('aria-pressed', 'true');
+      netLabel.textContent = 'OFFLINE';
+      consoleStatusWrap.style.color = 'var(--danger)';
+      consoleDot.style.animation = 'none';
+      consoleStatusText.textContent = 'OFFLINE / LOCAL QUEUE';
+      jitterLatency();
+      jitterSignal();
+      showToast('Connection dropped. Writes now queue locally.', true);
+      liveTimer = window.setInterval(() => queueWrite(), 2400);
+    }
+
+    function goOnline() {
+      if (online) return;
+      online = true;
+      body.classList.remove('offline');
+      netToggle.classList.remove('offline');
+      netToggle.setAttribute('aria-pressed', 'false');
+      netLabel.textContent = 'ONLINE';
+      consoleStatusWrap.style.color = 'var(--sync)';
+      consoleDot.style.animation = '';
+      consoleStatusText.textContent = 'CONNECTED';
+      window.clearInterval(liveTimer);
+      jitterLatency();
+      jitterSignal();
+      syncAll();
+    }
+
+    function toggleNetwork() {
+      online ? goOffline() : goOnline();
+    }
+
+    netToggle.addEventListener('click', toggleNetwork);
+    toggleMirror.addEventListener('click', toggleNetwork);
+    writeBtn.addEventListener('click', () => queueWrite('manual.test.write'));
+
+    menuToggle.addEventListener('click', () => {
+      const isOpen = mobilePanel.classList.toggle('open');
+      menuToggle.setAttribute('aria-expanded', String(isOpen));
+      menuToggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+      menuToggle.textContent = isOpen ? '×' : '☰';
+    });
+
+    mobilePanel.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobilePanel.classList.remove('open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle.setAttribute('aria-label', 'Open menu');
+        menuToggle.textContent = '☰';
+      });
+    });
+
+    window.setInterval(() => {
+      if (online) {
+        jitterLatency();
+        jitterSignal();
+      }
+    }, 2400);
+  </script>
 </body>
 </html>

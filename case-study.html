@@ -1,217 +1,951 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="signal">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Build Log — Offline-First Mobile Money Ledger</title>
-<meta name="description" content="Build log: an offline-first Flutter + Go sync engine letting Kampala vendors record mobile money sales offline and reconcile automatically when connectivity returns.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script>
-  tailwind.config = { theme: { extend: { fontFamily: {
-    mono: ['IBM Plex Mono','ui-monospace','monospace'],
-    sans: ['Inter','system-ui','sans-serif']
-  }}}}
-</script>
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://cdn.jsdelivr.net/npm/daisyui@4/dist/full.min.css" rel="stylesheet" type="text/css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a0d12"><meta name="color-scheme" content="dark">
+  <title>Build Log | Offline-First Mobile Money Ledger</title>
+  <meta name="description" content="Engineering case study for an offline-first Flutter and Go ledger designed to record and reconcile sales through unreliable connectivity.">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #0a0d12;
+      --ink-2: #0f131a;
+      --surface: #131821;
+      --surface-2: #171d27;
+      --line: #262e3a;
+      --line-soft: #1b222d;
+      --text: #eef1eb;
+      --muted: #9aa3b2;
+      --faint: #697384;
+      --amber: #e8a13d;
+      --amber-soft: rgba(232, 161, 61, .12);
+      --sync: #4db8a8;
+      --sync-soft: rgba(77, 184, 168, .12);
+      --danger: #d9694f;
+      --danger-soft: rgba(217, 105, 79, .12);
+      --content: 1180px;
+      --radius: 4px;
+      --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
 
-<style>
-  [data-theme="signal"]{
-    --p:#e8a13d; --pc:#1a1206; --s:#4db8a8; --sc:#0c1a18; --a:#4db8a8; --ac:#0c1a18;
-    --n:#171c25; --nc:#eef0ea; --b1:#0b0e13; --b2:#11151c; --b3:#171c25; --bc:#eef0ea;
-  }
-  body{ background-image:radial-gradient(circle, #232a37 1px, transparent 1px); background-size:26px 26px; }
-  ::selection{ background:#e8a13d; color:#0e0900; }
-  .diagram-grid{ background-image:linear-gradient(#262d3a 1px, transparent 1px), linear-gradient(90deg, #262d3a 1px, transparent 1px); background-size:20px 20px; }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background: var(--ink);
+      font-family: var(--sans);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
 
-  /* ---- polish pass: force sharp radius (daisyUI defaults are too round for this design) ---- */
-  [data-theme="signal"]{
-    --rounded-box: 0.125rem; --rounded-btn: 0.125rem; --rounded-badge: 0.125rem;
-    --tab-radius: 0.125rem;
-  }
-  /* ---- two-tier border system: soft for chrome (nav/footer), full for content ---- */
-  .border-soft{ border-color:#1c222c !important; }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px),
+        radial-gradient(circle at 72% 0%, rgba(77,184,168,.055), transparent 28rem),
+        radial-gradient(circle at 18% 26%, rgba(232,161,61,.045), transparent 24rem);
+      background-size: 32px 32px, 32px 32px, auto, auto;
+    }
 
-  /* ---- signature corner registration marks ---- */
-  .corner-box{ position:relative; }
-  .corner-box::before, .corner-box::after{
-    content:""; position:absolute; width:9px; height:9px; pointer-events:none;
-  }
-  .corner-box::before{ top:8px; left:8px; border-top:1px solid #525a6b; border-left:1px solid #525a6b; }
-  .corner-box::after{ bottom:8px; right:8px; border-bottom:1px solid #525a6b; border-right:1px solid #525a6b; }
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: .16;
+      background-image: radial-gradient(rgba(255,255,255,.22) .55px, transparent .55px);
+      background-size: 5px 5px;
+      mix-blend-mode: soft-light;
+    }
+
+    ::selection { background: var(--amber); color: #150e03; }
+    a { color: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    button { font: inherit; }
+
+    :focus-visible {
+      outline: 2px solid var(--amber);
+      outline-offset: 4px;
+      border-radius: 2px;
+    }
+
+    .skip-link {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 200;
+      transform: translateY(-160%);
+      padding: 10px 14px;
+      color: var(--ink);
+      background: var(--amber);
+      font: 600 12px var(--mono);
+      text-decoration: none;
+    }
+    .skip-link:focus { transform: translateY(0); }
+
+    .shell {
+      width: min(calc(100% - 40px), var(--content));
+      margin-inline: auto;
+    }
+
+    .mono { font-family: var(--mono); }
+    .muted { color: var(--muted); }
+    .faint { color: var(--faint); }
+    .amber { color: var(--amber); }
+    .sync { color: var(--sync); }
+
+    .topbar-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10,13,18,.82);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .topbar {
+      min-height: 70px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      width: fit-content;
+      text-decoration: none;
+      font: 600 12px var(--mono);
+      letter-spacing: .045em;
+    }
+
+    .brand-mark {
+      position: relative;
+      width: 20px;
+      height: 20px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      flex: 0 0 auto;
+    }
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      inset: 5px;
+      border-radius: 999px;
+      background: var(--sync);
+      box-shadow: 0 0 0 4px rgba(77,184,168,.06);
+      animation: pulse 2.2s ease-in-out infinite;
+    }
+
+    .desktop-nav {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      font: 500 11px var(--mono);
+      color: var(--muted);
+    }
+    .desktop-nav a {
+      text-decoration: none;
+      padding: 8px 0;
+      transition: color .2s ease;
+    }
+    .desktop-nav a:hover,
+    .desktop-nav a[aria-current="page"] { color: var(--amber); }
+
+    .top-actions {
+      justify-self: end;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .availability {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 30px;
+      padding: 0 10px;
+      border: 1px solid rgba(232,161,61,.34);
+      color: var(--amber);
+      font: 500 9px var(--mono);
+      letter-spacing: .07em;
+      white-space: nowrap;
+    }
+    .availability::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .net-toggle,
+    .menu-toggle {
+      min-height: 36px;
+      border: 1px solid rgba(77,184,168,.45);
+      background: transparent;
+      color: var(--sync);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 11px;
+      font: 600 10px var(--mono);
+      letter-spacing: .04em;
+      transition: background .2s ease, border-color .2s ease, color .2s ease;
+    }
+    .net-toggle:hover { background: var(--sync-soft); border-color: var(--sync); }
+    .net-toggle.offline { color: var(--danger); border-color: rgba(217,105,79,.58); }
+    .net-toggle.offline:hover { background: var(--danger-soft); border-color: var(--danger); }
+
+    .switch-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: currentColor;
+      position: relative;
+      flex: 0 0 auto;
+    }
+    .switch-dot::after {
+      content: "";
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      top: 2.5px;
+      right: 1px;
+      border-radius: 50%;
+      background: var(--ink);
+      transition: transform .2s ease;
+    }
+    .net-toggle.offline .switch-dot::after { transform: translateX(-3px); }
+
+    .menu-toggle { display: none; color: var(--text); border-color: var(--line); width: 40px; padding: 0; }
+
+    .mobile-panel {
+      display: none;
+      border-top: 1px solid var(--line-soft);
+      background: rgba(10,13,18,.98);
+    }
+    .mobile-panel.open { display: block; }
+    .mobile-panel-inner { padding: 20px 0 24px; }
+    .mobile-links { display: grid; }
+    .mobile-links a {
+      display: grid;
+      grid-template-columns: 40px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      min-height: 58px;
+      text-decoration: none;
+      border-bottom: 1px solid var(--line-soft);
+      font-weight: 600;
+    }
+    .mobile-links a span:first-child,
+    .mobile-links a span:last-child { font: 500 10px var(--mono); color: var(--faint); }
+    .mobile-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      margin-top: 20px;
+      color: var(--muted);
+      font: 500 10px var(--mono);
+    }
+
+    .hero {
+      padding: 110px 0 78px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 280px;
+      gap: 72px;
+      align-items: end;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+      color: var(--amber);
+      font: 500 11px var(--mono);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before { content: ""; width: 28px; height: 1px; background: currentColor; }
+
+    h1, h2, h3, p { margin-top: 0; }
+
+    .hero h1 {
+      margin-bottom: 27px;
+      max-width: 850px;
+      font-size: clamp(44px, 7.1vw, 84px);
+      line-height: .98;
+      letter-spacing: -.052em;
+      font-weight: 800;
+    }
+    .hero h1 .strike {
+      color: rgba(238,241,235,.26);
+      text-decoration: line-through;
+      text-decoration-thickness: 2px;
+    }
+    .hero h1 .accent { color: var(--amber); }
+
+    .hero-copy {
+      max-width: 680px;
+      color: var(--muted);
+      font-size: clamp(16px, 2vw, 19px);
+      line-height: 1.7;
+    }
+
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+    .btn {
+      min-height: 44px;
+      padding: 0 17px;
+      border: 1px solid var(--line);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+      font: 600 11px var(--mono);
+      transition: transform .2s ease, border-color .2s ease, background .2s ease, color .2s ease;
+    }
+    .btn:hover { transform: translateY(-1px); border-color: var(--faint); }
+    .btn-primary { background: var(--amber); color: #1a1206; border-color: var(--amber); }
+    .btn-primary:hover { background: #f0ad50; border-color: #f0ad50; }
+    .btn-quiet:hover { color: var(--sync); border-color: var(--sync); background: var(--sync-soft); }
+
+    .hero-aside {
+      border-left: 1px solid var(--line);
+      padding-left: 24px;
+      display: grid;
+      gap: 24px;
+    }
+    .hero-fact { display: grid; gap: 7px; }
+    .hero-fact dt {
+      color: var(--faint);
+      font: 500 9px var(--mono);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .hero-fact dd { margin: 0; color: var(--text); font-size: 13px; line-height: 1.45; }
+    .hero-fact dd.sync { color: var(--sync); }
+
+    .section-rule {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding-bottom: 18px;
+      margin-bottom: 30px;
+      border-bottom: 1px solid var(--line);
+    }
+    .section-rule h2 {
+      margin: 0;
+      font-size: clamp(26px, 3vw, 36px);
+      letter-spacing: -.035em;
+    }
+    .section-kicker { color: var(--faint); font: 500 10px var(--mono); letter-spacing: .08em; }
+
+    .corner-box { position: relative; }
+    .corner-box::before,
+    .corner-box::after {
+      content: "";
+      position: absolute;
+      width: 9px;
+      height: 9px;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .corner-box::before { top: 8px; left: 8px; border-top: 1px solid #596273; border-left: 1px solid #596273; }
+    .corner-box::after { right: 8px; bottom: 8px; border-right: 1px solid #596273; border-bottom: 1px solid #596273; }
+
+    .telemetry {
+      margin-bottom: 116px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(19,24,33,.98), rgba(14,18,25,.98));
+      box-shadow: 0 24px 70px rgba(0,0,0,.24);
+      overflow: hidden;
+    }
+    .telemetry-head {
+      min-height: 46px;
+      padding: 0 18px;
+      border-bottom: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 12px;
+      background: rgba(0,0,0,.14);
+    }
+    .window-dots { display: flex; gap: 6px; }
+    .window-dots i { width: 7px; height: 7px; border-radius: 50%; background: #303845; }
+    .telemetry-title { color: var(--faint); font: 500 9px var(--mono); letter-spacing: .1em; text-align: center; }
+    .console-status { justify-self: end; display: flex; align-items: center; gap: 8px; color: var(--sync); font: 600 10px var(--mono); }
+    .console-status .pulse-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; animation: pulse 2.2s ease-in-out infinite; }
+
+    .telemetry-body {
+      display: grid;
+      grid-template-columns: minmax(0, .92fr) minmax(420px, 1.08fr);
+      gap: 48px;
+      padding: 38px;
+    }
+    .telemetry-intro h2 {
+      max-width: 500px;
+      margin-bottom: 14px;
+      font-size: clamp(24px, 3vw, 34px);
+      line-height: 1.12;
+      letter-spacing: -.035em;
+    }
+    .telemetry-intro p { max-width: 520px; color: var(--muted); line-height: 1.7; font-size: 14px; }
+    .console-note {
+      margin-top: 26px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line-soft);
+      color: var(--faint);
+      font: 500 10px/1.7 var(--mono);
+    }
+    .console-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+    .console-btn {
+      min-height: 38px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      background: rgba(0,0,0,.12);
+      color: var(--text);
+      font: 600 10px var(--mono);
+      cursor: pointer;
+    }
+    .console-btn:hover { border-color: var(--amber); color: var(--amber); }
+
+    .metrics { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .metric {
+      min-height: 92px;
+      padding: 15px;
+      border: 1px solid var(--line);
+      background: rgba(0,0,0,.12);
+    }
+    .metric-label { color: var(--faint); font: 500 9px var(--mono); letter-spacing: .11em; text-transform: uppercase; }
+    .metric-value { margin-top: 12px; color: var(--sync); font: 600 19px var(--mono); }
+    .metric-value.amber { color: var(--amber); }
+
+    .queue-wrap { grid-column: 1 / -1; margin-top: 7px; padding-top: 18px; border-top: 1px solid var(--line); }
+    .queue-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; gap: 12px; }
+    .queue-head span:first-child { color: var(--faint); font: 500 9px var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+    .queue-head span:last-child { color: var(--amber); font: 600 10px var(--mono); }
+    .queue-list { display: grid; gap: 8px; max-height: 162px; overflow: auto; scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
+    .queue-item {
+      min-height: 38px;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 10px;
+      background: rgba(0,0,0,.12);
+      color: var(--muted);
+      font: 500 10px var(--mono);
+    }
+    .queue-badge {
+      padding: 3px 5px;
+      border: 1px solid var(--sync);
+      color: var(--sync);
+      font-size: 8px;
+      letter-spacing: .08em;
+    }
+    .queue-item.pending .queue-badge { border-color: var(--amber); color: var(--amber); }
+    .queue-item.synced { opacity: .56; }
+
+    .selected-work { padding-bottom: 110px; }
+    .featured-project {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(380px, .95fr);
+      min-height: 500px;
+      overflow: hidden;
+    }
+    .featured-copy { padding: clamp(28px, 4vw, 52px); display: flex; flex-direction: column; }
+    .project-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; margin-bottom: 30px; }
+    .tag {
+      padding: 5px 7px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font: 500 9px var(--mono);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+    .tag.live { color: var(--sync); border-color: rgba(77,184,168,.45); }
+    .tag.build { color: var(--amber); border-color: rgba(232,161,61,.45); }
+    .tag.cache { color: var(--amber); border-color: rgba(232,161,61,.45); opacity: 0; transition: opacity .2s ease; }
+    body.offline .tag.cache { opacity: 1; }
+
+    .project-number { margin-left: auto; color: var(--faint); font: 500 10px var(--mono); }
+    .featured-copy h3 {
+      max-width: 620px;
+      margin-bottom: 18px;
+      font-size: clamp(31px, 4.8vw, 52px);
+      line-height: 1.03;
+      letter-spacing: -.048em;
+    }
+    .featured-copy > p { max-width: 590px; color: var(--muted); line-height: 1.7; font-size: 15px; }
+    .project-specs {
+      margin-top: auto;
+      padding-top: 32px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      border-top: 1px solid var(--line);
+    }
+    .project-specs dt { color: var(--faint); font: 500 9px var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+    .project-specs dd { margin: 7px 0 0; color: var(--text); font-size: 12px; line-height: 1.5; }
+    .project-link {
+      margin-top: 30px;
+      width: fit-content;
+      color: var(--amber);
+      text-decoration: none;
+      font: 600 11px var(--mono);
+    }
+    .project-link span { display: inline-block; transition: transform .2s ease; }
+    .project-link:hover span { transform: translateX(4px); }
+
+    .project-visual {
+      position: relative;
+      min-height: 420px;
+      padding: 34px;
+      border-left: 1px solid var(--line);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background:
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px),
+        #0f141b;
+      background-size: 24px 24px;
+    }
+    .project-visual::before {
+      content: "SYSTEM TOPOLOGY / 01";
+      position: absolute;
+      top: 17px;
+      left: 18px;
+      color: var(--faint);
+      font: 500 8px var(--mono);
+      letter-spacing: .1em;
+    }
+    .topology {
+      width: min(100%, 420px);
+      display: grid;
+      grid-template-columns: 1fr 40px 1fr;
+      gap: 10px;
+      align-items: center;
+    }
+    .node {
+      padding: 18px 14px;
+      border: 1px solid var(--line);
+      background: rgba(19,24,33,.88);
+    }
+    .node.primary { border-color: rgba(232,161,61,.68); }
+    .node.sync-node { border-color: rgba(77,184,168,.68); }
+    .node strong { display: block; margin-bottom: 6px; font-size: 12px; }
+    .node span { color: var(--faint); font: 500 9px/1.6 var(--mono); }
+    .route { height: 1px; background: var(--faint); position: relative; }
+    .route::after { content: ""; position: absolute; right: -1px; top: -3px; border-left: 5px solid var(--faint); border-top: 3px solid transparent; border-bottom: 3px solid transparent; }
+    .route.offline-route { background: repeating-linear-gradient(90deg, var(--amber) 0 4px, transparent 4px 8px); }
+    .route.offline-route::after { border-left-color: var(--amber); }
+    .topology-stack { display: grid; gap: 10px; }
+    .topology-caption { grid-column: 1 / -1; margin-top: 12px; text-align: center; color: var(--faint); font: 500 9px var(--mono); }
+
+    .supporting-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 14px; }
+    .work-card {
+      min-height: 320px;
+      padding: 28px;
+      border: 1px solid var(--line);
+      background: rgba(19,24,33,.92);
+      display: flex;
+      flex-direction: column;
+      transition: transform .2s ease, border-color .2s ease, filter .2s ease;
+    }
+    .work-card:hover { transform: translateY(-2px); border-color: #3d4655; }
+    body.offline .network-reactive { filter: saturate(.5) brightness(.86); }
+    .work-card h3 { margin: 24px 0 12px; font-size: clamp(22px, 2.5vw, 30px); line-height: 1.08; letter-spacing: -.035em; }
+    .work-card p { color: var(--muted); font-size: 13px; line-height: 1.7; }
+    .work-card footer { margin-top: auto; padding-top: 26px; display: flex; justify-content: space-between; align-items: end; gap: 16px; }
+    .stack { color: var(--faint); font: 500 9px/1.65 var(--mono); }
+    .status { color: var(--sync); font: 600 9px var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+
+    .lab { padding: 0 0 110px; }
+    .lab-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+    .lab-item {
+      min-height: 190px;
+      padding: 24px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: rgba(10,13,18,.55);
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 16px;
+      transition: background .2s ease;
+    }
+    .lab-item:hover { background: rgba(19,24,33,.82); }
+    .lab-index { color: var(--faint); font: 500 9px var(--mono); }
+    .lab-item h3 { margin-bottom: 10px; font-size: 17px; letter-spacing: -.02em; }
+    .lab-item p { margin-bottom: 18px; color: var(--muted); font-size: 12px; line-height: 1.65; }
+    .lab-item .mono { color: var(--faint); font-size: 9px; line-height: 1.6; }
+
+    .credibility {
+      margin-bottom: 110px;
+      padding: 28px 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .credibility div { min-height: 90px; padding: 0 22px; border-right: 1px solid var(--line); display: flex; flex-direction: column; justify-content: space-between; }
+    .credibility div:first-child { padding-left: 0; }
+    .credibility div:last-child { border-right: 0; }
+    .credibility small { color: var(--faint); font: 500 9px var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+    .credibility strong { font-size: 14px; line-height: 1.45; font-weight: 600; }
+
+    .signal-log { padding-bottom: 110px; }
+    .log-list { border-top: 1px solid var(--line); }
+    .log-row {
+      min-height: 126px;
+      display: grid;
+      grid-template-columns: 110px minmax(0, 1fr) 130px;
+      gap: 28px;
+      align-items: center;
+      border-bottom: 1px solid var(--line);
+      text-decoration: none;
+      transition: background .2s ease, padding .2s ease;
+    }
+    .log-row:hover { background: rgba(19,24,33,.5); padding-inline: 12px; }
+    .log-date { color: var(--faint); font: 500 9px var(--mono); letter-spacing: .08em; }
+    .log-title { font-size: clamp(17px, 2.2vw, 22px); font-weight: 650; letter-spacing: -.025em; }
+    .log-meta { justify-self: end; color: var(--sync); font: 500 9px var(--mono); text-align: right; line-height: 1.6; }
+
+    .contact-band {
+      margin-bottom: 90px;
+      border: 1px solid var(--line);
+      background: linear-gradient(135deg, rgba(232,161,61,.07), rgba(77,184,168,.045) 58%, rgba(19,24,33,.92));
+      padding: clamp(28px, 5vw, 54px);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 36px;
+      align-items: end;
+    }
+    .contact-band h2 { max-width: 720px; margin-bottom: 14px; font-size: clamp(30px, 5vw, 52px); line-height: 1.04; letter-spacing: -.045em; }
+    .contact-band p { max-width: 640px; color: var(--muted); font-size: 14px; line-height: 1.7; margin-bottom: 0; }
+    .contact-actions { display: grid; gap: 10px; min-width: 190px; }
+
+    .footer { border-top: 1px solid var(--line-soft); padding: 32px 0 40px; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; color: var(--faint); font: 500 9px var(--mono); }
+    .footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+    .footer a { text-decoration: none; }
+    .footer a:hover { color: var(--sync); }
+
+    .toast-wrap {
+      position: fixed;
+      z-index: 150;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%);
+      display: grid;
+      gap: 8px;
+      width: min(92vw, 430px);
+      pointer-events: none;
+    }
+    .toast {
+      border: 1px solid var(--sync);
+      background: rgba(13,18,24,.96);
+      padding: 12px 14px;
+      box-shadow: 0 14px 40px rgba(0,0,0,.35);
+      color: var(--text);
+      font: 500 10px var(--mono);
+      animation: toast-in .22s ease both;
+    }
+    .toast.error { border-color: var(--danger); }
+
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .4; } }
+    @keyframes toast-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 980px) {
+      .availability { display: none; }
+      .hero { grid-template-columns: 1fr; gap: 48px; padding-top: 86px; }
+      .hero-aside { grid-template-columns: repeat(3, minmax(0,1fr)); border-left: 0; border-top: 1px solid var(--line); padding: 22px 0 0; gap: 18px; }
+      .telemetry-body { grid-template-columns: 1fr; }
+      .featured-project { grid-template-columns: 1fr; }
+      .project-visual { border-left: 0; border-top: 1px solid var(--line); min-height: 360px; }
+      .credibility { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .credibility div:nth-child(2) { border-right: 0; }
+      .credibility div:nth-child(-n+2) { padding-bottom: 24px; margin-bottom: 24px; border-bottom: 1px solid var(--line); }
+      .credibility div:nth-child(3) { padding-left: 0; }
+    }
+
+    @media (max-width: 760px) {
+      .shell { width: min(calc(100% - 28px), var(--content)); }
+      .topbar { grid-template-columns: 1fr auto; min-height: 64px; }
+      .desktop-nav { display: none; }
+      .top-actions { gap: 7px; }
+      .menu-toggle { display: inline-flex; }
+      .net-toggle { min-width: 38px; padding-inline: 10px; }
+      .net-toggle .toggle-label { display: none; }
+      .hero { padding: 70px 0 56px; }
+      .hero h1 { font-size: clamp(42px, 13vw, 66px); }
+      .hero-aside { grid-template-columns: 1fr; }
+      .hero-fact { grid-template-columns: 90px 1fr; align-items: start; }
+      .section-rule { align-items: end; }
+      .telemetry { margin-bottom: 86px; }
+      .telemetry-head { grid-template-columns: auto 1fr; }
+      .telemetry-title { display: none; }
+      .telemetry-body { padding: 24px; gap: 30px; }
+      .metrics { grid-template-columns: 1fr 1fr; }
+      .featured-copy { padding: 28px 22px; }
+      .project-specs { grid-template-columns: 1fr; }
+      .project-visual { padding: 26px 18px; }
+      .topology { grid-template-columns: 1fr; width: min(100%, 330px); }
+      .route { width: 1px; height: 25px; justify-self: center; background: var(--faint); }
+      .route::after { right: -3px; top: auto; bottom: -1px; border-left: 3px solid transparent; border-right: 3px solid transparent; border-top: 5px solid var(--faint); border-bottom: 0; }
+      .route.offline-route { background: repeating-linear-gradient(180deg, var(--amber) 0 4px, transparent 4px 8px); }
+      .route.offline-route::after { border-top-color: var(--amber); border-left-color: transparent; }
+      .supporting-grid, .lab-grid { grid-template-columns: 1fr; }
+      .lab-item { min-height: 0; }
+      .selected-work, .lab, .signal-log { padding-bottom: 86px; }
+      .credibility { margin-bottom: 86px; }
+      .log-row { grid-template-columns: 78px 1fr; gap: 14px; padding: 22px 0; }
+      .log-meta { grid-column: 2; justify-self: start; text-align: left; }
+      .contact-band { grid-template-columns: 1fr; }
+      .contact-actions { min-width: 0; grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 500px) {
+      .brand { font-size: 10px; }
+      .hero-actions .btn { flex: 1 1 100%; }
+      .metrics { grid-template-columns: 1fr; }
+      .metric { min-height: 78px; }
+      .project-meta { align-items: flex-start; }
+      .project-number { width: 100%; margin-left: 0; }
+      .credibility { grid-template-columns: 1fr; }
+      .credibility div,
+      .credibility div:nth-child(3) { padding: 18px 0; margin: 0; border-right: 0; border-bottom: 1px solid var(--line); }
+      .credibility div:first-child { padding-top: 0; }
+      .credibility div:last-child { border-bottom: 0; padding-bottom: 0; }
+      .contact-actions { grid-template-columns: 1fr; }
+      .mobile-meta { flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .001ms !important;
+      }
+    }
+  
+
+    .status-chip {
+      min-height: 36px;
+      padding: 0 11px;
+      border: 1px solid rgba(77,184,168,.45);
+      color: var(--sync);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font: 600 10px var(--mono);
+      letter-spacing: .04em;
+      white-space: nowrap;
+    }
+    .status-chip::before { content:""; width:7px; height:7px; border-radius:50%; background:currentColor; animation:pulse 2.2s ease-in-out infinite; }
+    .page-hero { padding: 90px 0 58px; border-bottom: 1px solid var(--line); }
+    .page-hero-grid { display:grid; grid-template-columns:minmax(0,1fr) 300px; gap:72px; align-items:end; }
+    .page-hero h1 { margin:0 0 22px; max-width:900px; font-size:clamp(42px,6.2vw,72px); line-height:1.02; letter-spacing:-.052em; }
+    .page-lede { max-width:720px; margin:0; color:var(--muted); font-size:clamp(16px,1.8vw,19px); line-height:1.72; }
+    .page-meta { border-left:1px solid var(--line); padding-left:24px; display:grid; gap:20px; }
+    .page-meta div { display:grid; gap:6px; }
+    .page-meta dt { color:var(--faint); font:500 9px var(--mono); text-transform:uppercase; letter-spacing:.12em; }
+    .page-meta dd { margin:0; font-size:13px; line-height:1.5; }
+    .content-section { padding:86px 0; }
+    .content-section + .content-section { border-top:1px solid var(--line-soft); }
+    .section-intro { display:grid; grid-template-columns:190px minmax(0,1fr); gap:54px; margin-bottom:42px; }
+    .section-label { color:var(--amber); font:500 10px var(--mono); letter-spacing:.11em; text-transform:uppercase; }
+    .section-intro h2 { margin:0; max-width:760px; font-size:clamp(28px,3.8vw,42px); line-height:1.08; letter-spacing:-.04em; }
+    .section-intro p { grid-column:2; max-width:720px; color:var(--muted); line-height:1.75; }
+    .prose { max-width:760px; }
+    .prose p { color:var(--muted); font-size:15px; line-height:1.8; }
+    .prose strong { color:var(--text); }
+    .mini-label { color:var(--faint); font:500 9px var(--mono); letter-spacing:.12em; text-transform:uppercase; }
+    .hairline { height:1px; background:var(--line); }
+    .arrow-link { color:var(--amber); text-decoration:none; font:600 10px var(--mono); letter-spacing:.04em; }
+    .arrow-link:hover { color:#f0ad50; }
+    @media (max-width:980px) {
+      .page-hero-grid { grid-template-columns:1fr; gap:40px; }
+      .page-meta { grid-template-columns:repeat(3,minmax(0,1fr)); border-left:0; border-top:1px solid var(--line); padding:22px 0 0; }
+    }
+    @media (max-width:760px) {
+      .status-chip { min-width:38px; width:38px; padding:0; justify-content:center; font-size:0; }
+      .page-hero { padding:66px 0 44px; }
+      .page-meta { grid-template-columns:1fr; }
+      .section-intro { grid-template-columns:1fr; gap:14px; }
+      .section-intro p { grid-column:auto; }
+      .content-section { padding:64px 0; }
+    }
+
+
+  .case-hero { padding-bottom:72px; }
+  .case-badges { display:flex; flex-wrap:wrap; gap:7px; margin-top:28px; }
+  .case-badges span { padding:6px 8px; border:1px solid var(--line); color:var(--muted); font:500 9px var(--mono); }
+  .case-layout { display:grid; grid-template-columns:210px minmax(0,760px); gap:70px; justify-content:center; }
+  .case-toc { position:sticky; top:100px; align-self:start; display:grid; gap:4px; }
+  .case-toc .toc-title { color:var(--faint); font:500 9px var(--mono); letter-spacing:.11em; margin-bottom:8px; }
+  .case-toc a { padding:9px 0 9px 13px; border-left:1px solid var(--line); color:var(--faint); text-decoration:none; font:500 10px var(--mono); line-height:1.4; }
+  .case-toc a:hover,.case-toc a.active { color:var(--amber); border-left-color:var(--amber); }
+  .case-content { min-width:0; }
+  .case-section { scroll-margin-top:100px; padding:70px 0; border-bottom:1px solid var(--line-soft); }
+  .case-section:first-child { padding-top:0; }
+  .case-section:last-child { border-bottom:0; }
+  .case-label { color:var(--amber); font:500 10px var(--mono); letter-spacing:.12em; text-transform:uppercase; margin-bottom:18px; }
+  .case-section h2 { margin:0 0 20px; font-size:clamp(28px,4vw,40px); letter-spacing:-.04em; line-height:1.1; }
+  .case-section > p { color:var(--muted); font-size:15px; line-height:1.82; max-width:700px; }
+  .case-stats { display:grid; grid-template-columns:repeat(4,1fr); border:1px solid var(--line); margin-top:34px; }
+  .case-stat { padding:18px; border-right:1px solid var(--line); min-height:94px; }
+  .case-stat:last-child{border-right:0}.case-stat span{display:block;color:var(--faint);font:500 9px var(--mono);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}.case-stat strong{font-size:12px;line-height:1.5}
+  .constraint-box { border:1px solid var(--amber); background:var(--amber-soft); padding:26px; position:relative; margin-top:28px; }
+  .constraint-box::before { content:"PRIMARY CONSTRAINT"; position:absolute; left:18px; top:-8px; padding:0 8px; background:var(--ink); color:var(--amber); font:600 9px var(--mono); letter-spacing:.1em; }
+  .constraint-box p { margin:0; color:var(--text); font-size:15px; line-height:1.78; }
+  .product-frame { margin-top:30px; border:1px solid var(--line); background:var(--surface); overflow:hidden; }
+  .product-head { min-height:42px; padding:0 14px; border-bottom:1px solid var(--line); display:flex; align-items:center; justify-content:space-between; gap:14px; font:500 9px var(--mono); color:var(--faint); }
+  .app-sim { display:grid; grid-template-columns:190px 1fr; min-height:390px; }
+  .app-side { border-right:1px solid var(--line); padding:20px 14px; background:rgba(0,0,0,.12); }
+  .app-brand { color:var(--text); font:600 12px var(--mono); margin-bottom:30px; }
+  .app-nav { display:grid; gap:6px; }.app-nav span{padding:10px;color:var(--faint);font:500 9px var(--mono);border:1px solid transparent}.app-nav .on{color:var(--amber);border-color:var(--line);background:var(--amber-soft)}
+  .app-main { padding:24px; }.app-main-top{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-bottom:24px}.app-main h3{margin:0;font-size:22px}.offline-pill{border:1px solid var(--amber);color:var(--amber);padding:7px 9px;font:600 9px var(--mono)}
+  .ledger-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:20px}.ledger-summary div{border:1px solid var(--line);padding:14px}.ledger-summary span{display:block;color:var(--faint);font:500 8px var(--mono);margin-bottom:9px}.ledger-summary strong{font:600 15px var(--mono)}
+  .ledger-table{border:1px solid var(--line)}.ledger-row{display:grid;grid-template-columns:1fr 100px 90px;gap:12px;padding:12px;border-bottom:1px solid var(--line);font-size:11px}.ledger-row:last-child{border-bottom:0}.ledger-row.head{color:var(--faint);font:500 8px var(--mono);text-transform:uppercase}.queued{color:var(--amber);font:600 9px var(--mono)}
+  .arch-diagram { margin-top:30px; border:1px solid var(--line); padding:30px; background-image:linear-gradient(var(--line-soft) 1px,transparent 1px),linear-gradient(90deg,var(--line-soft) 1px,transparent 1px); background-size:24px 24px; }
+  .arch-flow { display:grid; grid-template-columns:1fr 46px 1fr 46px 1fr 46px 1fr; gap:8px; align-items:center; }
+  .arch-node { min-height:112px; padding:18px; border:1px solid var(--line); background:var(--surface); display:flex;flex-direction:column;justify-content:center;text-align:center; }.arch-node.primary{border-color:var(--amber)}.arch-node.sync-node{border-color:var(--sync)}.arch-node strong{font:600 11px var(--mono);margin-bottom:8px}.arch-node span{color:var(--muted);font:500 9px/1.6 var(--mono)}.arch-arrow{text-align:center;color:var(--faint);font:500 16px var(--mono)}
+  .arch-note{margin-top:18px;color:var(--faint);font:500 10px/1.7 var(--mono)}
+  .decision-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:28px; }
+  .decision-card { border:1px solid var(--line); padding:24px; min-height:220px; }.decision-card.chosen{border-color:var(--sync);background:var(--sync-soft)}.decision-card.theory{opacity:.78}.decision-card span{color:var(--faint);font:500 9px var(--mono);letter-spacing:.1em}.decision-card h3{margin:32px 0 12px;font-size:21px}.decision-card p{color:var(--muted);font-size:13px;line-height:1.72}.decision-card.chosen span{color:var(--sync)}
+  .risk-log { margin-top:26px; border-left:2px solid var(--amber); padding:6px 0 6px 22px; }.risk-log span{color:var(--amber);font:600 9px var(--mono);letter-spacing:.11em}.risk-log p{color:var(--muted);font-size:14px;line-height:1.75;margin:11px 0 0}
+  .next-box { border:1px dashed var(--line); padding:24px; color:var(--muted); font:500 11px/1.8 var(--mono); margin-top:26px; }
+  @media(max-width:980px){.case-layout{grid-template-columns:1fr}.case-toc{position:static;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);padding:8px}.case-toc .toc-title{grid-column:1/-1;padding:8px}.case-toc a{border-left:0;border-top:1px solid var(--line-soft)}.case-stats{grid-template-columns:repeat(2,1fr)}.case-stat:nth-child(2){border-right:0}.case-stat:nth-child(-n+2){border-bottom:1px solid var(--line)}}
+  @media(max-width:760px){.case-toc{display:none}.case-stats{grid-template-columns:1fr}.case-stat{border-right:0;border-bottom:1px solid var(--line)}.decision-grid{grid-template-columns:1fr}.app-sim{grid-template-columns:1fr}.app-side{display:none}.ledger-summary{grid-template-columns:1fr}.ledger-row{grid-template-columns:1fr auto}.ledger-row span:nth-child(2){display:none}.arch-flow{grid-template-columns:1fr}.arch-arrow{transform:rotate(90deg);height:28px}.case-section{padding:56px 0}}
 </style>
 </head>
-<body class="font-sans bg-[#0b0e13] text-[#eef0ea]">
+<body>
 
-<div class="navbar bg-[#0b0e13]/85 backdrop-blur-md border-b border-soft sticky top-0 z-50 px-4 md:px-8 max-w-3xl mx-auto">
-  <div class="flex-1 flex items-center gap-3 font-mono font-semibold text-[14px]">
-    <span class="relative w-[22px] h-[22px] rounded-full border border-[#262d3a] flex-shrink-0">
-      <span class="absolute inset-[5px] rounded-full bg-[#4db8a8] animate-pulse"></span>
-    </span>
-    <a href="index.html">SERUYANGE JOSEPH</a>
-  </div>
-  <div class="hidden md:flex gap-9 font-mono text-[12.5px] text-[#eef0ea]/60">
-    <a href="index.html#work" class="hover:text-[#eef0ea] transition-colors">Work</a>
-    <a href="blog.html" class="hover:text-[#eef0ea] transition-colors">Signal Log</a>
-    <a href="about.html" class="hover:text-[#eef0ea] transition-colors">About</a>
-    <a href="about.html#contact" class="hover:text-[#eef0ea] transition-colors">Contact</a>
-  </div>
-  <div class="flex items-center gap-2.5">
-    <span class="hidden sm:inline-flex items-center gap-1.5 font-mono text-[10.5px] tracking-wide text-[#e8a13d] border border-[#e8a13d]/40 rounded-full px-2.5 py-1">OPEN TO REMOTE ROLES</span>
-    <div class="badge border border-[#4db8a8] text-[#4db8a8] bg-transparent gap-2 font-mono text-[11px]">
-      <span class="w-1.5 h-1.5 rounded-full bg-[#4db8a8] animate-pulse"></span>ONLINE
-    </div>
-  </div>
-</div>
-
-<main class="max-w-3xl mx-auto px-4 md:px-8">
-
-  <div class="text-sm breadcrumbs font-mono text-[12px] text-[#eef0ea]/40 pt-9 pb-5">
-    <ul><li><a href="index.html" class="text-[#eef0ea]/60 hover:text-[#e8a13d]">Work</a></li><li>Offline-First Mobile Money Ledger</li></ul>
-  </div>
-
-  <div class="pb-9 border-b border-[#262d3a] mb-11">
-    <span class="font-mono text-[11px] uppercase tracking-widest text-[#4db8a8] mb-3.5 block">Build Log 01 · Offline-first sync</span>
-    <h1 class="font-extrabold text-[32px] md:text-[38px] leading-[1.18] tracking-tight mb-4 max-w-xl">Building a ledger that reconciles mobile money sales even when the vendor never had signal.</h1>
-    <p class="text-[17px] text-[#eef0ea]/60 max-w-lg mb-7 leading-relaxed">A local-first Flutter app and Go sync service designed to let small vendors record sales offline all day, then reconcile automatically the moment connectivity returns.</p>
-
-    <div class="stats stats-vertical sm:stats-horizontal bg-[#11151c] border border-[#262d3a] w-full mb-7">
-      <div class="stat py-3.5 px-5">
-        <div class="stat-title font-mono text-[10px] uppercase tracking-widest text-[#eef0ea]/40">Role</div>
-        <div class="stat-value text-[14px] font-sans font-semibold">Solo build</div>
-      </div>
-      <div class="stat py-3.5 px-5">
-        <div class="stat-title font-mono text-[10px] uppercase tracking-widest text-[#eef0ea]/40">Target</div>
-        <div class="stat-value text-[14px] font-sans font-semibold">6 weeks</div>
-      </div>
-      <div class="stat py-3.5 px-5">
-        <div class="stat-title font-mono text-[10px] uppercase tracking-widest text-[#eef0ea]/40">Status</div>
-        <div class="stat-value text-[14px] font-sans font-semibold text-[#e8a13d]">● Building</div>
-      </div>
-      <div class="stat py-3.5 px-5">
-        <div class="stat-title font-mono text-[10px] uppercase tracking-widest text-[#eef0ea]/40">Planned pilot</div>
-        <div class="stat-value text-[14px] font-sans font-semibold">Kampala market vendors</div>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="topbar-wrap">
+    <div class="shell topbar">
+      <a class="brand" href="index.html" aria-label="Seruyange Joseph home">
+        <span class="brand-mark" aria-hidden="true"></span><span>SERUYANGE / JOSEPH</span>
+      </a>
+      <nav class="desktop-nav" aria-label="Primary navigation">
+        <a href="index.html#work" aria-current="page">Work</a>
+        <a href="blog.html">Signal Log</a>
+        <a href="about.html">About</a>
+        <a href="about.html#contact">Contact</a>
+      </nav>
+      <div class="top-actions">
+        <span class="availability">OPEN TO REMOTE ROLES</span>
+        <span class="status-chip" aria-label="Portfolio status online">ONLINE</span>
+        <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="mobilePanel" aria-label="Open menu">☰</button>
       </div>
     </div>
-
-    <div class="flex flex-wrap gap-2 mb-7">
-      <span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent font-mono">Flutter</span>
-      <span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent font-mono">Drift (SQLite)</span>
-      <span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent font-mono">Go</span>
-      <span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent font-mono">PostgreSQL</span>
-      <span class="badge border border-[#262d3a] text-[#eef0ea]/55 bg-transparent font-mono">MTN MoMo Sandbox</span>
+    <div class="mobile-panel" id="mobilePanel">
+      <div class="shell mobile-panel-inner">
+        <nav class="mobile-links" aria-label="Mobile navigation">
+          <a href="index.html#work"><span>01</span><span>Work</span><span>↗</span></a>
+          <a href="blog.html"><span>02</span><span>Signal Log</span><span>↗</span></a>
+          <a href="about.html"><span>03</span><span>About</span><span>↗</span></a>
+          <a href="about.html#contact"><span>04</span><span>Contact</span><span>↗</span></a>
+        </nav>
+        <div class="mobile-meta"><span>STATUS / AVAILABLE</span><span>BASE / KAMPALA, UG</span></div>
+      </div>
     </div>
+  </header>
 
-    <a href="https://github.com/seruyange-jojo" class="btn btn-outline btn-sm border-[#262d3a] text-[#eef0ea] hover:border-[#4db8a8] hover:text-[#4db8a8] font-mono text-xs normal-case">Follow progress on GitHub ↗</a>
+<main id="main">
+  <section class="shell page-hero case-hero">
+    <div class="page-hero-grid">
+      <div>
+        <div class="eyebrow">Build Log 01 / Offline-first sync</div>
+        <h1>Building a ledger that reconciles sales even when the vendor never had signal.</h1>
+        <p class="page-lede">A local-first Flutter app and Go sync service designed to let small vendors record sales offline all day, then reconcile automatically when connectivity returns.</p>
+        <div class="case-badges"><span>Flutter</span><span>Drift / SQLite</span><span>Go</span><span>PostgreSQL</span><span>MTN MoMo Sandbox</span></div>
+      </div>
+      <dl class="page-meta"><div><dt>Role</dt><dd>Solo build</dd></div><div><dt>Status</dt><dd class="amber">Building</dd></div><div><dt>Planned pilot</dt><dd>Kampala market vendors</dd></div></dl>
+    </div>
+    <div class="case-stats"><div class="case-stat"><span>Role</span><strong>Solo build</strong></div><div class="case-stat"><span>Target</span><strong>6 weeks</strong></div><div class="case-stat"><span>Status</span><strong class="amber">● Building</strong></div><div class="case-stat"><span>Pilot</span><strong>Kampala market vendors</strong></div></div>
+  </section>
+
+  <div class="shell content-section case-layout">
+    <nav class="case-toc" aria-label="Case study sections"><div class="toc-title">ON THIS BUILD</div><a href="#problem">01 / Problem</a><a href="#constraint">02 / Constraint</a><a href="#product">03 / Product model</a><a href="#architecture">04 / Architecture</a><a href="#tradeoff">05 / Tradeoff</a><a href="#risk">06 / Risk</a></nav>
+    <div class="case-content">
+      <section class="case-section" id="problem"><div class="case-label">01 / The problem</div><h2>Vendors reconcile by memory, not by record.</h2><p>Small vendors using MTN and Airtel Mobile Money have no easy way to check mobile money transactions against actual stock and sales. Most tools assume the vendor has constant data. At the end of a market day, reconciliation can happen by memory, or not at all.</p></section>
+
+      <section class="case-section" id="constraint"><div class="case-label">02 / The constraint</div><h2>Offline-first is the operating condition, not a fallback.</h2><p>The core design starts from a harsher assumption: the connection may disappear for the entire period in which the user still needs to work.</p><div class="constraint-box"><p>The app has to be fully usable for an entire market day, recording sales, updating stock and calculating totals with zero connectivity, then sync cleanly whenever a signal appears for even a few seconds. Kampala's markets have patchy indoor coverage, so the design cannot make a sale wait for the network.</p></div></section>
+
+      <section class="case-section" id="product"><div class="case-label">03 / Product model</div><h2>The interface should never make the vendor think about synchronization.</h2><p>The local database handles the immediate write. The sync state is visible as system status, but it does not block the workflow. The mock interface below visualises that model rather than presenting an implemented product screenshot.</p>
+        <div class="product-frame corner-box"><div class="product-head"><span>LEDGER / LOCAL-FIRST CLIENT</span><span class="amber">NETWORK / UNAVAILABLE</span></div><div class="app-sim"><aside class="app-side"><div class="app-brand">MARKET LEDGER</div><div class="app-nav"><span class="on">01 / SALES</span><span>02 / STOCK</span><span>03 / RECONCILE</span><span>04 / SETTINGS</span></div></aside><div class="app-main"><div class="app-main-top"><div><div class="mini-label">TODAY / LOCAL DEVICE</div><h3>Sales ledger</h3></div><span class="offline-pill">3 WRITES QUEUED</span></div><div class="ledger-summary"><div><span>RECORDED SALES</span><strong>18</strong></div><div><span>LOCAL QUEUE</span><strong class="amber">03</strong></div><div><span>LAST SYNC</span><strong>08:42</strong></div></div><div class="ledger-table"><div class="ledger-row head"><span>ENTRY</span><span>AMOUNT</span><span>STATE</span></div><div class="ledger-row"><span>Sale / mobile money</span><span>UGX</span><span class="queued">QUEUED</span></div><div class="ledger-row"><span>Stock adjustment</span><span>local</span><span class="queued">QUEUED</span></div><div class="ledger-row"><span>Sale / cash</span><span>UGX</span><span class="queued">QUEUED</span></div></div></div></div></div>
+      </section>
+
+      <section class="case-section" id="architecture"><div class="case-label">04 / Architecture</div><h2>Local-first client, sync queue, server source of truth.</h2><p>Every write lands on the device first. A local queue retries opportunistically. When connectivity returns, the Go API receives queued operations, checks for conflicts and reconciles them against the server-side PostgreSQL store.</p><div class="arch-diagram corner-box"><div class="arch-flow"><div class="arch-node primary"><strong>Flutter Client</strong><span>Drift / SQLite<br>local writes</span></div><div class="arch-arrow">→</div><div class="arch-node"><strong>Sync Queue</strong><span>on-device<br>retry + backoff</span></div><div class="arch-arrow">⇢</div><div class="arch-node sync-node"><strong>Go Sync API</strong><span>conflict check<br>LWW resolution</span></div><div class="arch-arrow">→</div><div class="arch-node"><strong>PostgreSQL</strong><span>server source<br>of truth</span></div></div><div class="arch-note">// LOCAL WRITE IS ALWAYS AVAILABLE. NETWORK TRANSFER IS OPPORTUNISTIC.</div></div></section>
+
+      <section class="case-section" id="tradeoff"><div class="case-label">05 / The tradeoff</div><h2>Last-write-wins over a full CRDT, for v1.</h2><p>The theoretically stronger conflict model is not automatically the correct product decision. For this first version, implementation cost and the expected writer pattern matter.</p><div class="decision-grid"><article class="decision-card chosen"><span>CHOSEN / V1</span><h3>Last-write-wins</h3><p>Fits the six-week target and the expected single-phone writer pattern for a stock line. It keeps synchronization logic small enough to test deeply before expanding the model.</p></article><article class="decision-card theory"><span>NOT CHOSEN / V1</span><h3>General-purpose CRDT</h3><p>A more theoretically complete concurrent-editing model, but one that would roughly triple the timeline for a conflict pattern expected to be uncommon in the initial use case.</p></article></div><div class="risk-log"><span>DECISION LOG / KNOWN FAILURE MODE</span><p>Two staff phones editing the same item inside the synchronization window can still create real data loss. That scenario is scoped as the first thing to fix in v2, likely with per-field version vectors rather than a general-purpose CRDT.</p></div></section>
+
+      <section class="case-section" id="risk"><div class="case-label">06 / What I am watching out for</div><h2>Test the dangerous case before polishing the interface.</h2><p>The multi-device conflict path is the risk that can invalidate the simplistic synchronization model, so the build plan deliberately brings that case forward.</p><div class="next-box">BUILD NOTE / Create the multi-device conflict test harness before the UI. Surface the two-staff-phone edge case in week one rather than discovering it late.</div><div style="margin-top:28px"><a class="btn btn-primary" href="https://github.com/seruyange-jojo">Follow progress on GitHub ↗</a></div></section>
+    </div>
   </div>
-
-  <section class="mb-14">
-    <div class="flex items-center gap-3 mb-4">
-      <span class="font-mono text-[11px] uppercase tracking-widest text-[#e8a13d]">The problem</span>
-      <div class="flex-1 h-px bg-[#262d3a]"></div>
-    </div>
-    <h2 class="font-bold text-[22px] tracking-tight mb-4">Vendors reconcile by memory, not by record.</h2>
-    <p class="text-[15px] text-[#eef0ea]/70 leading-relaxed max-w-lg">Small vendors using MTN and Airtel Mobile Money have no easy way to check mobile money transactions against actual stock and sales. Most tools assume the vendor has constant data — most vendors don't. At the end of a market day, reconciliation happens by memory, or not at all.</p>
-  </section>
-
-  <section class="mb-14">
-    <div class="flex items-center gap-3 mb-4">
-      <span class="font-mono text-[11px] uppercase tracking-widest text-[#e8a13d]">The constraint</span>
-      <div class="flex-1 h-px bg-[#262d3a]"></div>
-    </div>
-    <div class="alert bg-[#e8a13d]/10 border border-[#e8a13d] text-[#eef0ea] items-start relative">
-      <span class="absolute -top-2.5 left-5 bg-[#0b0e13] px-2 font-mono text-[10.5px] text-[#e8a13d] tracking-widest">CONSTRAINT</span>
-      <p class="text-[15px] leading-relaxed">The app has to be fully usable for an entire market day — recording sales, updating stock, calculating totals — with zero connectivity, then sync cleanly whenever a signal appears for even a few seconds. Kampala's markets have patchy indoor coverage; "offline-first" here isn't a resilience feature, it's the default operating condition the whole design has to start from.</p>
-    </div>
-  </section>
-
-  <section class="mb-14">
-    <div class="flex items-center gap-3 mb-4">
-      <span class="font-mono text-[11px] uppercase tracking-widest text-[#e8a13d]">Architecture</span>
-      <div class="flex-1 h-px bg-[#262d3a]"></div>
-    </div>
-    <h2 class="font-bold text-[22px] tracking-tight mb-4">Local-first client, sync queue, source of truth.</h2>
-    <div class="corner-box diagram-grid border border-[#262d3a] bg-[#11151c] rounded p-6">
-      <svg viewBox="0 0 760 220" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto">
-        <defs>
-          <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#8a93a5"/></marker>
-        </defs>
-        <rect x="20" y="70" width="150" height="80" fill="#171c25" stroke="#e8a13d" stroke-width="1.5" rx="2"/>
-        <text x="95" y="102" fill="#eef0ea" font-family="IBM Plex Mono" font-size="13" text-anchor="middle" font-weight="600">Flutter Client</text>
-        <text x="95" y="122" fill="#8a93a5" font-family="IBM Plex Mono" font-size="10.5" text-anchor="middle">Drift (SQLite)</text>
-        <text x="95" y="137" fill="#8a93a5" font-family="IBM Plex Mono" font-size="10.5" text-anchor="middle">local writes</text>
-
-        <rect x="230" y="70" width="150" height="80" fill="#171c25" stroke="#262d3a" stroke-width="1.5" rx="2" stroke-dasharray="4 3"/>
-        <text x="305" y="102" fill="#eef0ea" font-family="IBM Plex Mono" font-size="13" text-anchor="middle" font-weight="600">Sync Queue</text>
-        <text x="305" y="122" fill="#8a93a5" font-family="IBM Plex Mono" font-size="10.5" text-anchor="middle">on-device</text>
-        <text x="305" y="137" fill="#8a93a5" font-family="IBM Plex Mono" font-size="10.5" text-anchor="middle">retry + backoff</text>
-
-        <rect x="440" y="70" width="150" height="80" fill="#171c25" stroke="#4db8a8" stroke-width="1.5" rx="2"/>
-        <text x="515" y="102" fill="#eef0ea" font-family="IBM Plex Mono" font-size="13" text-anchor="middle" font-weight="600">Go Sync API</text>
-        <text x="515" y="122" fill="#8a93a5" font-family="IBM Plex Mono" font-size="10.5" text-anchor="middle">conflict check</text>
-        <text x="515" y="137" fill="#8a93a5" font-family="IBM Plex Mono" font-size="10.5" text-anchor="middle">LWW resolution</text>
-
-        <rect x="600" y="70" width="140" height="80" fill="#171c25" stroke="#262d3a" stroke-width="1.5" rx="2"/>
-        <text x="670" y="102" fill="#eef0ea" font-family="IBM Plex Mono" font-size="13" text-anchor="middle" font-weight="600">PostgreSQL</text>
-        <text x="670" y="122" fill="#8a93a5" font-family="IBM Plex Mono" font-size="10.5" text-anchor="middle">source of</text>
-        <text x="670" y="137" fill="#8a93a5" font-family="IBM Plex Mono" font-size="10.5" text-anchor="middle">truth</text>
-
-        <line x1="170" y1="110" x2="228" y2="110" stroke="#8a93a5" stroke-width="1.3" marker-end="url(#arrow)"/>
-        <line x1="380" y1="110" x2="438" y2="110" stroke="#8a93a5" stroke-width="1.3" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
-        <line x1="590" y1="110" x2="598" y2="110" stroke="#8a93a5" stroke-width="1.3" marker-end="url(#arrow)"/>
-
-        <text x="199" y="60" fill="#5c6578" font-family="IBM Plex Mono" font-size="10" text-anchor="middle">always</text>
-        <text x="409" y="60" fill="#e8a13d" font-family="IBM Plex Mono" font-size="10" text-anchor="middle">when online</text>
-        <text x="594" y="60" fill="#5c6578" font-family="IBM Plex Mono" font-size="10" text-anchor="middle">writes</text>
-
-        <text x="95" y="190" fill="#5c6578" font-family="IBM Plex Mono" font-size="10.5" text-anchor="middle">market vendor</text>
-        <text x="515" y="190" fill="#5c6578" font-family="IBM Plex Mono" font-size="10.5" text-anchor="middle">stateless, horizontally scalable</text>
-      </svg>
-    </div>
-    <p class="font-mono text-[12px] text-[#eef0ea]/40 mt-3.5">// Every write lands locally first. The sync queue drains opportunistically — no user-facing "connecting..." state ever blocks a sale.</p>
-  </section>
-
-  <section class="mb-14">
-    <div class="flex items-center gap-3 mb-4">
-      <span class="font-mono text-[11px] uppercase tracking-widest text-[#e8a13d]">The tradeoff</span>
-      <div class="flex-1 h-px bg-[#262d3a]"></div>
-    </div>
-    <h2 class="font-bold text-[22px] tracking-tight mb-4">Last-write-wins over a full CRDT — for v1.</h2>
-    <div class="border-l-2 border-[#4db8a8] pl-6">
-      <span class="font-mono text-[11px] text-[#4db8a8] tracking-widest mb-2.5 block">DECISION LOG</span>
-      <p class="text-[15px] text-[#eef0ea]/70 leading-relaxed max-w-lg">I'm planning last-write-wins conflict resolution over a full CRDT for v1. A CRDT is the theoretically correct answer, but it would roughly triple the timeline for a conflict pattern most vendors would trigger rarely — a single phone is normally the only writer for a given stock line. The scenario where this creates real data loss (two staff phones editing the same item within the sync window) is scoped as the first thing to fix in v2, likely with per-field version vectors rather than a general-purpose CRDT.</p>
-    </div>
-  </section>
-
-  <section class="mb-14">
-    <div class="flex items-center gap-3 mb-4">
-      <span class="font-mono text-[11px] uppercase tracking-widest text-[#e8a13d]">What I'm watching out for</span>
-      <div class="flex-1 h-px bg-[#262d3a]"></div>
-    </div>
-    <div class="font-mono text-[13.5px] text-[#eef0ea]/60 border border-dashed border-[#262d3a] rounded p-5 leading-relaxed">Building the multi-device conflict test harness before the UI, not after — the plan is to surface the two-staff-phone edge case in week one rather than discover it late.</div>
-  </section>
-
-  <section class="mb-16">
-    <div class="flex items-center gap-3 mb-4">
-      <span class="font-mono text-[11px] uppercase tracking-widest text-[#e8a13d]">Links</span>
-      <div class="flex-1 h-px bg-[#262d3a]"></div>
-    </div>
-    <a href="https://github.com/seruyange-jojo" class="btn btn-outline btn-sm border-[#262d3a] text-[#eef0ea] hover:border-[#4db8a8] hover:text-[#4db8a8] font-mono text-xs normal-case">Follow progress on GitHub ↗</a>
-  </section>
 </main>
 
-<footer class="border-t border-soft py-8">
-  <div class="max-w-3xl mx-auto px-4 md:px-8 flex flex-wrap justify-between items-center gap-3">
-    <p class="font-mono text-[11.5px] text-[#eef0ea]/40">© 2026 SERUYANGE JOSEPH</p>
-    <div class="flex gap-5 font-mono text-[11.5px] text-[#eef0ea]/60">
-      <a href="index.html" class="hover:text-[#4db8a8] transition-colors">Work</a>
-      <a href="blog.html" class="hover:text-[#4db8a8] transition-colors">Signal Log</a>
-      <a href="about.html" class="hover:text-[#4db8a8] transition-colors">About</a>
-      <a href="https://github.com/seruyange-jojo" class="hover:text-[#4db8a8] transition-colors">GitHub</a>
+  <footer class="footer">
+    <div class="shell footer-inner">
+      <span>© 2026 SERUYANGE JOSEPH / BUILT FOR REAL CONSTRAINTS</span>
+      <div class="footer-links">
+        <a href="index.html#work">Work</a><a href="blog.html">Signal Log</a><a href="about.html">About</a>
+        <a href="https://github.com/seruyange-jojo">GitHub ↗</a>
+      </div>
     </div>
-  </div>
-</footer>
+  </footer>
+<script>
+  const menuToggle = document.getElementById('menuToggle');
+  const mobilePanel = document.getElementById('mobilePanel');
+  if(menuToggle && mobilePanel){
+    menuToggle.addEventListener('click', () => {
+      const open = mobilePanel.classList.toggle('open');
+      menuToggle.setAttribute('aria-expanded', String(open));
+      menuToggle.textContent = open ? '×' : '☰';
+      menuToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    });
+    mobilePanel.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      mobilePanel.classList.remove('open');
+      menuToggle.setAttribute('aria-expanded','false');
+      menuToggle.textContent='☰';
+    }));
+  }
 
-</body>
-</html>
+
+  const tocLinks = [...document.querySelectorAll('.case-toc a')];
+  const sections = tocLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){ tocLinks.forEach(a=>a.classList.toggle('active', a.getAttribute('href') === '#'+entry.target.id)); }
+    });
+  }, {rootMargin:'-25% 0px -60% 0px'});
+  sections.forEach(s=>io.observe(s));
+</script>
+</body></html>

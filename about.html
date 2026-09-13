@@ -1,177 +1,988 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="signal">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>About — Seruyange Joseph</title>
-<meta name="description" content="Seruyange Joseph — full-stack & mobile engineer in Kampala, Uganda, finishing a BSc in Information Systems at Kyambogo University. Available now for remote software engineering roles.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script>
-  tailwind.config = { theme: { extend: { fontFamily: {
-    mono: ['IBM Plex Mono','ui-monospace','monospace'],
-    sans: ['Inter','system-ui','sans-serif']
-  }}}}
-</script>
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://cdn.jsdelivr.net/npm/daisyui@4/dist/full.min.css" rel="stylesheet" type="text/css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a0d12"><meta name="color-scheme" content="dark">
+  <title>About | Seruyange Joseph</title>
+  <meta name="description" content="About Seruyange Joseph, a full-stack and mobile engineer in Kampala focused on offline-first systems, software engineering and technical leadership.">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #0a0d12;
+      --ink-2: #0f131a;
+      --surface: #131821;
+      --surface-2: #171d27;
+      --line: #262e3a;
+      --line-soft: #1b222d;
+      --text: #eef1eb;
+      --muted: #9aa3b2;
+      --faint: #697384;
+      --amber: #e8a13d;
+      --amber-soft: rgba(232, 161, 61, .12);
+      --sync: #4db8a8;
+      --sync-soft: rgba(77, 184, 168, .12);
+      --danger: #d9694f;
+      --danger-soft: rgba(217, 105, 79, .12);
+      --content: 1180px;
+      --radius: 4px;
+      --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
 
-<style>
-  [data-theme="signal"]{
-    --p:#e8a13d; --pc:#1a1206; --s:#4db8a8; --sc:#0c1a18; --a:#4db8a8; --ac:#0c1a18;
-    --n:#171c25; --nc:#eef0ea; --b1:#0b0e13; --b2:#11151c; --b3:#171c25; --bc:#eef0ea;
-  }
-  body{ background-image:radial-gradient(circle, #232a37 1px, transparent 1px); background-size:26px 26px; }
-  ::selection{ background:#e8a13d; color:#0e0900; }
-  .timeline-box{ background:#171c25 !important; border:1px solid #262d3a !important; }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background: var(--ink);
+      font-family: var(--sans);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
 
-  /* ---- polish pass: force sharp radius (daisyUI defaults are too round for this design) ---- */
-  [data-theme="signal"]{
-    --rounded-box: 0.125rem; --rounded-btn: 0.125rem; --rounded-badge: 0.125rem;
-    --tab-radius: 0.125rem;
-  }
-  /* ---- two-tier border system: soft for chrome (nav/footer), full for content ---- */
-  .border-soft{ border-color:#1c222c !important; }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px),
+        radial-gradient(circle at 72% 0%, rgba(77,184,168,.055), transparent 28rem),
+        radial-gradient(circle at 18% 26%, rgba(232,161,61,.045), transparent 24rem);
+      background-size: 32px 32px, 32px 32px, auto, auto;
+    }
 
-  /* ---- signature corner registration marks ---- */
-  .corner-box{ position:relative; }
-  .corner-box::before, .corner-box::after{
-    content:""; position:absolute; width:9px; height:9px; pointer-events:none;
-  }
-  .corner-box::before{ top:8px; left:8px; border-top:1px solid #525a6b; border-left:1px solid #525a6b; }
-  .corner-box::after{ bottom:8px; right:8px; border-bottom:1px solid #525a6b; border-right:1px solid #525a6b; }
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: .16;
+      background-image: radial-gradient(rgba(255,255,255,.22) .55px, transparent .55px);
+      background-size: 5px 5px;
+      mix-blend-mode: soft-light;
+    }
+
+    ::selection { background: var(--amber); color: #150e03; }
+    a { color: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    button { font: inherit; }
+
+    :focus-visible {
+      outline: 2px solid var(--amber);
+      outline-offset: 4px;
+      border-radius: 2px;
+    }
+
+    .skip-link {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 200;
+      transform: translateY(-160%);
+      padding: 10px 14px;
+      color: var(--ink);
+      background: var(--amber);
+      font: 600 12px var(--mono);
+      text-decoration: none;
+    }
+    .skip-link:focus { transform: translateY(0); }
+
+    .shell {
+      width: min(calc(100% - 40px), var(--content));
+      margin-inline: auto;
+    }
+
+    .mono { font-family: var(--mono); }
+    .muted { color: var(--muted); }
+    .faint { color: var(--faint); }
+    .amber { color: var(--amber); }
+    .sync { color: var(--sync); }
+
+    .topbar-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10,13,18,.82);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .topbar {
+      min-height: 70px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      width: fit-content;
+      text-decoration: none;
+      font: 600 12px var(--mono);
+      letter-spacing: .045em;
+    }
+
+    .brand-mark {
+      position: relative;
+      width: 20px;
+      height: 20px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      flex: 0 0 auto;
+    }
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      inset: 5px;
+      border-radius: 999px;
+      background: var(--sync);
+      box-shadow: 0 0 0 4px rgba(77,184,168,.06);
+      animation: pulse 2.2s ease-in-out infinite;
+    }
+
+    .desktop-nav {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      font: 500 11px var(--mono);
+      color: var(--muted);
+    }
+    .desktop-nav a {
+      text-decoration: none;
+      padding: 8px 0;
+      transition: color .2s ease;
+    }
+    .desktop-nav a:hover,
+    .desktop-nav a[aria-current="page"] { color: var(--amber); }
+
+    .top-actions {
+      justify-self: end;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .availability {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 30px;
+      padding: 0 10px;
+      border: 1px solid rgba(232,161,61,.34);
+      color: var(--amber);
+      font: 500 9px var(--mono);
+      letter-spacing: .07em;
+      white-space: nowrap;
+    }
+    .availability::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .net-toggle,
+    .menu-toggle {
+      min-height: 36px;
+      border: 1px solid rgba(77,184,168,.45);
+      background: transparent;
+      color: var(--sync);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 11px;
+      font: 600 10px var(--mono);
+      letter-spacing: .04em;
+      transition: background .2s ease, border-color .2s ease, color .2s ease;
+    }
+    .net-toggle:hover { background: var(--sync-soft); border-color: var(--sync); }
+    .net-toggle.offline { color: var(--danger); border-color: rgba(217,105,79,.58); }
+    .net-toggle.offline:hover { background: var(--danger-soft); border-color: var(--danger); }
+
+    .switch-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: currentColor;
+      position: relative;
+      flex: 0 0 auto;
+    }
+    .switch-dot::after {
+      content: "";
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      top: 2.5px;
+      right: 1px;
+      border-radius: 50%;
+      background: var(--ink);
+      transition: transform .2s ease;
+    }
+    .net-toggle.offline .switch-dot::after { transform: translateX(-3px); }
+
+    .menu-toggle { display: none; color: var(--text); border-color: var(--line); width: 40px; padding: 0; }
+
+    .mobile-panel {
+      display: none;
+      border-top: 1px solid var(--line-soft);
+      background: rgba(10,13,18,.98);
+    }
+    .mobile-panel.open { display: block; }
+    .mobile-panel-inner { padding: 20px 0 24px; }
+    .mobile-links { display: grid; }
+    .mobile-links a {
+      display: grid;
+      grid-template-columns: 40px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      min-height: 58px;
+      text-decoration: none;
+      border-bottom: 1px solid var(--line-soft);
+      font-weight: 600;
+    }
+    .mobile-links a span:first-child,
+    .mobile-links a span:last-child { font: 500 10px var(--mono); color: var(--faint); }
+    .mobile-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      margin-top: 20px;
+      color: var(--muted);
+      font: 500 10px var(--mono);
+    }
+
+    .hero {
+      padding: 110px 0 78px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 280px;
+      gap: 72px;
+      align-items: end;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+      color: var(--amber);
+      font: 500 11px var(--mono);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before { content: ""; width: 28px; height: 1px; background: currentColor; }
+
+    h1, h2, h3, p { margin-top: 0; }
+
+    .hero h1 {
+      margin-bottom: 27px;
+      max-width: 850px;
+      font-size: clamp(44px, 7.1vw, 84px);
+      line-height: .98;
+      letter-spacing: -.052em;
+      font-weight: 800;
+    }
+    .hero h1 .strike {
+      color: rgba(238,241,235,.26);
+      text-decoration: line-through;
+      text-decoration-thickness: 2px;
+    }
+    .hero h1 .accent { color: var(--amber); }
+
+    .hero-copy {
+      max-width: 680px;
+      color: var(--muted);
+      font-size: clamp(16px, 2vw, 19px);
+      line-height: 1.7;
+    }
+
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+    .btn {
+      min-height: 44px;
+      padding: 0 17px;
+      border: 1px solid var(--line);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+      font: 600 11px var(--mono);
+      transition: transform .2s ease, border-color .2s ease, background .2s ease, color .2s ease;
+    }
+    .btn:hover { transform: translateY(-1px); border-color: var(--faint); }
+    .btn-primary { background: var(--amber); color: #1a1206; border-color: var(--amber); }
+    .btn-primary:hover { background: #f0ad50; border-color: #f0ad50; }
+    .btn-quiet:hover { color: var(--sync); border-color: var(--sync); background: var(--sync-soft); }
+
+    .hero-aside {
+      border-left: 1px solid var(--line);
+      padding-left: 24px;
+      display: grid;
+      gap: 24px;
+    }
+    .hero-fact { display: grid; gap: 7px; }
+    .hero-fact dt {
+      color: var(--faint);
+      font: 500 9px var(--mono);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .hero-fact dd { margin: 0; color: var(--text); font-size: 13px; line-height: 1.45; }
+    .hero-fact dd.sync { color: var(--sync); }
+
+    .section-rule {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding-bottom: 18px;
+      margin-bottom: 30px;
+      border-bottom: 1px solid var(--line);
+    }
+    .section-rule h2 {
+      margin: 0;
+      font-size: clamp(26px, 3vw, 36px);
+      letter-spacing: -.035em;
+    }
+    .section-kicker { color: var(--faint); font: 500 10px var(--mono); letter-spacing: .08em; }
+
+    .corner-box { position: relative; }
+    .corner-box::before,
+    .corner-box::after {
+      content: "";
+      position: absolute;
+      width: 9px;
+      height: 9px;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .corner-box::before { top: 8px; left: 8px; border-top: 1px solid #596273; border-left: 1px solid #596273; }
+    .corner-box::after { right: 8px; bottom: 8px; border-right: 1px solid #596273; border-bottom: 1px solid #596273; }
+
+    .telemetry {
+      margin-bottom: 116px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(19,24,33,.98), rgba(14,18,25,.98));
+      box-shadow: 0 24px 70px rgba(0,0,0,.24);
+      overflow: hidden;
+    }
+    .telemetry-head {
+      min-height: 46px;
+      padding: 0 18px;
+      border-bottom: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 12px;
+      background: rgba(0,0,0,.14);
+    }
+    .window-dots { display: flex; gap: 6px; }
+    .window-dots i { width: 7px; height: 7px; border-radius: 50%; background: #303845; }
+    .telemetry-title { color: var(--faint); font: 500 9px var(--mono); letter-spacing: .1em; text-align: center; }
+    .console-status { justify-self: end; display: flex; align-items: center; gap: 8px; color: var(--sync); font: 600 10px var(--mono); }
+    .console-status .pulse-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; animation: pulse 2.2s ease-in-out infinite; }
+
+    .telemetry-body {
+      display: grid;
+      grid-template-columns: minmax(0, .92fr) minmax(420px, 1.08fr);
+      gap: 48px;
+      padding: 38px;
+    }
+    .telemetry-intro h2 {
+      max-width: 500px;
+      margin-bottom: 14px;
+      font-size: clamp(24px, 3vw, 34px);
+      line-height: 1.12;
+      letter-spacing: -.035em;
+    }
+    .telemetry-intro p { max-width: 520px; color: var(--muted); line-height: 1.7; font-size: 14px; }
+    .console-note {
+      margin-top: 26px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line-soft);
+      color: var(--faint);
+      font: 500 10px/1.7 var(--mono);
+    }
+    .console-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+    .console-btn {
+      min-height: 38px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      background: rgba(0,0,0,.12);
+      color: var(--text);
+      font: 600 10px var(--mono);
+      cursor: pointer;
+    }
+    .console-btn:hover { border-color: var(--amber); color: var(--amber); }
+
+    .metrics { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .metric {
+      min-height: 92px;
+      padding: 15px;
+      border: 1px solid var(--line);
+      background: rgba(0,0,0,.12);
+    }
+    .metric-label { color: var(--faint); font: 500 9px var(--mono); letter-spacing: .11em; text-transform: uppercase; }
+    .metric-value { margin-top: 12px; color: var(--sync); font: 600 19px var(--mono); }
+    .metric-value.amber { color: var(--amber); }
+
+    .queue-wrap { grid-column: 1 / -1; margin-top: 7px; padding-top: 18px; border-top: 1px solid var(--line); }
+    .queue-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; gap: 12px; }
+    .queue-head span:first-child { color: var(--faint); font: 500 9px var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+    .queue-head span:last-child { color: var(--amber); font: 600 10px var(--mono); }
+    .queue-list { display: grid; gap: 8px; max-height: 162px; overflow: auto; scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
+    .queue-item {
+      min-height: 38px;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 10px;
+      background: rgba(0,0,0,.12);
+      color: var(--muted);
+      font: 500 10px var(--mono);
+    }
+    .queue-badge {
+      padding: 3px 5px;
+      border: 1px solid var(--sync);
+      color: var(--sync);
+      font-size: 8px;
+      letter-spacing: .08em;
+    }
+    .queue-item.pending .queue-badge { border-color: var(--amber); color: var(--amber); }
+    .queue-item.synced { opacity: .56; }
+
+    .selected-work { padding-bottom: 110px; }
+    .featured-project {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(380px, .95fr);
+      min-height: 500px;
+      overflow: hidden;
+    }
+    .featured-copy { padding: clamp(28px, 4vw, 52px); display: flex; flex-direction: column; }
+    .project-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; margin-bottom: 30px; }
+    .tag {
+      padding: 5px 7px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font: 500 9px var(--mono);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+    .tag.live { color: var(--sync); border-color: rgba(77,184,168,.45); }
+    .tag.build { color: var(--amber); border-color: rgba(232,161,61,.45); }
+    .tag.cache { color: var(--amber); border-color: rgba(232,161,61,.45); opacity: 0; transition: opacity .2s ease; }
+    body.offline .tag.cache { opacity: 1; }
+
+    .project-number { margin-left: auto; color: var(--faint); font: 500 10px var(--mono); }
+    .featured-copy h3 {
+      max-width: 620px;
+      margin-bottom: 18px;
+      font-size: clamp(31px, 4.8vw, 52px);
+      line-height: 1.03;
+      letter-spacing: -.048em;
+    }
+    .featured-copy > p { max-width: 590px; color: var(--muted); line-height: 1.7; font-size: 15px; }
+    .project-specs {
+      margin-top: auto;
+      padding-top: 32px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      border-top: 1px solid var(--line);
+    }
+    .project-specs dt { color: var(--faint); font: 500 9px var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+    .project-specs dd { margin: 7px 0 0; color: var(--text); font-size: 12px; line-height: 1.5; }
+    .project-link {
+      margin-top: 30px;
+      width: fit-content;
+      color: var(--amber);
+      text-decoration: none;
+      font: 600 11px var(--mono);
+    }
+    .project-link span { display: inline-block; transition: transform .2s ease; }
+    .project-link:hover span { transform: translateX(4px); }
+
+    .project-visual {
+      position: relative;
+      min-height: 420px;
+      padding: 34px;
+      border-left: 1px solid var(--line);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background:
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px),
+        #0f141b;
+      background-size: 24px 24px;
+    }
+    .project-visual::before {
+      content: "SYSTEM TOPOLOGY / 01";
+      position: absolute;
+      top: 17px;
+      left: 18px;
+      color: var(--faint);
+      font: 500 8px var(--mono);
+      letter-spacing: .1em;
+    }
+    .topology {
+      width: min(100%, 420px);
+      display: grid;
+      grid-template-columns: 1fr 40px 1fr;
+      gap: 10px;
+      align-items: center;
+    }
+    .node {
+      padding: 18px 14px;
+      border: 1px solid var(--line);
+      background: rgba(19,24,33,.88);
+    }
+    .node.primary { border-color: rgba(232,161,61,.68); }
+    .node.sync-node { border-color: rgba(77,184,168,.68); }
+    .node strong { display: block; margin-bottom: 6px; font-size: 12px; }
+    .node span { color: var(--faint); font: 500 9px/1.6 var(--mono); }
+    .route { height: 1px; background: var(--faint); position: relative; }
+    .route::after { content: ""; position: absolute; right: -1px; top: -3px; border-left: 5px solid var(--faint); border-top: 3px solid transparent; border-bottom: 3px solid transparent; }
+    .route.offline-route { background: repeating-linear-gradient(90deg, var(--amber) 0 4px, transparent 4px 8px); }
+    .route.offline-route::after { border-left-color: var(--amber); }
+    .topology-stack { display: grid; gap: 10px; }
+    .topology-caption { grid-column: 1 / -1; margin-top: 12px; text-align: center; color: var(--faint); font: 500 9px var(--mono); }
+
+    .supporting-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 14px; }
+    .work-card {
+      min-height: 320px;
+      padding: 28px;
+      border: 1px solid var(--line);
+      background: rgba(19,24,33,.92);
+      display: flex;
+      flex-direction: column;
+      transition: transform .2s ease, border-color .2s ease, filter .2s ease;
+    }
+    .work-card:hover { transform: translateY(-2px); border-color: #3d4655; }
+    body.offline .network-reactive { filter: saturate(.5) brightness(.86); }
+    .work-card h3 { margin: 24px 0 12px; font-size: clamp(22px, 2.5vw, 30px); line-height: 1.08; letter-spacing: -.035em; }
+    .work-card p { color: var(--muted); font-size: 13px; line-height: 1.7; }
+    .work-card footer { margin-top: auto; padding-top: 26px; display: flex; justify-content: space-between; align-items: end; gap: 16px; }
+    .stack { color: var(--faint); font: 500 9px/1.65 var(--mono); }
+    .status { color: var(--sync); font: 600 9px var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+
+    .lab { padding: 0 0 110px; }
+    .lab-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+    .lab-item {
+      min-height: 190px;
+      padding: 24px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: rgba(10,13,18,.55);
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 16px;
+      transition: background .2s ease;
+    }
+    .lab-item:hover { background: rgba(19,24,33,.82); }
+    .lab-index { color: var(--faint); font: 500 9px var(--mono); }
+    .lab-item h3 { margin-bottom: 10px; font-size: 17px; letter-spacing: -.02em; }
+    .lab-item p { margin-bottom: 18px; color: var(--muted); font-size: 12px; line-height: 1.65; }
+    .lab-item .mono { color: var(--faint); font-size: 9px; line-height: 1.6; }
+
+    .credibility {
+      margin-bottom: 110px;
+      padding: 28px 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .credibility div { min-height: 90px; padding: 0 22px; border-right: 1px solid var(--line); display: flex; flex-direction: column; justify-content: space-between; }
+    .credibility div:first-child { padding-left: 0; }
+    .credibility div:last-child { border-right: 0; }
+    .credibility small { color: var(--faint); font: 500 9px var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+    .credibility strong { font-size: 14px; line-height: 1.45; font-weight: 600; }
+
+    .signal-log { padding-bottom: 110px; }
+    .log-list { border-top: 1px solid var(--line); }
+    .log-row {
+      min-height: 126px;
+      display: grid;
+      grid-template-columns: 110px minmax(0, 1fr) 130px;
+      gap: 28px;
+      align-items: center;
+      border-bottom: 1px solid var(--line);
+      text-decoration: none;
+      transition: background .2s ease, padding .2s ease;
+    }
+    .log-row:hover { background: rgba(19,24,33,.5); padding-inline: 12px; }
+    .log-date { color: var(--faint); font: 500 9px var(--mono); letter-spacing: .08em; }
+    .log-title { font-size: clamp(17px, 2.2vw, 22px); font-weight: 650; letter-spacing: -.025em; }
+    .log-meta { justify-self: end; color: var(--sync); font: 500 9px var(--mono); text-align: right; line-height: 1.6; }
+
+    .contact-band {
+      margin-bottom: 90px;
+      border: 1px solid var(--line);
+      background: linear-gradient(135deg, rgba(232,161,61,.07), rgba(77,184,168,.045) 58%, rgba(19,24,33,.92));
+      padding: clamp(28px, 5vw, 54px);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 36px;
+      align-items: end;
+    }
+    .contact-band h2 { max-width: 720px; margin-bottom: 14px; font-size: clamp(30px, 5vw, 52px); line-height: 1.04; letter-spacing: -.045em; }
+    .contact-band p { max-width: 640px; color: var(--muted); font-size: 14px; line-height: 1.7; margin-bottom: 0; }
+    .contact-actions { display: grid; gap: 10px; min-width: 190px; }
+
+    .footer { border-top: 1px solid var(--line-soft); padding: 32px 0 40px; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; color: var(--faint); font: 500 9px var(--mono); }
+    .footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+    .footer a { text-decoration: none; }
+    .footer a:hover { color: var(--sync); }
+
+    .toast-wrap {
+      position: fixed;
+      z-index: 150;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%);
+      display: grid;
+      gap: 8px;
+      width: min(92vw, 430px);
+      pointer-events: none;
+    }
+    .toast {
+      border: 1px solid var(--sync);
+      background: rgba(13,18,24,.96);
+      padding: 12px 14px;
+      box-shadow: 0 14px 40px rgba(0,0,0,.35);
+      color: var(--text);
+      font: 500 10px var(--mono);
+      animation: toast-in .22s ease both;
+    }
+    .toast.error { border-color: var(--danger); }
+
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .4; } }
+    @keyframes toast-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 980px) {
+      .availability { display: none; }
+      .hero { grid-template-columns: 1fr; gap: 48px; padding-top: 86px; }
+      .hero-aside { grid-template-columns: repeat(3, minmax(0,1fr)); border-left: 0; border-top: 1px solid var(--line); padding: 22px 0 0; gap: 18px; }
+      .telemetry-body { grid-template-columns: 1fr; }
+      .featured-project { grid-template-columns: 1fr; }
+      .project-visual { border-left: 0; border-top: 1px solid var(--line); min-height: 360px; }
+      .credibility { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .credibility div:nth-child(2) { border-right: 0; }
+      .credibility div:nth-child(-n+2) { padding-bottom: 24px; margin-bottom: 24px; border-bottom: 1px solid var(--line); }
+      .credibility div:nth-child(3) { padding-left: 0; }
+    }
+
+    @media (max-width: 760px) {
+      .shell { width: min(calc(100% - 28px), var(--content)); }
+      .topbar { grid-template-columns: 1fr auto; min-height: 64px; }
+      .desktop-nav { display: none; }
+      .top-actions { gap: 7px; }
+      .menu-toggle { display: inline-flex; }
+      .net-toggle { min-width: 38px; padding-inline: 10px; }
+      .net-toggle .toggle-label { display: none; }
+      .hero { padding: 70px 0 56px; }
+      .hero h1 { font-size: clamp(42px, 13vw, 66px); }
+      .hero-aside { grid-template-columns: 1fr; }
+      .hero-fact { grid-template-columns: 90px 1fr; align-items: start; }
+      .section-rule { align-items: end; }
+      .telemetry { margin-bottom: 86px; }
+      .telemetry-head { grid-template-columns: auto 1fr; }
+      .telemetry-title { display: none; }
+      .telemetry-body { padding: 24px; gap: 30px; }
+      .metrics { grid-template-columns: 1fr 1fr; }
+      .featured-copy { padding: 28px 22px; }
+      .project-specs { grid-template-columns: 1fr; }
+      .project-visual { padding: 26px 18px; }
+      .topology { grid-template-columns: 1fr; width: min(100%, 330px); }
+      .route { width: 1px; height: 25px; justify-self: center; background: var(--faint); }
+      .route::after { right: -3px; top: auto; bottom: -1px; border-left: 3px solid transparent; border-right: 3px solid transparent; border-top: 5px solid var(--faint); border-bottom: 0; }
+      .route.offline-route { background: repeating-linear-gradient(180deg, var(--amber) 0 4px, transparent 4px 8px); }
+      .route.offline-route::after { border-top-color: var(--amber); border-left-color: transparent; }
+      .supporting-grid, .lab-grid { grid-template-columns: 1fr; }
+      .lab-item { min-height: 0; }
+      .selected-work, .lab, .signal-log { padding-bottom: 86px; }
+      .credibility { margin-bottom: 86px; }
+      .log-row { grid-template-columns: 78px 1fr; gap: 14px; padding: 22px 0; }
+      .log-meta { grid-column: 2; justify-self: start; text-align: left; }
+      .contact-band { grid-template-columns: 1fr; }
+      .contact-actions { min-width: 0; grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 500px) {
+      .brand { font-size: 10px; }
+      .hero-actions .btn { flex: 1 1 100%; }
+      .metrics { grid-template-columns: 1fr; }
+      .metric { min-height: 78px; }
+      .project-meta { align-items: flex-start; }
+      .project-number { width: 100%; margin-left: 0; }
+      .credibility { grid-template-columns: 1fr; }
+      .credibility div,
+      .credibility div:nth-child(3) { padding: 18px 0; margin: 0; border-right: 0; border-bottom: 1px solid var(--line); }
+      .credibility div:first-child { padding-top: 0; }
+      .credibility div:last-child { border-bottom: 0; padding-bottom: 0; }
+      .contact-actions { grid-template-columns: 1fr; }
+      .mobile-meta { flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .001ms !important;
+      }
+    }
+  
+
+    .status-chip {
+      min-height: 36px;
+      padding: 0 11px;
+      border: 1px solid rgba(77,184,168,.45);
+      color: var(--sync);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font: 600 10px var(--mono);
+      letter-spacing: .04em;
+      white-space: nowrap;
+    }
+    .status-chip::before { content:""; width:7px; height:7px; border-radius:50%; background:currentColor; animation:pulse 2.2s ease-in-out infinite; }
+    .page-hero { padding: 90px 0 58px; border-bottom: 1px solid var(--line); }
+    .page-hero-grid { display:grid; grid-template-columns:minmax(0,1fr) 300px; gap:72px; align-items:end; }
+    .page-hero h1 { margin:0 0 22px; max-width:900px; font-size:clamp(42px,6.2vw,72px); line-height:1.02; letter-spacing:-.052em; }
+    .page-lede { max-width:720px; margin:0; color:var(--muted); font-size:clamp(16px,1.8vw,19px); line-height:1.72; }
+    .page-meta { border-left:1px solid var(--line); padding-left:24px; display:grid; gap:20px; }
+    .page-meta div { display:grid; gap:6px; }
+    .page-meta dt { color:var(--faint); font:500 9px var(--mono); text-transform:uppercase; letter-spacing:.12em; }
+    .page-meta dd { margin:0; font-size:13px; line-height:1.5; }
+    .content-section { padding:86px 0; }
+    .content-section + .content-section { border-top:1px solid var(--line-soft); }
+    .section-intro { display:grid; grid-template-columns:190px minmax(0,1fr); gap:54px; margin-bottom:42px; }
+    .section-label { color:var(--amber); font:500 10px var(--mono); letter-spacing:.11em; text-transform:uppercase; }
+    .section-intro h2 { margin:0; max-width:760px; font-size:clamp(28px,3.8vw,42px); line-height:1.08; letter-spacing:-.04em; }
+    .section-intro p { grid-column:2; max-width:720px; color:var(--muted); line-height:1.75; }
+    .prose { max-width:760px; }
+    .prose p { color:var(--muted); font-size:15px; line-height:1.8; }
+    .prose strong { color:var(--text); }
+    .mini-label { color:var(--faint); font:500 9px var(--mono); letter-spacing:.12em; text-transform:uppercase; }
+    .hairline { height:1px; background:var(--line); }
+    .arrow-link { color:var(--amber); text-decoration:none; font:600 10px var(--mono); letter-spacing:.04em; }
+    .arrow-link:hover { color:#f0ad50; }
+    @media (max-width:980px) {
+      .page-hero-grid { grid-template-columns:1fr; gap:40px; }
+      .page-meta { grid-template-columns:repeat(3,minmax(0,1fr)); border-left:0; border-top:1px solid var(--line); padding:22px 0 0; }
+    }
+    @media (max-width:760px) {
+      .status-chip { min-width:38px; width:38px; padding:0; justify-content:center; font-size:0; }
+      .page-hero { padding:66px 0 44px; }
+      .page-meta { grid-template-columns:1fr; }
+      .section-intro { grid-template-columns:1fr; gap:14px; }
+      .section-intro p { grid-column:auto; }
+      .content-section { padding:64px 0; }
+    }
+
+
+  .about-hero { padding-bottom:82px; }
+  .identity-card { min-height:360px; border:1px solid var(--line); background:linear-gradient(145deg,rgba(19,24,33,.95),rgba(12,16,22,.98)); position:relative; overflow:hidden; display:flex; flex-direction:column; justify-content:space-between; padding:28px; }
+  .identity-card::before { content:"SJ"; position:absolute; right:-10px; bottom:-52px; color:rgba(238,241,235,.035); font:800 190px/1 var(--sans); letter-spacing:-.08em; }
+  .identity-card .id-top { display:flex; justify-content:space-between; gap:20px; color:var(--faint); font:500 9px var(--mono); letter-spacing:.1em; }
+  .identity-orbit { width:128px; height:128px; border:1px solid var(--line); border-radius:50%; position:relative; display:grid; place-items:center; margin:42px auto; }
+  .identity-orbit::before,.identity-orbit::after { content:""; position:absolute; border-radius:50%; border:1px solid var(--line-soft); }
+  .identity-orbit::before { inset:14px; } .identity-orbit::after { inset:31px; border-color:rgba(77,184,168,.4); }
+  .identity-orbit strong { font:600 22px var(--mono); color:var(--sync); }
+  .identity-card .id-bottom { display:flex; justify-content:space-between; gap:18px; align-items:end; position:relative; z-index:1; }
+  .identity-card h2 { margin:0; font-size:18px; letter-spacing:-.02em; }
+  .identity-card p { margin:5px 0 0; color:var(--muted); font-size:12px; }
+  .profile-grid { display:grid; grid-template-columns:360px minmax(0,1fr); gap:72px; align-items:start; }
+  .bio-copy p { color:var(--muted); font-size:16px; line-height:1.82; }
+  .bio-copy p:first-child { color:var(--text); font-size:19px; }
+  .fact-grid { margin-top:38px; display:grid; grid-template-columns:repeat(4,1fr); border:1px solid var(--line); }
+  .fact { padding:20px; min-height:104px; border-right:1px solid var(--line); }
+  .fact:last-child { border-right:0; }
+  .fact span { display:block; color:var(--faint); font:500 9px var(--mono); letter-spacing:.11em; text-transform:uppercase; margin-bottom:13px; }
+  .fact strong { font-size:13px; line-height:1.5; }
+  .principles { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
+  .principle { background:var(--ink-2); padding:30px; min-height:230px; }
+  .principle .num { color:var(--amber); font:600 10px var(--mono); }
+  .principle h3 { margin:52px 0 12px; font-size:21px; letter-spacing:-.03em; }
+  .principle p { color:var(--muted); line-height:1.7; font-size:13px; }
+  .timeline-modern { display:grid; gap:0; border-top:1px solid var(--line); }
+  .career-row { display:grid; grid-template-columns:180px 1fr 1.2fr; gap:30px; padding:30px 0; border-bottom:1px solid var(--line); }
+  .career-date { color:var(--sync); font:500 10px var(--mono); }
+  .career-role strong { display:block; font-size:17px; margin-bottom:7px; } .career-role span { color:var(--muted); font-size:12px; }
+  .career-row p { margin:0; color:var(--muted); font-size:13px; line-height:1.72; }
+  .capabilities { display:grid; grid-template-columns:repeat(2,1fr); gap:18px; }
+  .capability { border:1px solid var(--line); padding:25px; background:rgba(19,24,33,.72); }
+  .capability h3 { margin:0 0 16px; font-size:18px; }
+  .capability p { margin:0 0 20px; color:var(--muted); font-size:13px; line-height:1.7; }
+  .token-list { display:flex; flex-wrap:wrap; gap:7px; }
+  .token-list span { border:1px solid var(--line); padding:6px 8px; color:var(--muted); font:500 9px var(--mono); }
+  .contact-block { border:1px solid var(--line); background:linear-gradient(135deg,rgba(232,161,61,.07),rgba(77,184,168,.04)); padding:clamp(28px,5vw,52px); display:grid; grid-template-columns:1fr auto; gap:40px; align-items:end; }
+  .contact-block h2 { margin:0 0 14px; font-size:clamp(30px,4vw,48px); letter-spacing:-.04em; }
+  .contact-block p { max-width:650px; color:var(--muted); line-height:1.7; }
+  .contact-actions { display:flex; flex-wrap:wrap; gap:10px; justify-content:flex-end; }
+  @media(max-width:980px){ .profile-grid{grid-template-columns:1fr;gap:42px}.identity-card{max-width:500px}.fact-grid{grid-template-columns:repeat(2,1fr)}.fact:nth-child(2){border-right:0}.fact:nth-child(-n+2){border-bottom:1px solid var(--line)}.career-row{grid-template-columns:140px 1fr}.career-row p{grid-column:2}.contact-block{grid-template-columns:1fr}.contact-actions{justify-content:flex-start} }
+  @media(max-width:760px){ .principles,.capabilities{grid-template-columns:1fr}.career-row{grid-template-columns:1fr;gap:10px}.career-row p{grid-column:auto}.fact-grid{grid-template-columns:1fr}.fact{border-right:0;border-bottom:1px solid var(--line)}.fact:last-child{border-bottom:0}.identity-card{min-height:330px}.identity-orbit{margin:34px auto} }
 </style>
 </head>
-<body class="font-sans bg-[#0b0e13] text-[#eef0ea]">
+<body>
 
-<div class="navbar bg-[#0b0e13]/85 backdrop-blur-md border-b border-soft sticky top-0 z-50 px-4 md:px-8 max-w-3xl mx-auto">
-  <div class="flex-1 flex items-center gap-3 font-mono font-semibold text-[14px]">
-    <span class="relative w-[22px] h-[22px] rounded-full border border-[#262d3a] flex-shrink-0">
-      <span class="absolute inset-[5px] rounded-full bg-[#4db8a8] animate-pulse"></span>
-    </span>
-    <a href="index.html">SERUYANGE JOSEPH</a>
-  </div>
-  <div class="hidden md:flex gap-9 font-mono text-[12.5px] text-[#eef0ea]/60">
-    <a href="index.html#work" class="hover:text-[#eef0ea] transition-colors">Work</a>
-    <a href="blog.html" class="hover:text-[#eef0ea] transition-colors">Signal Log</a>
-    <a href="about.html" class="text-[#e8a13d]">About</a>
-    <a href="about.html#contact" class="hover:text-[#eef0ea] transition-colors">Contact</a>
-  </div>
-  <div class="flex items-center gap-2.5">
-    <span class="hidden sm:inline-flex items-center gap-1.5 font-mono text-[10.5px] tracking-wide text-[#e8a13d] border border-[#e8a13d]/40 rounded-full px-2.5 py-1">OPEN TO REMOTE ROLES</span>
-    <div class="badge border border-[#4db8a8] text-[#4db8a8] bg-transparent gap-2 font-mono text-[11px]">
-      <span class="w-1.5 h-1.5 rounded-full bg-[#4db8a8] animate-pulse"></span>ONLINE
-    </div>
-  </div>
-</div>
-
-<main class="max-w-3xl mx-auto px-4 md:px-8">
-
-  <div class="grid md:grid-cols-[220px_1fr] gap-11 items-start pt-16 pb-5">
-    <div class="corner-box aspect-[1/1.15] border border-[#262d3a] bg-[#11151c] rounded flex items-center justify-center p-5">
-      <span class="font-mono text-[11px] text-[#eef0ea]/40 text-center leading-relaxed">[ PORTRAIT PLACEHOLDER — replace with a real photo ]</span>
-    </div>
-    <div>
-      <div class="font-mono text-[12px] tracking-widest text-[#e8a13d] mb-4">[ ABOUT ]</div>
-      <h1 class="font-extrabold text-[32px] tracking-tight mb-5">Seruyange Joseph</h1>
-      <div class="flex flex-col gap-4 text-[15px] text-[#eef0ea]/70 leading-relaxed max-w-lg">
-        <p>I'm a full-stack and mobile engineer based in Kampala, with three years of production experience across Go, Spring Boot, Flutter, React, and PostgreSQL. I'm particularly interested in systems that have to work under real constraints — unreliable connectivity, low-end devices, infrastructure that isn't always there — because that's the environment most of the world's users actually live in, even if most software is built assuming otherwise.</p>
-        <p>I recently served as CTO &amp; Head of Software Engineering at Zaantu Technologies, where I set engineering strategy, KPIs, and process for a small team while still writing code week to week. I'm now finishing a BSc in Information Systems at Kyambogo University and available for new opportunities. I've also worked directly with international clients, including a Japan-based QA engagement and a cross-border job-portal partnership.</p>
-        <p class="text-[#eef0ea]/40 font-mono text-[13px]">[ Add one genuine, specific personal detail here — a real interest outside engineering ]</p>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="topbar-wrap">
+    <div class="shell topbar">
+      <a class="brand" href="index.html" aria-label="Seruyange Joseph home">
+        <span class="brand-mark" aria-hidden="true"></span><span>SERUYANGE / JOSEPH</span>
+      </a>
+      <nav class="desktop-nav" aria-label="Primary navigation">
+        <a href="index.html#work">Work</a>
+        <a href="blog.html">Signal Log</a>
+        <a href="about.html" aria-current="page">About</a>
+        <a href="about.html#contact">Contact</a>
+      </nav>
+      <div class="top-actions">
+        <span class="availability">OPEN TO REMOTE ROLES</span>
+        <span class="status-chip" aria-label="Portfolio status online">ONLINE</span>
+        <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="mobilePanel" aria-label="Open menu">☰</button>
       </div>
     </div>
-  </div>
+    <div class="mobile-panel" id="mobilePanel">
+      <div class="shell mobile-panel-inner">
+        <nav class="mobile-links" aria-label="Mobile navigation">
+          <a href="index.html#work"><span>01</span><span>Work</span><span>↗</span></a>
+          <a href="blog.html"><span>02</span><span>Signal Log</span><span>↗</span></a>
+          <a href="about.html"><span>03</span><span>About</span><span>↗</span></a>
+          <a href="about.html#contact"><span>04</span><span>Contact</span><span>↗</span></a>
+        </nav>
+        <div class="mobile-meta"><span>STATUS / AVAILABLE</span><span>BASE / KAMPALA, UG</span></div>
+      </div>
+    </div>
+  </header>
 
-  <div class="stats stats-vertical sm:stats-horizontal bg-[#11151c] border border-[#262d3a] w-full my-11">
-    <div class="stat py-4 px-5">
-      <div class="stat-title font-mono text-[10px] uppercase tracking-widest text-[#eef0ea]/40">Location</div>
-      <div class="stat-value text-[14px] font-sans font-semibold">Kampala, UG · remote</div>
+<main id="main">
+  <section class="shell page-hero about-hero">
+    <div class="page-hero-grid">
+      <div>
+        <div class="eyebrow">About / Engineering profile</div>
+        <h1>Software engineering shaped by real constraints.</h1>
+        <p class="page-lede">I am a full-stack and mobile engineer based in Kampala, working across backend systems, mobile applications and technical leadership. I am particularly interested in software that has to keep working when connectivity, devices and infrastructure are imperfect.</p>
+      </div>
+      <dl class="page-meta">
+        <div><dt>Base</dt><dd>Kampala, Uganda / remote</dd></div>
+        <div><dt>Focus</dt><dd>Offline-first systems<br>engineering leadership</dd></div>
+        <div><dt>Stack</dt><dd>Go / Flutter / React / Spring</dd></div>
+      </dl>
     </div>
-    <div class="stat py-4 px-5">
-      <div class="stat-title font-mono text-[10px] uppercase tracking-widest text-[#eef0ea]/40">Focus</div>
-      <div class="stat-value text-[14px] font-sans font-semibold">Offline-first · Leadership</div>
-    </div>
-    <div class="stat py-4 px-5">
-      <div class="stat-title font-mono text-[10px] uppercase tracking-widest text-[#eef0ea]/40">Stack</div>
-      <div class="stat-value text-[14px] font-sans font-semibold">Go · Flutter · React · Spring</div>
-    </div>
-    <div class="stat py-4 px-5">
-      <div class="stat-title font-mono text-[10px] uppercase tracking-widest text-[#eef0ea]/40">Currently</div>
-      <div class="stat-value text-[14px] font-sans font-semibold text-[#4db8a8]">Available now</div>
-    </div>
-  </div>
-
-  <section class="pt-2 pb-2">
-    <div class="flex items-center gap-3 mb-8">
-      <span class="font-mono text-[11px] uppercase tracking-widest text-[#e8a13d]">Experience</span>
-      <div class="flex-1 h-px bg-[#262d3a]"></div>
-    </div>
-
-    <ul class="timeline timeline-vertical timeline-compact">
-      <li>
-        <div class="timeline-middle">
-          <span class="w-2.5 h-2.5 rounded-full bg-[#4db8a8] block border-2 border-[#0b0e13]"></span>
-        </div>
-        <div class="timeline-end timeline-box mb-6 !py-4 !px-5">
-          <div class="font-bold text-[15.5px]">CTO &amp; Head of Software Engineering</div>
-          <div class="font-mono text-[11.5px] text-[#4db8a8] my-1.5">Zaantu Technologies · Nov 2025 — 2026</div>
-          <p class="text-[13.5px] text-[#eef0ea]/60 leading-relaxed">Set technical direction for a small team, wrote and shipped code week to week, and ran a technology/process audit for a partner company producing 90-day and 12-month action plans.</p>
-        </div>
-        <hr class="bg-[#262d3a]"/>
-      </li>
-      <li>
-        <hr class="bg-[#262d3a]"/>
-        <div class="timeline-middle">
-          <span class="w-2.5 h-2.5 rounded-full bg-[#4db8a8] block border-2 border-[#0b0e13]"></span>
-        </div>
-        <div class="timeline-end timeline-box mb-6 !py-4 !px-5">
-          <div class="font-bold text-[15.5px]">Full-Stack Developer &amp; Software Development Intern</div>
-          <div class="font-mono text-[11.5px] text-[#4db8a8] my-1.5">Zaantu Technologies · Aug 2024 — Nov 2025</div>
-          <p class="text-[13.5px] text-[#eef0ea]/60 leading-relaxed">Built a core inventory system from an early stage — database schema, Go backend APIs, React frontend, and an offline-first Flutter mobile app. Contributed to a job portal delivered with a Japan-based partner.</p>
-        </div>
-        <hr class="bg-[#262d3a]"/>
-      </li>
-      <li>
-        <hr class="bg-[#262d3a]"/>
-        <div class="timeline-middle">
-          <span class="w-2.5 h-2.5 rounded-full bg-[#4db8a8] block border-2 border-[#0b0e13]"></span>
-        </div>
-        <div class="timeline-end timeline-box !py-4 !px-5">
-          <div class="font-bold text-[15.5px]">QA Engineer (Contract)</div>
-          <div class="font-mono text-[11.5px] text-[#4db8a8] my-1.5">Zaantu Technologies · Jun 2025 — Nov 2025</div>
-          <p class="text-[13.5px] text-[#eef0ea]/60 leading-relaxed">Wrote and executed QA test plans and tracked bugs with reproduction steps for a Japan-based client project, working directly with the client to validate requirements.</p>
-        </div>
-      </li>
-    </ul>
   </section>
 
-  <section id="contact" class="py-14">
-    <div class="corner-box card bg-[#11151c] border border-[#262d3a] flex-row flex-wrap items-center justify-between gap-5 p-8">
-      <div>
-        <h2 class="font-bold text-[20px] mb-1.5">Let's talk</h2>
-        <p class="text-[#eef0ea]/60 text-[14px]">Seeking remote software engineering roles — full-stack, mobile, or technical leadership.</p>
+  <section class="shell content-section">
+    <div class="profile-grid">
+      <aside class="identity-card corner-box" aria-label="Seruyange Joseph profile graphic">
+        <div class="id-top"><span>ENGINEERING PROFILE / 2026</span><span>KLA / UG</span></div>
+        <div class="identity-orbit"><strong>SJ</strong></div>
+        <div class="id-bottom"><div><h2>Seruyange Joseph</h2><p>Full-stack + mobile engineer</p></div><span class="status-chip">AVAILABLE</span></div>
+      </aside>
+      <div class="bio-copy">
+        <p>I have three years of production experience across Go, Spring Boot, Flutter, React and PostgreSQL, with a particular interest in systems that have to work under unreliable connectivity, on constrained devices and in environments where infrastructure cannot simply be assumed.</p>
+        <p>I recently served as CTO &amp; Head of Software Engineering at Zaantu Technologies, setting engineering strategy, KPIs and process for a small team while still writing code week to week. I am finishing a BSc in Information Systems at Kyambogo University and am available for new opportunities.</p>
+        <p>I have also worked directly with international clients, including a Japan-based QA engagement and a cross-border job-portal partnership. That mix of engineering, quality assurance and technical leadership has pushed me to think beyond implementation and toward the tradeoffs that make software dependable in practice.</p>
+        <div class="fact-grid">
+          <div class="fact"><span>Location</span><strong>Kampala, UG<br>Remote-ready</strong></div>
+          <div class="fact"><span>Focus</span><strong>Offline-first<br>Leadership</strong></div>
+          <div class="fact"><span>Core stack</span><strong>Go / Flutter<br>React / Spring</strong></div>
+          <div class="fact"><span>Currently</span><strong class="sync">Available now</strong></div>
+        </div>
       </div>
-      <div class="flex gap-3 flex-wrap">
-        <a href="Seruyange-Joseph-CV.pdf" class="btn bg-[#e8a13d] text-[#1a1206] border-none hover:bg-[#f2ae4d] btn-sm font-mono normal-case">Resume ↗</a>
-        <a href="mailto:seruyangejoseph9@gmail.com" class="btn btn-outline btn-sm border-[#262d3a] text-[#eef0ea] hover:border-[#4db8a8] hover:text-[#4db8a8] font-mono normal-case">Email</a>
-        <a href="https://github.com/seruyange-jojo" class="btn btn-outline btn-sm border-[#262d3a] text-[#eef0ea] hover:border-[#4db8a8] hover:text-[#4db8a8] font-mono normal-case">GitHub</a>
-        <a href="https://www.linkedin.com/in/seruyange-joseph/" class="btn btn-outline btn-sm border-[#262d3a] text-[#eef0ea] hover:border-[#4db8a8] hover:text-[#4db8a8] font-mono normal-case">LinkedIn</a>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="shell">
+      <div class="section-intro"><div class="section-label">01 / HOW I WORK</div><h2>Three ideas that keep showing up in my engineering.</h2></div>
+      <div class="principles">
+        <article class="principle"><div class="num">01 / CONSTRAINTS</div><h3>Start with the environment.</h3><p>Connectivity, hardware and infrastructure are design inputs, not edge cases. The system should reflect the conditions its users actually face.</p></article>
+        <article class="principle"><div class="num">02 / TRADEOFFS</div><h3>Make decisions explicit.</h3><p>Architecture becomes more useful when the cost, failure mode and reason behind a decision are visible instead of hidden behind technology names.</p></article>
+        <article class="principle"><div class="num">03 / DELIVERY</div><h3>Stay close to implementation.</h3><p>Technical leadership is stronger when strategy remains connected to shipping, testing and the day-to-day reality of the engineering team.</p></article>
       </div>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="shell">
+      <div class="section-intro"><div class="section-label">02 / EXPERIENCE</div><h2>Engineering, quality and technical leadership.</h2></div>
+      <div class="timeline-modern">
+        <article class="career-row"><div class="career-date">NOV 2025 — 2026</div><div class="career-role"><strong>CTO &amp; Head of Software Engineering</strong><span>Zaantu Technologies</span></div><p>Set technical direction for a small team, wrote and shipped code week to week, and ran a technology/process audit for a partner company producing 90-day and 12-month action plans.</p></article>
+        <article class="career-row"><div class="career-date">AUG 2024 — NOV 2025</div><div class="career-role"><strong>Full-Stack Developer &amp; Software Development Intern</strong><span>Zaantu Technologies</span></div><p>Built a core inventory system from an early stage, including database schema, Go backend APIs, React frontend and an offline-first Flutter mobile app. Contributed to a job portal delivered with a Japan-based partner.</p></article>
+        <article class="career-row"><div class="career-date">JUN 2025 — NOV 2025</div><div class="career-role"><strong>QA Engineer (Contract)</strong><span>Zaantu Technologies</span></div><p>Wrote and executed QA test plans, tracked bugs with reproduction steps and worked directly with a Japan-based client to validate requirements.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="shell">
+      <div class="section-intro"><div class="section-label">03 / CAPABILITIES</div><h2>A stack organised around systems, not logos.</h2></div>
+      <div class="capabilities">
+        <article class="capability"><h3>Backend &amp; systems</h3><p>API design, data modelling, synchronization, business logic and services built around Go or Spring Boot.</p><div class="token-list"><span>Go</span><span>Gin</span><span>GORM</span><span>Java</span><span>Spring Boot</span><span>PostgreSQL</span></div></article>
+        <article class="capability"><h3>Mobile &amp; frontend</h3><p>Cross-platform mobile applications and web interfaces, including offline-first client architecture.</p><div class="token-list"><span>Flutter</span><span>Dart</span><span>React</span><span>JavaScript</span><span>Tailwind</span></div></article>
+        <article class="capability"><h3>Infrastructure</h3><p>Containerised development and deployment workflows, Linux-based environments and web-server configuration.</p><div class="token-list"><span>Docker</span><span>Docker Compose</span><span>Nginx</span><span>Linux</span><span>GitHub Actions</span></div></article>
+        <article class="capability"><h3>Engineering leadership</h3><p>Technical direction, KPIs, SOPs, audits, delivery planning and direct client communication while remaining close to implementation.</p><div class="token-list"><span>Architecture</span><span>QA</span><span>Technical strategy</span><span>Process</span></div></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="shell content-section" id="contact">
+    <div class="contact-block corner-box">
+      <div><div class="eyebrow">Available for the next serious build</div><h2>Let’s build software that survives contact with reality.</h2><p>Seeking remote software engineering roles across full-stack, mobile and technical leadership.</p></div>
+      <div class="contact-actions"><a class="btn btn-primary" href="mailto:seruyangejoseph9@gmail.com">Email me ↗</a><a class="btn btn-quiet" href="Seruyange-Joseph-CV.pdf">Resume ↗</a><a class="btn btn-quiet" href="https://www.linkedin.com/in/seruyange-joseph/">LinkedIn ↗</a></div>
     </div>
   </section>
 </main>
 
-<footer class="border-t border-soft py-8">
-  <div class="max-w-3xl mx-auto px-4 md:px-8 flex flex-wrap justify-between items-center gap-3">
-    <p class="font-mono text-[11.5px] text-[#eef0ea]/40">© 2026 SERUYANGE JOSEPH</p>
-    <div class="flex gap-5 font-mono text-[11.5px] text-[#eef0ea]/60">
-      <a href="index.html" class="hover:text-[#4db8a8] transition-colors">Work</a>
-      <a href="blog.html" class="hover:text-[#4db8a8] transition-colors">Signal Log</a>
-      <a href="about.html" class="hover:text-[#4db8a8] transition-colors">About</a>
-      <a href="https://github.com/seruyange-jojo" class="hover:text-[#4db8a8] transition-colors">GitHub</a>
+  <footer class="footer">
+    <div class="shell footer-inner">
+      <span>© 2026 SERUYANGE JOSEPH / BUILT FOR REAL CONSTRAINTS</span>
+      <div class="footer-links">
+        <a href="index.html#work">Work</a><a href="blog.html">Signal Log</a><a href="about.html">About</a>
+        <a href="https://github.com/seruyange-jojo">GitHub ↗</a>
+      </div>
     </div>
-  </div>
-</footer>
+  </footer>
+<script>
+  const menuToggle = document.getElementById('menuToggle');
+  const mobilePanel = document.getElementById('mobilePanel');
+  if(menuToggle && mobilePanel){
+    menuToggle.addEventListener('click', () => {
+      const open = mobilePanel.classList.toggle('open');
+      menuToggle.setAttribute('aria-expanded', String(open));
+      menuToggle.textContent = open ? '×' : '☰';
+      menuToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    });
+    mobilePanel.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      mobilePanel.classList.remove('open');
+      menuToggle.setAttribute('aria-expanded','false');
+      menuToggle.textContent='☰';
+    }));
+  }
 
-</body>
-</html>
+</script>
+</body></html>
